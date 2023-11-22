@@ -1,6 +1,6 @@
 /* interfaccia tabella t_ruolo  */
 
-export class TruoloInterface  {
+export interface TruoloInterface  {
 
   id: number;
   d_ruolo: string;

@@ -21,18 +21,15 @@ import { Component, OnInit } from '@angular/core';
 import { EventoService } from './../../../services/evento.service';
 import { EventosettfilapostiService } from './../../../services/eventosettfilaposti.service';
 import { EventopostoService } from './../../../services/eventoposto.service';
-import { LogisticaService } from './../../../services/logistica.service';
-import { LogsettoreService } from './../../../services/logsettore.service';
-import { LogfilaService } from './../../../services/logfila.service';
+import { EventosettoreService } from './../../../services/eventosettore.service';
+import { EventofilaService } from './../../../services/eventofila.service';
 // Model
 import { Logistica } from '../../../classes/Logistica';
-import { LogSettore } from '../../../classes/Logsettore';
-import { LogFila } from '../../../classes/Logfila';
-import { LogSettFilaPosti } from '../../../classes/Logsettfilaposti';
-import { LogPosto } from '../../../classes/Logposto';
+import { EventoFila } from '../../../classes/Eventofila';
 import { Evento} from '../../../classes/Evento';
 import { Eventosettfilaposti } from '../../../classes/Eventosettfilaposti';
 import { EventoPosto } from '../../../classes/Eventoposto';
+import { EventoSettore } from '../../../classes/Eventosettore';
 // icone
 import { faPlusSquare, faSearch, faInfoCircle, faUserEdit, faSave, faPlus, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,30 +56,23 @@ faPlus = faPlus;
 faTrash = faTrash;
 faReply = faReply;
 
- public title = 'merdaaaaaaa 3333333';
+ public title = 'Dettaglio per settore fila - evento-posti-detail';
 
   // variabili per visualizzazione messaggio di esito con notifier
   public type = '';
   public message = '';
- public Message = '';
+  public Message = '';
 
 
   public logistica: Logistica;
-  public logsettore: LogSettore;
-  public logfila: LogFila;
 
-  public logsettfilaposti: LogSettFilaPosti[] = [];
-  public logsettfilapostinull: LogSettFilaPosti[] = [];
-  public logsettfilaposto: LogSettFilaPosti;
-  public logsettfilapostow: LogSettFilaPosti;
-
-  public logposti: LogPosto[] = [];
-  public logposto: LogPosto;
+  public eventoFila: EventoFila;
 
   public evento: Evento;
   public eventosettfilaposto: Eventosettfilaposti;
   public eventoposti: EventoPosto[] = [];
   public eventoposto: EventoPosto;
+  public eventoSettore: EventoSettore;
 
   // variabili per editazione messaggio
 public alertSuccess = false;
@@ -94,6 +84,9 @@ public idFila = 0;
 public postoStart = 0;
 public postoEnd = 0;
 
+public idSettx = 0;
+
+
    // per paginazone
    p: number = 1;
 
@@ -104,9 +97,8 @@ public postoEnd = 0;
 constructor(private eventoService: EventoService,
             private eventosettfilapostiService: EventosettfilapostiService,
             private eventopostoService: EventopostoService,
-            private logisticaService: LogisticaService,
-            private logsettoreService: LogsettoreService,
-            private logfilaService: LogfilaService,
+            private eventosettoreService: EventosettoreService,
+            private eventofilaService: EventofilaService,
             private route: ActivatedRoute,
             private router: Router,
             private datePipe: DatePipe,
@@ -158,7 +150,7 @@ constructor(private eventoService: EventoService,
                     response => {
                     if(response['rc'] === 'ok') {
                       this.evento = response['data'];
-                      this.loadSettore(this.evento.idlogistica, this.idSett)
+                      this.loadSettore(this.idSett)
                //       this.loadsettfilaposti(this.evento.id);
                  //     this.recuperaTotali(id);
                      }
@@ -176,17 +168,17 @@ constructor(private eventoService: EventoService,
 
               }
 
-              async loadSettore(id: number, idsett: number) {
+    async loadSettore(id: number) {
                 console.log('frontend - loadSettore: ' + id);
-                let rc = await  this.logsettoreService.getbySettore(id, idsett).subscribe(
-                response => {
+         let rc = await  this.eventosettoreService.getbyId(id).subscribe(
+           response => {
                 if(response['rc'] === 'ok') {
-                  this.logsettore = response['data'];
+                  this.eventoSettore = response['data'];
+                  this.idSettx = this.eventoSettore.id;
                   this.loadFila(this.idFila);
            //       this.loadsettfilaposti(this.evento.id);
              //     this.recuperaTotali(id);
                  }
-
               },
               error => {
                   alert('loadSettore: ' + error.message);
@@ -197,19 +189,17 @@ constructor(private eventoService: EventoService,
                   this.showNotification(this.type, this.Message);
                   console.log(error);
               });
-
           }
 
           async loadFila(id: number) {
             console.log('frontend - loadFila: ' + id);
-            let rc = await  this.logfilaService.getbyId(id).subscribe(
+            let rc = await  this.eventofilaService.getbyId(id).subscribe(
             response => {
             if(response['rc'] === 'ok') {
-              this.logfila = response['data'];
+              this.eventoFila = response['data'];
               this.loadSettFilaPosti(this.evento.id, this.idSett, this.idFila);
-              this.loadPosti(this.evento.id, this.idSett, this.idFila);
+              this.loadPosti(this.evento.id, this.idSettx, this.idFila);
             }
-
           },
           error => {
               alert('loadFila: ' + error.message);
@@ -228,31 +218,20 @@ constructor(private eventoService: EventoService,
       console.log('frontend - loadSettFilaPosti: ' + id);
       let rc = await  this.eventosettfilapostiService.getbyIdEventoSettFila(id, idSett, idFila).subscribe(
       response => {
-      if(response['rc'] === 'ok') {
-        this.eventosettfilaposto = response['data'];
-
-       }
-
+          if(response['rc'] === 'ok') {
+              this.eventosettfilaposto = response['data'];
+           }
     },
-    error => {
-        alert('loadFila: ' + error.message);
-        this.isVisible = true;
-        this.alertSuccess = false;
-        this.type = 'error';
-        this.Message = 'Errore loadFila' + '\n' + error.message;
-        this.showNotification(this.type, this.Message);
-        console.log(error);
-    });
-
-
-
+      error => {
+            alert('loadFila: ' + error.message);
+            this.isVisible = true;
+            this.alertSuccess = false;
+            this.type = 'error';
+            this.Message = 'Errore loadFila' + '\n' + error.message;
+            this.showNotification(this.type, this.Message);
+            console.log(error);
+        });
       }
-
-
-
-
-
-
 
 
       async loadPosti(id: number, idSett: number, idFila: number) {
@@ -260,22 +239,19 @@ constructor(private eventoService: EventoService,
         console.log('frontend - loadPosti: ' + id);
         let rc = await  this.eventopostoService.getbyIdEventoSettFila(id, idSett, idFila).subscribe(
         response => {
-        if(response['rc'] === 'ok') {
-          this.eventoposti = response['data'];
-
-         }
-
+          if(response['rc'] === 'ok') {
+            this.eventoposti = response['data'];
+           }
       },
-      error => {
-          alert('loadFila: ' + error.message);
-          this.isVisible = true;
-          this.alertSuccess = false;
-          this.type = 'error';
-          this.Message = 'Errore loadFila' + '\n' + error.message;
-          this.showNotification(this.type, this.Message);
-          console.log(error);
-      });
-
+        error => {
+            alert('loadFila: ' + error.message);
+            this.isVisible = true;
+            this.alertSuccess = false;
+            this.type = 'error';
+            this.Message = 'Errore loadFila' + '\n' + error.message;
+            this.showNotification(this.type, this.Message);
+            console.log(error);
+        });
       }
 
 

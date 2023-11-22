@@ -1,6 +1,6 @@
 /* interfaccia tabella t_tipo_pagamentos */
 
-export class TtipopagamentoInterface  {
+export interface TtipopagamentoInterface  {
 
   id: number;
   d_tipo_pagamento: string;

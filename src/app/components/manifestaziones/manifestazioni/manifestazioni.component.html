@@ -1,5 +1,8 @@
 <div class="container">
-  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <!--<caption class="title  col-sm-12"><strong>{{title}}</strong></caption><br> -->
+  <br>
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" >{{title}}</label><br>
+
   <div>
     &nbsp;
   </div>
@@ -10,7 +13,7 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>  -->
 
-  <br>
+
   <div class="form-row">
     <div class="row col-sm-6">
       <div class="col-sm-6">
@@ -75,9 +78,9 @@
       </div>
 
  </div>
-
-
-    <table class="table table-striped table-hover">
+ <br>
+<!--manifestazioni: {{manifestazioni | json}} -->
+    <table class="table table-striped table-hover" *ngIf="nRec > 0">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -86,11 +89,13 @@
           <th scope="col">Fine</th>
           <th scope="col">Utenti</th>
           <th scope="col">Stato</th>
+          <th scope="col"></th>
           <!--  versione 1 -->
         <!--  <th scope="col">gestione</th>  -->
 
           <!--  versione 2 -->
           <th  colspan="2" style="text-align: center ">gestione</th>
+          <th  colspan="2" style="text-align: center ">Navigate</th>
         </tr>
       </thead>
       <tbody>
@@ -107,9 +112,9 @@
         </tr>
         </div>   -->
 
-        <tr app-manifestazione *ngFor ="let manifestazione of manifestazioni | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+        <tr app-manifestazione *ngFor ="let manif of manifestazioni | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
           [manif-prog] = i+1
-          [manif-data] = "manifestazione"  [style.color]="manifestazione.statoManifestazione == 2 ? 'red' : null"
+          [manif-data] = "manif"  [style.color]="manif.statoManifestazione == 2 ? 'red' : null"
           >
 
         </tr>

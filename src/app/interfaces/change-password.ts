@@ -1,6 +1,6 @@
 /* interfaccia tabella change-passwords  */
 
-export class ChangePasswordInterface {
+export interface ChangePasswordInterface {
 
   email: string;
   username: string;

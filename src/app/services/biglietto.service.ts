@@ -77,6 +77,37 @@ constructor(private http: HttpClient, private auth: AuthService) { }
           });
         }
 
+        getAllbyEvento(id: number) {
+          this.rottafunction = 'getby/Evento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id , {
+            headers: this.getAuthHeader()
+          });
+        }
+
+        // tipo     -- vede tutti i biglietti dell'evento senza distinzione di stato
+        getAllbyTipo(id: number) {
+          this.rottafunction = 'getby/Tipologia';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id , {
+            headers: this.getAuthHeader()
+          });
+        }
+
+         // tipo e stato     -- vede tutti i biglietti evento filtrati per stato
+         getAllbyTipoStato(id: number, stato: number) {
+          this.rottafunction = 'getby/Tipologia/stato';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + stato , {
+            headers: this.getAuthHeader()
+          });
+        }
+
+         // tipo e stato     -- vede tutti i biglietti evento filtrati per stato
+         getAllbyTipoModpag(id: number, modpag: number) {
+          this.rottafunction = 'getby/Tipologia';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/modpag/' + modpag , {
+            headers: this.getAuthHeader()
+          });
+        }
+
 
 }
 

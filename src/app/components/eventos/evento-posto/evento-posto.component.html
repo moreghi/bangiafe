@@ -1,20 +1,18 @@
 
 <td >{{i}}</td>
+<td [style.color]="getColor1(canale)" [style.background]="getBackground1(canale)" style="text-align: center;">{{canale}}</td>
 <td>{{eventoposto.idPosto}}</td>
-  <td>{{biglietto.numero}}</td>
-  <td>{{biglietto.cognome}}</td>
-  <td>{{biglietto.nome}}</td>
-  <td [style.color]="getColor(biglietto.stato)" [style.background]="getBackground(biglietto.stato)">{{biglietto.numero}}</td>
-
-
-
+<td>{{biglietto.numero}}</td>
+<td>{{biglietto.serie}}</td>
+<td [style.color]="getColor(eventoposto.stato)" [style.background]="getBackground(eventoposto.stato)">{{biglietto.cognome}}</td>
+<td>{{biglietto.nome}}</td>
   <td >
-    <button class="btn btn-sm  btn-danger" (click)="open(content, eventoposto)">
+    <button  [disabled]="eventoposto.stato == 0" class="btn btn-sm  btn-danger" (click)="open(content, eventoposto)">
         <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
     </button>
   </td>
 <td >
-  <button class="btn btn-sm btn-success" (click)="navigate(navigateEdit,eventoposto)">show
+  <button  [disabled]="eventoposto.stato == 0"  class="btn btn-sm btn-success" (click)="navigate(navigateEdit,eventoposto)">show
       <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
   </button>
 </td>

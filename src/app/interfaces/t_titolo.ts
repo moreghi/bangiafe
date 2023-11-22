@@ -1,6 +1,6 @@
 /* interfaccia tabella t_titolo  */
 
-export class TtitoloInterface  {
+export interface TtitoloInterface  {
 
   id: number;
   d_titolo: string;

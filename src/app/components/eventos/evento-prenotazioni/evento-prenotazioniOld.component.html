@@ -1,0 +1,115 @@
+<!-- proviene da manifestazioni-->
+
+<!-- funziona ma va in errore al momento di effettuare il dettaglio dell evento selezionato -->
+
+
+
+
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div>
+    &nbsp;
+  </div>
+  <!--  messaggio operazione conclusa correttamente -->
+  <!--
+  <div *ngIf="successmsg"   class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>{{successmsg}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>  -->
+
+  <br>
+<!--eventi disponiubili: {{eventi | json}} -->
+
+  <div>
+
+
+    <table class="table table-striped table-hover" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Evento</th>
+          <th scope="col">localita</th>
+          <th scope="col">data</th>
+          <th scope="col">ora</th>
+          <th scope="col">Posti Disp.</th>
+          <th scope="col"></th>
+          <th  style="text-align: center ">gestione</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr app-evento2 *ngFor ="let evento of eventi | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+          [evento2-prog] = i+1
+          [evento2-data] = "evento"
+
+          (onSelectedEvento) = "onRecivedEvento($event)"
+                    >   <!--  (onSelectedEvento) = "onSelectEvento($event)"-->
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+    <br>
+    <hr>
+
+
+
+      evento selezionato: {{eventow | json}}
+
+
+<!--
+      <div class="row">
+        <label for="descrizione" class="col-sm-1 col-form-label">Descrizione</label>
+        <div class=" col-md-4">
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" style="text-transform : uppercase">
+        </div>
+      </div>  -->
+<!--
+    <div class="row">
+      <label for="descrizione" class="col-sm-1 col-form-label">Descrizione</label>
+      <div class=" col-md-4">
+        <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione" style="text-transform : uppercase">
+      </div>
+
+
+
+      <label for="data" class="col-sm-1 col-form-label">data</label>
+      <div class=" col-md-1">
+        <input disabled #dataev="ngModel"  [(ngModel)]="evento.data" class="form-control" name="dataev" id="dataev" >
+      </div>
+      <br>
+
+
+
+
+    </div>
+    <br>  -->
+
+
+
+
+
+
+
+
+
+    <div class="row col-md-12">
+      <!-- messaggi -->
+      <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+        <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+           <p>{{Message}}</p>
+           <hr>
+         </div>
+         <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+         <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+           <p>{{Message}}</p>
+         </div>
+    </div>
+
+
+
+
+</div>
+<notifier-container></notifier-container>

@@ -1,6 +1,6 @@
 /* interfaccia tabella tabella_t  */
 
-export class TabellatInterface  {
+export interface TabellatInterface  {
 
   id: number;
   nametab: string;

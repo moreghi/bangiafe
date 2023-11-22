@@ -1,7 +1,7 @@
 
 /* interfaccia tabella forgot-password  */
 
-export class ForgotPasswordInterface {
+export interface ForgotPasswordInterface {
 
   email: string;
   username: string;

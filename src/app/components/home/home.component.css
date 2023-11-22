@@ -1,0 +1,31 @@
+.borde {
+  border: 3px solid violet;
+}
+.borde1 {
+  border: 3px solid red;
+}
+.borde2 {
+  border: 3px solid blue;
+}
+.borde3 {
+  border: 3px solid orange;
+}
+
+.textCentrato {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+  font-weight: bold;
+  font-size: 30px;
+  font-family:cursive;
+}
+
+img.ridotta {
+  max-width: 500px;
+  min-width: 300px;
+  max-height: 240px;
+  min-height: 200px;
+  height: 50%;
+  width: 50%;
+}

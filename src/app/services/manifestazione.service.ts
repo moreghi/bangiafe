@@ -91,7 +91,7 @@ private APIURLSEARCH = '';
 
       getManifbyStato(stato: number) {
 
-        this.rottafunction = '/getbyStato';
+        this.rottafunction = 'getbyStato';
         return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + stato,  {
                 headers: this.getAuthHeader()
               });      // ok;
@@ -122,7 +122,7 @@ private APIURLSEARCH = '';
 
 
      getrilascio(id: number) {
-        this.rottafunction = '/getrilascio';
+        this.rottafunction = 'getrilascio';
         return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + id,  {
                 headers: this.getAuthHeader()
               });      // ok;

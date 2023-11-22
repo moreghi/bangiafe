@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_logisticas  */
 
-export class TstatologisticaInterface  {
+export interface TstatologisticaInterface  {
 
   id: number;
   d_stato_logistica: string;

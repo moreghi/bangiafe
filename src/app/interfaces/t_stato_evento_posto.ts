@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_evento_postos  */
 
-export class TstatoeventopostoInterface  {
+export interface TstatoeventopostoInterface  {
 
   id: number;
   d_stato_evento_posto: string;

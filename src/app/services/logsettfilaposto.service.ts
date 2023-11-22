@@ -89,7 +89,13 @@ export class LogsettfilapostoService {
             });      // ok;
   }
 
+  getbyLogistica(idlog: number) {
 
+    this.rottafunction = '/getbyLogistica';
+    return this.http.get(this.APIURL + '/' + this.rottafunction +  '/' + idlog ,  {
+            headers: this.getAuthHeader()
+          });      // ok;
+}
 
 }
 

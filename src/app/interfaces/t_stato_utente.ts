@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_utente  */
 
-export class TstatoutenteInterface  {
+export interface TstatoutenteInterface  {
 
   id: number;
   d_stato_utente: string;

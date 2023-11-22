@@ -5,9 +5,11 @@ export class Prenotazione implements PrenotazioneInterface {
   id: number;
   cognome: string;
   nome: string;
+  token: string;
   telefono: string;
-  idgiornata: number;
-  datapren: Date;
+  idevento: number;
+  datapren: string;
+  dataconf: string;
   persone: number;
   email: string;
   idstato: number;
@@ -21,9 +23,11 @@ export class Prenotazione implements PrenotazioneInterface {
     this.id = 0;
     this.cognome = '';
     this.nome = '';
+    this.token = '';
     this.telefono = '';
-    this.idgiornata = 0;
-    this.datapren = new Date();
+    this.idevento = 0;
+    this.datapren ='';
+    this.dataconf = '';
     this.persone = 0;
     this.email = '';
     this.idstato = 0;

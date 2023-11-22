@@ -233,8 +233,8 @@ export class ResponsePrenotazioneComponent implements OnInit {
         this.prenotazione.cognome = this.ricpren.cognome.toLowerCase();
         this.prenotazione.nome = this.ricpren.nome.toLowerCase();
         this.prenotazione.email = this.ricpren.email.toLowerCase();
-        this.prenotazione.idgiornata = this.ricpren.idgiornata;
-        this.prenotazione.datapren =  this.dataPren;
+        this.prenotazione.idevento = this.ricpren.idgiornata;
+        this.prenotazione.datapren =  this.dataPren.toString();
 
       //  console.log('imposto la data di prenotazione: ' + this.prenotazione.datapren + ' data di provenienza: ' + this.ricpren.datapren);
         this.prenotazione.persone = this.ricpren.persone;
@@ -250,7 +250,7 @@ export class ResponsePrenotazioneComponent implements OnInit {
   confermaPrenotazione(prenotazione: Prenotazione, token: string) {
     console.log('confermaPrenotazione - pronto per la creazione prenotazione: ' + JSON.stringify(prenotazione) + ' token: ' + token);
 
-    this.prenotazioneService.createPrenotazione(prenotazione).subscribe(
+    this.prenotazioneService.create(prenotazione).subscribe(
       resp => {
           if(resp['rc']  === 'ok') {
             this.invioemailfinale(prenotazione);
@@ -272,7 +272,8 @@ export class ResponsePrenotazioneComponent implements OnInit {
   // moreno
   invioemailfinale(pren: Prenotazione)  {
 
-    this.prenotazioneService.sendemailPrenotazioneConfermataMoreno(pren).subscribe(
+    alert('invio email non effettuabile -- ')
+    this.prenotazioneService.sendConfermaPrenotazione(pren).subscribe(
       resp => {
           if(resp['rc']  === 'ok') {
             this.emailsend = true;
@@ -280,7 +281,7 @@ export class ResponsePrenotazioneComponent implements OnInit {
            }
       },
       error => {
-        console.log('error ininvioemailfinale Prenotazione: ' + error.message);
+        console.log('error ininvio email di conferma Prenotazione: ' + error.message);
       });
   }
 

@@ -41,7 +41,7 @@ export class BandieragiallaDetailComponent implements OnInit {
 
  public bandieragialla: Bandieragialla;
 
- public title = '';
+ public title = 'Dati Associazione - bandieragialla-detail';
  public fase = '';
  public idBg = 1;
  public alertSuccess = false;

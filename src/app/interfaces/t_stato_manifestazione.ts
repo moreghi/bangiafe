@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_manifestazione  */
 
-export class TstatoManifestazioneInterface  {
+export interface TstatoManifestazioneInterface  {
 
   id: number;
   d_stato_manifestazione: string;

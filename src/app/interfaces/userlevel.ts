@@ -1,6 +1,6 @@
 /* Interfaccia tabella UserLevels  */
 
-export class userlevelInterface  {
+export interface userlevelInterface  {
 
   id: number;
   UserLevelName: string;

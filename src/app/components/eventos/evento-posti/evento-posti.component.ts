@@ -22,6 +22,7 @@ import { DatePipe } from '@angular/common';
 import { NotifierService } from 'angular-notifier';
 // componente
 import { MessageComponent } from '../../../components/popups/message/message.component';
+
 @Component({
   selector: 'app-evento-posti',
   templateUrl: './evento-posti.component.html',
@@ -39,7 +40,7 @@ export class EventoPostiComponent implements OnInit {
  faTrash = faTrash;
  faReply = faReply;
 
-  public title = 'merdaaaaaaa';
+  public title = 'situazione logistica evento -- evento-posti';
 
   public manif: Manifestazione;
   public evento: Evento;

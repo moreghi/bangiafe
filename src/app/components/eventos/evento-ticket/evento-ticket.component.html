@@ -1,7 +1,8 @@
 
 
 <div class="container">
-  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" >{{title}}</label><br>
+  <br>
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
@@ -20,7 +21,6 @@
             </div>
           </div>
         </div>
-
         <br>
         <!--  riga date inizio e finei  -->
         <div class="row">
@@ -32,8 +32,8 @@
           <div class=" col-md-2">
             <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
           </div>
-      </div>
-      <hr>
+        </div>
+        <hr>
       <div class="row">
         <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
         <div class=" col-md-6">
@@ -59,27 +59,10 @@
             </div>
           </div>
       </div>
-
       <br>
-
-      </form>
-    </div>
-   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <br>
       <!-- bottone per registrazione -->
+      <!-- viene inibita la registrazione perchè fatta in automatico in fase di creazione evento -->
+      <!--
      <div class="row col-sm-6">
             <div class="col-sm-5">
                  <button  class="btn btn-primary btn-rounded"  (click)="registra()">Registrazione
@@ -87,7 +70,7 @@
                   </button>
             </div>
       </div>
-  <br>
+  <br>  -->
   <!-- riga per filtro di ricerca -->
   <div>
       <div class="row">
@@ -100,36 +83,199 @@
             <strong>Record trovati:</strong>&nbsp;&nbsp; {{nRec}}
           </div>
       </div>
-</div>
-</div>
+ </div>
+
+
+
+  <div>
+      <!--  volutamente lasciato vuoto-->
+  </div>
+  <br>
+
+
+
   <br>
   <div class="form-row col-md-12">
     <div class="row col-md-12">
-
+    <!--  tipibiglietto: {{tipibiglietto | json}} <br>   -->
       <!-- tabella di dettaglio dei fedeli -->
        <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
         <thead>
          <tr>
              <th scope="col">#</th>
-             <th scope="col">tipo biglietto</th>
-             <th scope="col">Serie</th>
-             <th scope="col">importo</th>
-             <th scope="col">n.posti</th>
-             <th scope="col">residuo</th>
-             <th scope="col">stato</th>
-             <!--  non serve action -->
-             <th  colspan="2" style="text-align: center ">Action</th>
+             <th scope="col" style="text-align: center;">tipo biglietto</th>
+             <th scope="col" style="text-align: center;">Serie</th>
+             <th scope="col" style="text-align: center;">importo</th>
+             <th scope="col" style="text-align: center;">n.posti</th>
+             <th scope="col" style="text-align: center;">n.pren</th>
+             <th scope="col" style="text-align: center;">n.emessi</th>
+             <th scope="col" style="text-align: center;">residuo</th>
+             <th scope="col" style="text-align: center;">stato</th>
+             <th  colspan="3" style="text-align: center ">Action</th>
          </tr>
         </thead>
         <tbody>
+
+         <!--
          <tr app-tipobiglietto *ngFor ="let tipobiglietto of tipibiglietto | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
             [tipobiglietto-prog] = i+1
             [tipobiglietto-data] = "tipobiglietto"
+            [tipobiglietto-stato] = "stato"
+            (onSelecttipologia)="onSelecttipologia($event)"
+
             >
-         </tr>
+         </tr>   -->
+         <tr *ngFor ="let tipobiglietto of tipibiglietto | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+          <td >{{i + 1}}</td>
+          <td style="text-align: center;" [style.color]="getColor(tipobiglietto.d_tipo)" [style.background]="getBackground(tipobiglietto.d_tipo)">{{tipobiglietto.d_tipo}}</td>
+          <td>{{tipobiglietto.serie}}</td>
+          <td style="text-align: center;">{{tipobiglietto.importo | currency:'€' }}</td>
+          <td style="text-align: center;">{{tipobiglietto.ntot}}</td>
+          <td style="text-align: center;">{{tipobiglietto.npren}}</td>
+          <td style="text-align: center;">{{tipobiglietto.nemessi}}</td>
+          <td style="text-align: center;">{{tipobiglietto.ntot - tipobiglietto.npren -tipobiglietto.nemessi}}</td>
+          <td style="text-align: center;" [style.color]="getColorStato(tipobiglietto.stato)" [style.background]="getBackgroundStato(tipobiglietto.stato)">{{tipobiglietto.d_stato_tipo_biglietto}}</td>
+          <td  style="width: 12px;">
+            <button class="btn btn-sm  btn-info" (click)="listAll(tipobiglietto)">
+                <fa-icon [icon]="faList"  fixed="true"></fa-icon>
+            </button>
+           </td>
+           <td></td>
+          <td  *ngIf="tipobiglietto.stato == 1"  style="width: 12px;">
+            <button class="btn btn-sm btn-success" (click)="emissione(tipobiglietto)">
+                 <fa-icon [icon]="faTicketAlt"  fixed="true"></fa-icon>
+            </button>
+          </td>
+        </tr>
+
+
+
+
         </tbody>
        </table>
        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+  <br>
+
+
+  <div *ngIf="seltagliaIbiglietti === true && bigliettiNull === false">
+    <div classseltagliaIbiglietti="row">
+      <div class="col-12 col-sm-6 col-md-8">
+        <div class="form-check form-check-inline" *ngFor="let option1 of options1; index as idx">
+          <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option1" (change)="onSelectionChangePagamento(option1)">&nbsp;&nbsp; {{option1}}
+        </div>
+      </div>
+      <div *ngIf="trovatoRec"  class="col-6 col-md-4">
+        <strong>Record trovati:</strong>&nbsp;&nbsp; {{nRec}}
+      </div>
+  </div>
+  </div>
+<br>
+
+
+
+
+
+
+<div class="row" *ngIf="bigliettiNull == false">
+
+  <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+    <thead>
+     <tr>
+         <th scope="col">#</th>
+         <th scope="col" style="text-align: center;">Cognome</th>
+         <th scope="col" style="text-align: center;">Nome</th>
+         <th scope="col" style="text-align: center;">num. Biglietto</th>
+         <th scope="col" style="text-align: center;">importo</th>
+         <th scope="col" style="text-align: center;">data pren</th>
+         <th scope="col" style="text-align: center;">data conf</th>
+         <th scope="col" style="text-align: center;">data emis</th>
+         <th scope="col" style="text-align: center;">pagamento</th>
+         <th scope="col" style="text-align: center;">Canale</th>
+         <th  colspan="2" style="text-align: center ">Action</th>
+     </tr>
+    </thead>
+    <tbody>
+     <!-- tipibiglietto: {{tipibiglietto | json}}  -->
+     <!--
+     <tr app-biglietto *ngFor ="let biglietto of biglietti | paginate: { itemsPerPage: 5, currentPage: p1 }; let i = index"
+        [biglietto-prog] = i+1
+        [biglietto-data] = "biglietto"
+        (onSelectbiglietti)="onSelectbiglietti($event)"
+         >
+     </tr>   -->
+     <!-- biglietto: {{biglietti | json}} -->
+     <br>
+    <tr *ngFor ="let biglietto of biglietti | paginate: { itemsPerPage: 10, currentPage: p1 }; let i = index">
+      <td >{{i + 1}}</td>
+
+      <td [ngClass]="{emesso: biglietto.stato === 1, daemettere: biglietto.stato == 0}">{{biglietto.cognome}}</td>
+      <td [ngClass]="{emesso: biglietto.stato === 1, daemettere: biglietto.stato == 0}">{{biglietto.nome}}</td>
+      <td style="text-align: center;">{{biglietto.numero}}</td>
+      <td style="text-align: center;">{{biglietto.importo | currency:'€'}}</td>
+      <td style="text-align: center;">{{biglietto.datapre}}</td> <!-- <td>{{biglietto.datapre | date: 'dd-MM-yyyy'}}</td>-->
+      <td style="text-align: center;">{{biglietto.dataconf}}</td>
+      <td style="text-align: center;">{{biglietto.dataemi}}</td>
+      <td [style.color]="getColorPag(biglietto.modpag)" [style.background]="getBackgroundPag(biglietto.modpag)" style="text-align: left;">{{biglietto.d_tipo_pagamento}}</td>
+      <td  *ngIf="biglietto.idprenotazione == 0" style="color: white; background-color: red; text-align: center;" [style.color]="getColor1(biglietto.idprenotazione)">{{canale}}</td>
+      <td  *ngIf="biglietto.idprenotazione > 0" style="color: black; background-color: yellow; text-align: center;" [style.color]="getColor1(biglietto.idprenotazione)">{{canale}}</td>
+      <td style="text-align: center;">{{biglietto.posto}}</td>
+      <td *ngIf="biglietto.stato == 0">
+        <button class="btn btn-sm  btn-success" (click)="emissione(biglietto)">
+            <fa-icon [icon]="faCheckDouble"  fixed="true"></fa-icon>
+        </button>
+      </td>
+      <td *ngIf="biglietto.stato == 1">
+        <button class="btn btn-sm  btn-success" (click)="show(biglietto)">show
+          <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+        </button>
+      </td>
+
+
+
+
+
+    </tr>
+    </tbody>
+   </table>
+    <br>
+   <pagination-controls (pageChange)="p1 = $event"></pagination-controls>
+</div>
+<br>
+
+<div *ngIf="seltagliaIbiglietti === true && bigliettiNull === true">
+ <label class="col-sm-10 col-form-label" style="color:red; font-weight: bold;">nessun biglietto da emettere per la taglia selezionata</label>
+</div>
+
+
+
+    <div class="row"  *ngIf="neverRecord === true">
+            <div class="col-md-2">
+              <!-- vuoto -->
+            </div>
+            <div class="col-md-8">
+              <label class="col-form-label" style="text-align: center; color: red; background-color: yellow; font-weight: bold;">Nessun biglietto emesso</label>
+            </div>
+            <div class="col-md-2">
+              <!-- vuoto -->
+            </div>
+    </div>
+    <br>
+      <!-- Bottoni funzionali -->
+        <div class="footer" >
+          <div class="row col-sm-10 offset-2">
+
+
+            <div class="col-sm-3" >
+              <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <br>
+        <hr>
        <div class="form-row">
         <div class="col-md-12">
            <!-- messaggi -->
@@ -147,11 +293,38 @@
             </div>
           </div>
        </div>
-    </div>
+
+
+
+
+</form>
+</div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
   </div>
+  <div class="modal-body">
+  <form>
+  <p>confermi la cancellazione della tipologia di biglietto ?</p>
 
 
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel
+    <fa-icon [icon]="faWindowClose" fixed="true"></fa-icon>
+  </button>
 
-
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+    <fa-icon [icon]="faTrash" fixed="true"></fa-icon>
+  </button>
+  </div>
+  </ng-template>
 
 

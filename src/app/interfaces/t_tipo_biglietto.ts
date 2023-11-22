@@ -1,14 +1,16 @@
 /* interfaccia tabella t_tipo_bigliettos  */
 
-export class TtipobigliettoInterface  {
+export interface TtipobigliettoInterface  {
 
   id: number;
   d_tipo: string;
+  prezzoUnico: string;
   stato: number;
   idevento: number;
   importo: number;
   ntot: number;
   npren: number;
+  nemessi: number;
   ultimoemesso: number;
   serie: string;
   key_utenti_operation: number;

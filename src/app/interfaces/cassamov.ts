@@ -5,12 +5,16 @@ export interface CassamovInterface {
   id: number;
   idcassa: number;
   idevento: number;
+  datamov: string;
+  causale: string;
+  provenienza: string;
   idbiglietto: number;
   importo: number;
   stato: number;
   modpag: number;
   cognome: string;
   nome: string;
+  specifica: string;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;

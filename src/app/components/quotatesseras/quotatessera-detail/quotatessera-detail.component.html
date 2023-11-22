@@ -1,13 +1,13 @@
-<p>quotatessera-detail works!</p>
 
 <div class="container">
-  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <!--<caption class="title  col-sm-12"><strong>{{title}}</strong></caption> -->
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" >{{title}}</label><br>
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
         <input Hidden #id="ngModel"  [(ngModel)]="quotatessera.id" class="form-control" name="id" id="id">
 
-        {{bandieragialla | json}}
+        <!--{{bandieragialla | json}} -->
         <br>
         <div class="row">
           <label for="nomeassociazione" class="col-sm-1 col-form-label">R. Sociale</label>

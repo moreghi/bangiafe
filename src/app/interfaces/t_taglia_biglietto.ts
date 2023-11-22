@@ -1,11 +1,13 @@
 /* interfaccia tabella t_taglia_bigliettos  */
 
-export class TtagliabigliettoInterface  {
+export interface TtagliabigliettoInterface  {
 
   id: number;
   idtipotaglia: number;
   d_taglia: string;
   stato: number;
+  flagpu: string;
+  tagliaUser: string;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;

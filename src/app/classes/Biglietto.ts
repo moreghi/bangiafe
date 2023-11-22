@@ -7,7 +7,9 @@ export class Biglietto implements BigliettoInterface {
   idprenotazione: number;
   stato: number;
   tipo: number;
+  serie: string;
   numero: number;
+  importo: number;
   cognome: string;
   nome: string;
   email: string;
@@ -19,6 +21,7 @@ export class Biglietto implements BigliettoInterface {
   fila: number;
   posto: number;
   modpag: number;
+  stampa: string;
   key_utenti_operation: number;
   created_at: Date;
   updated_at: Date;
@@ -30,7 +33,9 @@ export class Biglietto implements BigliettoInterface {
     this.idprenotazione = 0;
     this.stato = 0;
     this.tipo = 0;
+    this.serie = '';
     this.numero = 0;
+    this.importo = 0;
     this.cognome = '';
     this.nome = '';
     this.email = '';
@@ -42,6 +47,7 @@ export class Biglietto implements BigliettoInterface {
     this.fila = 0;
     this.posto = 0;
     this.modpag = 0;
+    this.stampa = 'N';
     this.key_utenti_operation = 0;
     this.created_at  = new Date();
     this.updated_at = new Date();

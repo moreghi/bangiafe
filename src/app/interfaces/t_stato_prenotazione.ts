@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_prenotazione  */
 
-export class TstatoPrenotazioneInterface  {
+export interface TstatoPrenotazioneInterface  {
 
   id: number;
   d_stato_prenotazione: string;

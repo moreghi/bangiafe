@@ -78,7 +78,33 @@ constructor(private http: HttpClient, private auth: AuthService) { }
           });
         }
 
+        getAllbyEvento(id: number) {
+          this.rottafunction = 'cassa/All/Evento';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id, {
+            headers: this.getAuthHeader()
+          });
+        }
 
+        getAllbyEventoetipopag(id: number, tipopag: string) {
+          this.rottafunction = 'cassa/All/Evento/tipopag';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + tipopag, {
+            headers: this.getAuthHeader()
+          });
+        }
+
+        getAllbyEventoeprovenienza(id: number, provenienza: string) {
+          this.rottafunction = 'cassa/All/Evento/provenienza';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + provenienza, {
+            headers: this.getAuthHeader()
+          });
+        }
+
+        getAllbyEventoeprovenienzatipopag(id: number, tipopag: string, provenienza: string) {
+          this.rottafunction = 'cassa/All/Evento/provenienzatipopag';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + provenienza + '/' + tipopag, {
+            headers: this.getAuthHeader()
+          });
+        }
 
 }
 

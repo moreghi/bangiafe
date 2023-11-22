@@ -1,29 +1,37 @@
 
 <!--{{prenotazione | json }} -->
 
-
 <td>{{i}}</td>
 <td>{{prenotazione.cognome}}</td>
 <td>{{prenotazione.nome}}</td>
-<td *ngIf="level != 0">{{prenotazione.telefono}}</td>
-<td *ngIf="level != 0">{{prenotazione.email}}</td>
-<td>{{prenotazione.datapren | date:'dd/MM/yyyy'}}</td>
+<td *ngIf="level !== 0">{{prenotazione.telefono}}</td>
+<td *ngIf="level !== 0">{{prenotazione.email}}</td>
+<td>{{prenotazione.datapren}}</td>  <!--  {{prenotazione.datapren | date:'dd/MM/yyyy'}}-->
+<td>{{prenotazione.dataconf}}</td>
 <td>{{prenotazione.persone}}</td>
 
 
 
 <td class="buttons">
   <div class="row">
-    <div class="col-sm-4">
-          <button   class="btn btn-danger  btn-sm" (click)="open(content)">
-            <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    <div class="col-sm-2" >
+          <button   class="btn btn-danger  btn-sm" (click)="open(content)">Delete
+            <!--<fa-icon [icon]="faTrash"  fixed="true"></fa-icon> -->
+          </button>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-sm-2" *ngIf="prenotazione.idstato == 0">
+        <button   class="btn btn-primary  btn-sm" (click)="gestisciBiglietto(prenotazione)">
+            <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+        </button>
+    </div>
+    <div class="col-sm-2" *ngIf="prenotazione.idstato == 1">
+      <button   class="btn btn-success  btn-sm" (click)="gestisciBiglietto(prenotazione)">
+          <fa-icon [icon]="faInfo"  fixed="true"></fa-icon>
       </button>
     </div>
-    <div class="col-sm-4">
-      <button   class="btn btn-success  btn-sm" (click)="openmod(contentmod)">
-        <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
-  </button>
-</div>
   </div>
 </td>
 

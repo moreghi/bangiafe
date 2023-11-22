@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 // Model
@@ -5,23 +6,23 @@ import { Manifestazione} from '../../../classes/Manifestazione';
 import { Evento} from '../../../classes/Evento';
 import { Ttipobiglietto} from '../../../classes/T_tipo_biglietto';
 import { Ttipopagamento} from '../../../classes/T_tipo_pagamento';
-import { LogSettore } from '../../../classes/Logsettore';
-import { LogFila } from '../../../classes/Logfila';
+import { EventoSettore } from '../../../classes/Eventosettore';
+import { EventoFila } from '../../../classes/Eventofila';
 import { EventoPosto } from '../../../classes/Eventoposto';
 import { Prenotazevento } from '../../../classes/Prenotazevento';
 import { Cassa } from '../../../classes/Cassa';
 import { Cassamov } from '../../../classes/Cassamov';
 import { Biglietto } from '../../../classes/Biglietto'
 
-import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowClose, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowClose, faTrash, faReply, faPrint } from '@fortawesome/free-solid-svg-icons';
 // service
 import { PrenotazeventoService } from '../../../services/prenotazevento.service';
 import { TtipobigliettoService } from '../../../services/ttipobiglietto.service';
 import { TtipopagamentoService } from '../../../services/ttipopagamento.service';
 import { ManifestazioneService } from '../../../services/manifestazione.service';
 import { EventoService } from '../../../services/evento.service';
-import { LogsettoreService } from '../../../services/logsettore.service';
-import { LogfilaService } from '../../../services/logfila.service';
+import { EventosettoreService } from '../../../services/eventosettore.service';
+import { EventofilaService } from '../../../services/eventofila.service';
 import { EventopostoService } from '../../../services/eventoposto.service';
 import { CassaService } from './../../../services/cassa.service';
 import { CassamovService } from './../../../services/cassamov.service';
@@ -43,6 +44,8 @@ import { DatePipe } from '@angular/common';
 })
 export class BigliettoDetailComponent implements OnInit {
 
+  NgForm=NgForm;//this one solve my problem...initialization and declaration
+
   public title = 'Emissione Biglietto da prenotazione';
   public error = [];
 
@@ -53,8 +56,8 @@ export class BigliettoDetailComponent implements OnInit {
   public manif: Manifestazione;
   public evento: Evento;
   public eventoposto: EventoPosto;
-  public logsettore: LogSettore;
-  public logfila: LogFila;
+  public eventoSettore: EventoSettore;
+  public eventofila: EventoFila;
   public cassa: Cassa;
   public cassamov: Cassamov;
   public biglietto: Biglietto;
@@ -71,6 +74,7 @@ export class BigliettoDetailComponent implements OnInit {
   faSave = faSave;
   faPlus = faPlus;
   faReply = faReply;
+  faPrint = faPrint;
 
   public isVisible = false;
   public alertSuccess = false;
@@ -81,9 +85,9 @@ export class BigliettoDetailComponent implements OnInit {
 
 
   options = [
-    'Nessuno',
     'Contanti',
-    'Pos'
+    'Bonifico',
+    'Elettronico'
   ];
 
 
@@ -101,7 +105,12 @@ export class BigliettoDetailComponent implements OnInit {
   public numerobigliettoedit = '';
   public bigliettoemesso = false;
   public lencampo = 0;
-
+  public presentaCassa = false;
+  public openNewCassa = false;
+  public modifyCassa = false;
+  public chiusuraCassa = false;
+  public Message1 = 'messaggio di mersa'
+  public cassaInizialeimporto = 0;
 
   constructor(private prenotazeventoService: PrenotazeventoService,
               private manifestazioneService: ManifestazioneService,
@@ -109,8 +118,8 @@ export class BigliettoDetailComponent implements OnInit {
               private eventopostoService: EventopostoService,
               private tipobigliettoService: TtipobigliettoService,
               private tipopagamentoService: TtipopagamentoService,
-              private logsettoreService: LogsettoreService,
-              private logfilaService: LogfilaService,
+              private eventofilaService: EventofilaService,
+              private eventosettoreService: EventosettoreService,
               private cassaService: CassaService,
               private cassamovService: CassamovService,
               private bigliettoService: BigliettoService,
@@ -130,32 +139,55 @@ export class BigliettoDetailComponent implements OnInit {
   }
 
   goApplication() {
+
     console.log('goApplication - biglietto-detail --------  appena entrato');
     this.resetinitial();
     this.route.paramMap.subscribe(p => {
     this.idpassed = +p.get('id');
     console.log('id recuperato: ' + this.idpassed);
-    this.loadBiglietto(this.idpassed);
-    this.Message = 'situazione attuale biglietto';
+    this.loadEventoPosto(this.idpassed);
+
     });
 }
 
 resetinitial() {
+    this.cassa = new Cassa();
+
+
     this.isVisible = true;
     this.alertSuccess = true;
+    this.openNewCassa = false;
+    this.modifyCassa = false;
+    this.chiusuraCassa = false;
+
+    const date = Date();
+    this.dataOdierna = new Date(date);
+    this.datadioggi =  this.datePipe.transform(this.dataOdierna, 'dd-MM-yyyy');
 }
 
-async loadBiglietto(id: number) {
+async loadEventoPosto(id: number) {
   console.log('frontend - loadPrenotazEvento: ' + id);
-  let rc = await  this.bigliettoService.getbyId(id).subscribe(
+  let rc = await  this.eventopostoService.getbyId(id).subscribe(
     response => {
         if(response['rc'] === 'ok') {
-          this.biglietto = response['data'];
-          this.loadEvento(this.biglietto.evento);
-          this.loadSettore(this.biglietto.settore);
-          this.loadFila(this.biglietto.fila);
-          this.loadtipoBiglietto(this.biglietto.tipo);
-          this.loadtipopagamento(this.biglietto.modpag);
+          this.eventoposto = response['data'];
+          if(this.eventoposto.stato == 0) {
+             this.title = 'Emissione Biglietto da prenotazione - biglietto-detail';
+             this.Message = 'pronto per acquisto biglietto';
+          } else {
+            this.title = 'Situazione attuale Biglietto - biglietto-detail';
+            this.Message = 'Situazione attuale biglietto';
+          }
+          this.loadEvento(this.eventoposto.idEvento);
+          if(this.eventoposto.idSettore > 0) {
+            this.loadSettore(this.eventoposto.idSettore);
+            this.loadFila(this.eventoposto.idFila);
+          }
+          if(this.eventoposto.idbiglietto > 0) {
+            this.loadBiglietto(this.eventoposto.idbiglietto);
+          }
+          this.loadCassadelGiorno(this.datadioggi, this.eventoposto.idEvento);
+          this.loadtipoBiglietto(this.eventoposto.tipobiglietto);
        }
     },
     error => {
@@ -169,6 +201,91 @@ async loadBiglietto(id: number) {
     });
 }
 
+
+async loadBiglietto(id: number) {
+
+  let rc = await  this.bigliettoService.getbyId(id).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.biglietto = response['data'];
+        this.loadtipopagamento(this.biglietto.modpag);
+       }
+  },
+  error => {
+      alert('loadBiglietto: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadBiglietto' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
+
+
+
+
+
+
+openCassa() {
+  this.openNewCassa = true;
+}
+
+
+modificaCassa() {
+  this.openNewCassa = false;
+  this.chiusuraCassa = false;
+  this.modifyCassa = true;
+}
+
+chiudiCassa() {
+  this.openNewCassa = false;
+  this.modifyCassa = false;
+  this.chiusuraCassa = true;
+
+}
+
+handleFocus(evento: any) {
+  alert(' sono in focus')
+}
+handleBlur(evento: any) {
+  alert(' sono uscito dal focus')
+}
+
+
+
+
+
+
+
+
+
+
+
+async loadCassadelGiorno(datadioggi: string, idEvento: number) {
+  console.log('frontend - loadCassadelGiorno: ' + datadioggi + ' evento: ' + idEvento);
+  let rc = await  this.cassaService.getbydata(datadioggi,idEvento).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.cassa = response['data'];
+        this.presentaCassa = true;
+       }
+       if(response['rc'] === 'nf') {
+      //  this.cassa = new Cassa();
+        this.cassa.datacassa =  this.datadioggi;
+        this.presentaCassa = false;
+       }
+  },
+  error => {
+      alert('loadCassadelGiorno: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
 
 async loadEvento(id: number) {
   console.log('frontend - loadEvento: ' + id);
@@ -193,10 +310,10 @@ async loadEvento(id: number) {
 
 async loadSettore(id: number) {
   console.log('frontend - loadSettore: ' + id);
-  let rc = await  this.logsettoreService.getbyId(id).subscribe(
+  let rc = await  this.eventosettoreService.getbyId(id).subscribe(
   response => {
       if(response['rc'] === 'ok') {
-        this.logsettore = response['data'];
+        this.eventoSettore = response['data'];
        }
   },
   error => {
@@ -213,10 +330,10 @@ async loadSettore(id: number) {
 
 async loadFila(id: number) {
   console.log('frontend - loadFila: ' + id);
-  let rc = await  this.logfilaService.getbyId(id).subscribe(
+  let rc = await  this.eventofilaService.getbyId(id).subscribe(
   response => {
       if(response['rc'] === 'ok') {
-        this.logfila = response['data'];
+        this.eventofila = response['data'];
        }
   },
   error => {
@@ -283,17 +400,126 @@ handleResponse(data) {
     this.error = error.error.errors;
   }
 
-showNotification( type: string, message: string ): void {
-  this.notifier.notify( type, message );
-}
+    showNotification( type: string, message: string ): void {
+        this.notifier.notify( type, message );
+    }
 
-goback() {
-  this.router.navigateByUrl('/pronotevento');
-}
+    goback() {
+      this.router.navigateByUrl('/pronotevento');
+    }
+
+    print(biglietto: Biglietto) {
+      this.router.navigateByUrl('/bigliettoprint/' + biglietto.id);
+    }
+
+
+
 
 }
 
 /*
+
+GestisciCassaIniziale(cassa: Cassa) {
+  console.log('GestisciCassaIniziale ................ : appena entrato ----------  ' + JSON.stringify(cassa));
+return;
+
+  // apertura cassa
+  if(this.presentaCassa === false) {
+    if(cassa.cassaIniziale < 0) {
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'inserire un valore Maggiore di zero';
+      this.showNotification(this.type, this.Message);
+      return;
+    } else {
+  //    this.RegistraCassaIniziale(cassa.cassaIniziale);   eliminato metodo
+    }
+  }
+}
+
+
+
+
+
+
+
+GestisciCassaFinale(cassa: Cassa) {
+console.log('GestisciCassaFinale: appena entrato ----------  ' + JSON.stringify(cassa));
+
+  // apertura cassa
+    if(this.presentaCassa === true) {
+      if(cassa.cassaFinale < 0) {
+        this.isVisible = true;
+        this.alertSuccess = false;
+        this.type = 'error';
+        this.Message = 'inserire un valore Maggiore di zero';
+        this.showNotification(this.type, this.Message);
+        return;
+      } else {
+        this.RegistraCassaFinale(cassa.cassaFinale);
+      }
+    }
+  }
+
+
+  async RegistraCassaFinale(importo: number) {
+    console.log('frontend - RegistraCassaFinale: ' + importo);
+    this.cassa.cassaFinale = importo;
+    this.cassa.stato = 2;
+    let rc = await  this.cassaService.create(this.cassa).subscribe(
+    response => {
+        if(response['rc'] === 'ok') {
+          this.presentaCassa = true;
+          this.isVisible = true;
+          this.alertSuccess = true;
+          this.type = 'success';
+          this.Message = 'Cassa giornaliera Chiusa correttamente ';
+          this.showNotification(this.type, this.Message);
+          }
+     },
+    error => {
+        alert('loadCassadelGiorno: ' + error.message);
+        this.isVisible = true;
+        this.alertSuccess = false;
+        this.type = 'error';
+        this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+        this.showNotification(this.type, this.Message);
+        console.log(error);
+    });
+  }
+
+async RegistraCassaIniziale(importo: number) {
+  console.log('frontend - RegistraCassaIniziale: ' + importo);
+  this.cassa.datacassa = this.datadioggi;
+  this.cassa.idEvento = this.eventoposto.idEvento;
+  this.cassa.cassaIniziale = importo;
+  this.cassa.stato = 1;
+  let rc = await  this.cassaService.create(this.cassa).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.presentaCassa = true;
+        this.isVisible = true;
+        this.alertSuccess = true;
+        this.type = 'success';
+        this.Message = 'Cassa giornaliera aperta correttamente ';
+        this.showNotification(this.type, this.Message);
+        }
+   },
+  error => {
+      alert('loadCassadelGiorno: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadCassadelGiorno' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
+
+
+
+
 
 
 

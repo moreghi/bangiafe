@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-
+// model
 import { Prenotazione } from '../../../classes/Prenotazione';
+import { EventoPosto } from '../../../classes/Eventoposto'
+// Services
 import { PrenotazioneService} from '../../../services/prenotazione.service';
+import { EventopostoService } from 'src/app/services/eventoposto.service';
 import { faUserEdit, faTrash, faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -22,6 +25,8 @@ export class Prenotazione1Component implements OnInit {
 @Input('prenotazione1-level') level: number;
 // passo al figlio la segnalazione che ho effettuato la cancellazione- serve per rifare l'elemco aggiornato
 @Output('onDeletedPrenotazione') onDeletedPrenotazione = new EventEmitter();
+
+public eventoposto: EventoPosto;
 
 faUserEdit = faUserEdit;
 faTrash = faTrash;
@@ -75,12 +80,14 @@ public gg = '';
 public mm = '';
 public yyyy = '';
 public initialDate: any;
-
+public idTipo = 0;
+public operativita = '';
 closeResult = '';
 
 constructor(public modal: NgbModal,
-            private route: Router,
+            private router: Router,
             private prenotazioneService: PrenotazioneService,
+            private eventopostoService: EventopostoService,
             private datePipe: DatePipe,
             private notifier: NotifierService) {
             this.notifier = notifier;
@@ -195,11 +202,11 @@ showNotification( type: string, message: string ): void {
           this.showNotification(this.type, this.Message);
         }
 
-        cancellaUser(prenotazione: Prenotazione) {
+    async  cancellaUser(prenotazione: Prenotazione) {
           console.log('cancella - emetto onDeleteprenotazione');
          // this.onDeletedPrenotazione.emit(this.deletedPrenot);
 
-          this.prenotazioneService.deletePrenotazione(prenotazione).subscribe(
+         let rc =  await    this.prenotazioneService.delete(prenotazione).subscribe(
               response => {
                 if(response['rc'] === 'ok') {
                   this.onDeletedPrenotazione.emit(this.deletedPrenot);  // imposto l'evento per passare la segnalazione di cancellazione al padre
@@ -219,11 +226,10 @@ showNotification( type: string, message: string ): void {
                   this.showNotification(this.type, this.Message);
                   console.log(error);
                 });
-
         }
 
 
-        modificaPrenotazione(prenotazione: Prenotazione) {
+   async  modificaPrenotazione(prenotazione: Prenotazione) {
 
 //  devo normalizzare la data per effettuare la corretta modifica
 
@@ -259,7 +265,7 @@ showNotification( type: string, message: string ): void {
         */
 
 
-          this.prenotazioneService.updatePrenotazione(prenotazione).subscribe(
+        let rc =  await   this.prenotazioneService.update(prenotazione).subscribe(
               response => {
                 if(response['rc'] === 'ok') {
                   this.isVisible = true;
@@ -279,6 +285,55 @@ showNotification( type: string, message: string ): void {
                   console.log(error);
                 });
         }
+
+
+
+  gestisciBiglietto(prenotazione: Prenotazione)  {
+
+     console.log('gestBiglietto ---------------------  appena entrato ' + JSON.stringify(prenotazione))
+     localStorage.removeItem('idPrenotazione');
+     localStorage.removeItem('operBiglietto');
+     localStorage.setItem('idPrenotazione', String(prenotazione.id));
+
+     if(prenotazione.idstato == 0) {
+       this.operativita = "E";
+     }
+     if(prenotazione.idstato == 1) {
+       this.operativita = "V";
+     }
+     localStorage.setItem('operBiglietto', this.operativita);
+
+     //alert('Manifestazioni   -- loadManifestazioni :  inizio ');
+     console.log('------------------------------------  emissione');
+
+     this.isVisible = true;
+      this.eventopostoService.getbycognnometoken(prenotazione.cognome, prenotazione.nome, prenotazione.token).subscribe(
+          res => {
+             this.eventoposto = res['data'];
+             this.idTipo = res['data'].idtipo
+             console.log('eventoposto da editare: ' + JSON.stringify(res['data']) + ' ---- idTipo: ' + this.idTipo);
+             console.log('router a:' + ' biglietto/' + this.eventoposto.id + '/edit');
+             // salvo su localStorage id della prenotazione per aggiornarla a fine emissione
+
+   console.log('fatta registrazione su localStorage')
+             if(this.idTipo == 1) {  // ilascio biglietto senza logistica
+               this.router.navigate(['biglietto/' + this.eventoposto.id + '/edit']);
+             }
+             if(this.idTipo == 2) {   // rilascio biglietto con logistica
+               this.router.navigate(['prenotevento/' + this.eventoposto.id + '/biglietto']);
+             }
+         },
+         error => {
+            alert('Prenotazioni  -- loadPrenotazioni - errore: ' + error.message);
+            console.log(error);
+            this.Message = error.message;
+            this.alertSuccess = false;
+         });
+  }
+
+  merda(prenotazione: Prenotazione) {
+    alert('sono in merda')
+  }
 
 
 

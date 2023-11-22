@@ -1,6 +1,6 @@
 /* interfaccia tabella t_stato_taglia_biglietto  */
 
-export class TstatotagliabigliettoInterface  {
+export interface TstatotagliabigliettoInterface  {
 
   id: number;
   d_stato_taglia_biglietto: string;

@@ -67,7 +67,7 @@ export class EventoPostoComponent implements OnInit {
 
 // variabili per notifica esito operazione con Notifier
 public type = '';
-
+public canale = '';
 
 
 
@@ -81,10 +81,14 @@ constructor(private eventopostoService: EventopostoService,
             }
 
 ngOnInit(): void {
+     if(this.eventoposto.stato === 0) {
+      this.canale = '?';
+      this.biglietto = new Biglietto();
+      this.biglietto.cognome = 'non Acquistato';
+      this.biglietto.nome = '?';
+     }
      if(this.eventoposto.stato === 1) { // biglietto emesso
        this.loadBiglietto(this.eventoposto.idbiglietto);
-     } else {
-       this.biglietto = new Biglietto();
      }
 
 }
@@ -95,6 +99,11 @@ async  loadBiglietto(id: number)  {
      response => {
        if(response['rc'] === 'ok') {
          this.biglietto = response['data'];
+         if(this.biglietto.idprenotazione == 0) {
+            this.canale = "BG";
+         } else {
+          this.canale = "P";
+         }
         }
    },
    error => {
@@ -131,10 +140,8 @@ navigate(pathNavigate: string, eventoposto: EventoPosto) {
 
 
  switch (pathNavigate) {
-
    case 'Edit':
-     alert('da fare');
-    // this.route.navigate(['evento/edit/' + evento.id + '/' + evento.idmanif]);
+     this.route.navigate(['biglietto/' + eventoposto.id + '/edit/xx']);
      break;
    case 'Ticket':
      alert('funzione non prevista');
@@ -142,7 +149,6 @@ navigate(pathNavigate: string, eventoposto: EventoPosto) {
      break;
    case 'Posti':
      alert('da fare');
-    // this.route.navigate(['evento/' + evento.id + '/Posti']);
      break;
 
 
@@ -245,6 +251,32 @@ getBackground(stato: number) {
      return 'yellow';
  }
 }
+
+getColor1(canale: string) {
+  switch (canale) {
+    case "BG":
+      return 'white';
+    case "P":
+      return 'black';
+    default:
+      return 'black';
+  }
+ }
+
+ getBackground1(canale: string) {
+  switch (canale) {
+    case "BG":
+      return 'red';
+    case "P":
+      return 'yellow';
+    default:
+      return 'white';
+  }
+ }
+
+
+
+
 
 
 }

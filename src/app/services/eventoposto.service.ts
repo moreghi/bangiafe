@@ -89,6 +89,10 @@ export class EventopostoService {
       });
     }
 
+
+
+
+
     getbyIdEventoSettFilaActive(id: number, idSett: number, idFila: number) {
       this.rottafunction = 'getbyevento/SettFilaActive';
       return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + idSett + '/' + idFila   , {
@@ -96,9 +100,9 @@ export class EventopostoService {
       });
     }
 
-    getbykeyuserpren(keyuserpren: string) {
-      this.rottafunction = 'getbyevento/keyuserpren';
-      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + keyuserpren , {
+    getbykeypren(keypren: string) {
+      this.rottafunction = 'getbyevento/keypren';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + keypren , {
         headers: this.getAuthHeader()
       });
     }
@@ -106,6 +110,34 @@ export class EventopostoService {
     getbyIdEventoSettFilaposto(id: number, idSett: number, idFila: number, posto: number) {
       this.rottafunction = 'settfilaposto';
       return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + idSett + '/' + idFila + '/' + posto, {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbytoken(token: string) {
+      this.rottafunction = 'getbyevento/token';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + token , {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbyIdEventoSettFilaStato(id: number, idSett: number, idFila: number, stato: number) {
+      this.rottafunction = 'getbyevento/SettFilaStato';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + idSett + '/' + idFila + '/' + stato  , {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbyIdEventoeStatotipobiglietto(id: number, stato: number, tipobiglietto: number) {
+      this.rottafunction = 'getbyevento/Stato/idbiglietto';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id + '/' + stato + '/' + tipobiglietto , {
+        headers: this.getAuthHeader()
+      });
+    }
+
+    getbycognnometoken(cognome: string, nome: string, token: string) {
+      this.rottafunction = 'getbyconoto';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + cognome + '/' + nome + '/' + token, {
         headers: this.getAuthHeader()
       });
     }

@@ -6,9 +6,11 @@ export interface PrenotazioneInterface  {
   id: number;
   cognome: string;
   nome: string;
+  token: string;
   telefono: string;
-  idgiornata: number,
-  datapren: Date;
+  idevento: number,
+  datapren: string;
+  dataconf: string;
   persone: number;
   email: string;
   idstato: number;

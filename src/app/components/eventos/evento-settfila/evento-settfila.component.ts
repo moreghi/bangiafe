@@ -3,12 +3,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 // Service
 import { EventosettfilapostiService } from '../../../services/eventosettfilaposti.service';
-import { LogsettoreService } from '../../../services/logsettore.service';
-import { LogfilaService } from './../../../services/logfila.service';
+import { EventosettoreService } from '../../../services/eventosettore.service';
+import { EventofilaService } from './../../../services/eventofila.service';
 // Model
 import { Eventosettfilaposti } from '../../../classes/Eventosettfilaposti';
-import { LogSettore } from '../../../classes/Logsettore';
-import { LogFila } from '../../../classes/Logfila';
+import { EventoSettore } from '../../../classes/Eventosettore';
+import { EventoFila } from '../../../classes/Eventofila';
 
 import { Router } from '@angular/router';
 // per gestire il popup con esito operazione
@@ -35,8 +35,8 @@ export class EventoSettfilaComponent implements OnInit {
  @Output('totalefilepostiko') totalefilepostiko = new EventEmitter();
 
 
-  public logSettore: LogSettore;
-  public logFila: LogFila;
+  public eventoSettore: EventoSettore;
+  public eventoFila: EventoFila;
 
   faUserEdit = faUserEdit;
   faTrash = faTrash;
@@ -88,8 +88,8 @@ export class EventoSettfilaComponent implements OnInit {
 
 
   constructor(private eventosettfilapostiService: EventosettfilapostiService,
-              private logsettoreService: LogsettoreService,
-              private logfilaService: LogfilaService,
+              private eventosettoreService: EventosettoreService,
+              private eventofilaService: EventofilaService,
               private modalService: NgbModal,
               private route: Router,
               private datePipe: DatePipe,
@@ -99,17 +99,17 @@ export class EventoSettfilaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loadSettore(this.eventosettfila.idLogistica, this.eventosettfila.idSettore);
-    this.loadFila(this.eventosettfila.idLogistica, this.eventosettfila.idFila);
+    this.loadSettore(this.eventosettfila.idSettore);
+    this.loadfila(this.eventosettfila.idFila);
   }
 
 
-async  loadSettore(idLog: number, idSet: number) {
-    console.log('frontend - loadSettore: ' + idLog + ' idSett: ' + idSet);
-    let rc = await  this.logsettoreService.getbySettore(idLog, idSet).subscribe(
+async  loadSettore(idSet: number) {
+    console.log('frontend - loadSettore: '  + idSet);
+    let rc = await  this.eventosettoreService.getbyId(idSet).subscribe(
     response => {
           if(response['rc'] === 'ok') {
-            this.logSettore = response['data'];
+            this.eventoSettore = response['data'];
           }
       },
   error => {
@@ -125,20 +125,20 @@ async  loadSettore(idLog: number, idSet: number) {
   }
 
 
-  async  loadFila(idLog: number, idfila: number) {
-    console.log('frontend - loadSettore: ' + idLog + ' idfila: ' + idfila);
-    let rc = await  this.logfilaService.getbyFila(idLog, idfila).subscribe(
+  async loadfila(idfila: number) {
+    console.log('frontend - idfila: ' + idfila);
+    let rc = await  this.eventofilaService.getbyId(idfila).subscribe(
     response => {
           if(response['rc'] === 'ok') {
-            this.logFila = response['data'];
+            this.eventoFila = response['data'];
           }
       },
   error => {
-      alert('loadSettore: ' + error.message);
+      alert('loadFila: ' + error.message);
       this.isVisible = true;
       this.alertSuccess = false;
       this.type = 'error';
-      this.Message = 'Errore loadSettore' + '\n' + error.message;
+      this.Message = 'Errore loadFila' + '\n' + error.message;
       this.showNotification(this.type, this.Message);
       console.log(error);
   });

@@ -49,7 +49,7 @@ public Message = '';
   errormsg: any;
 
 
-  public title = "elenco Quote Tessera";
+  public title = "elenco Quote Tessera -- quotetessera";
   public trovatoRec = false;
   public nRec = 0;
 

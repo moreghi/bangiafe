@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 // Service
 import { CassaService } from './../../../services/cassa.service';
 import { CassamovService } from './../../../services/cassamov.service';
+import { EventoService } from '../../../services/evento.service';
 // Model
 import { Cassa } from '../../../classes/Cassa';
 import { Cassamov } from '../../../classes/Cassamov';
-
+import { Evento} from '../../../classes/Evento';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 // icone
@@ -46,6 +47,7 @@ export class CassaDetailComponent implements OnInit {
 
  public cassa: Cassa;
  public cassamovs: Cassamov[] = [];
+ public evento: Evento;
 
  public title = 'Gestione Cassa Giornaliera';
 
@@ -59,12 +61,14 @@ export class CassaDetailComponent implements OnInit {
  public datadioggi = '';
  public keystatocassa = '';
  public fase = '';
-
+ public idEvento = 0;
+ public idEventoPosto = 0;
  // per paginazone
   p = 1;
 
  constructor(private cassaService: CassaService,
              private cassamovService: CassamovService,
+             private eventoService: EventoService,
              private route: ActivatedRoute,
              private router: Router,
              private modalService: NgbModal,
@@ -94,12 +98,17 @@ export class CassaDetailComponent implements OnInit {
   this.rottadata = this.route.snapshot.url[1].path;
   this.rottafase = this.route.snapshot.url[3].path;
 
+  this.idEvento = JSON.parse(localStorage.getItem('cassaEvento'));
+  this.idEventoPosto = +localStorage.getItem('idPagamento');
+console.log('cassa-detail    Valore idEvento Passato: ' + this.idEvento);
+  this.loadEvento(this.idEvento);
 
-
+  localStorage.removeItem('cassaEvento');
 
   console.log('evento-detail - rotta: ' + this.rotta);
   console.log('evento-detail - rottadata: ' + this.rottadata);
   console.log('evento-detail - rottafase: ' + this.rottafase);
+
 
   if(this.rottafase === 'A') {
     console.log('evento-detail - sono in new ');
@@ -107,13 +116,13 @@ export class CassaDetailComponent implements OnInit {
     this.Message = 'Premere invio per aprire la cassa giornaliera';
     this.cassa = new Cassa();
     this.cassa.datacassa = this.datadioggi;
-    this.cassa.stato = 1;
+
     this.cassa.key_utenti_operation = +localStorage.getItem('id');
     this.keystatocassa = 'nf';
     this.fase = 'N';
    } else {
 
-      this.loadCassa(this.datadioggi);
+      this.loadCassa(this.datadioggi, this.idEvento);
 
       this.Message = 'pronto per aggiornamento Evento';
      }
@@ -121,9 +130,40 @@ export class CassaDetailComponent implements OnInit {
  }
 
 
- async loadCassa(oggi: string) {
+
+
+async loadEvento(id: number) {
+  console.log('frontend---- CassaDetail - loadEvento: ' + id);
+  let rc = await  this.eventoService.getbyId(id).subscribe(
+  response => {
+      if(response['rc'] === 'ok') {
+        this.evento = response['data'];
+       }
+  },
+  error => {
+      alert('loadEvento: ' + error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore loadEvento' + '\n' + error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+}
+
+
+
+
+
+
+
+
+
+// metodo alterato   --- verificare le modifiche da apportare  2023/05/25
+ async loadCassa(oggi: string, idEvento: number) {
+
   console.log('loadCassa -- appena entrato: ' + oggi);
-  let rc = await  this.cassaService.getbydata(oggi).subscribe(
+  let rc = await  this.cassaService.getbydata(oggi, idEvento).subscribe(
     response => {
       if(response['rc'] === 'ok') {
         console.log('cassa: ' + JSON.stringify(response['data']));
@@ -185,11 +225,14 @@ showNotification( type: string, message: string ): void {
 
     switch (this.fase)  {
       case 'N':
+         this.cassa.idEvento = this.idEvento;
          this.cassaService.create(this.cassa).subscribe(
             res => {
               if(res['rc'] === 'ok') {
-                this.router.navigate(['pronotevento']);
-              }
+                // Vecchia modalità  -  dismessa dal 25/05/2023
+                localStorage.removeItem('idPagamento');
+                this.router.navigate(['biglietto/' + this.idEventoPosto + '/edit']);
+               }
               },
               error => {
                  console.log(error);
@@ -201,7 +244,7 @@ showNotification( type: string, message: string ): void {
          break;
     case 'M':
 
-          this.cassa.stato = 2;
+
           this.cassa.key_utenti_operation = +localStorage.getItem('id');
           this.cassaService.update(this.cassa).subscribe(
             res => {

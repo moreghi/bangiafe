@@ -45,7 +45,7 @@ import { UserDetailComponent } from './components/users/user-detail/user-detail.
 
 import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
 import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
-import { PrenotazioniComponent } from './components/prenotaziones/prenotazione/prenotazioni/prenotazioni.component';
+import { PrenotazioniComponent } from './components/prenotaziones/prenotazioni/prenotazioni.component';
 
 
 

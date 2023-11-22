@@ -1,6 +1,6 @@
 /* interfaccia tabella tabella_tw  */
 
-export class TabellatwInterface  {
+export interface TabellatwInterface  {
 
   id: number;
   idTab: number;

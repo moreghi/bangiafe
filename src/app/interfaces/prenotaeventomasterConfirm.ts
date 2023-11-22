@@ -3,13 +3,21 @@
 
 export interface PrenotazeventomasterConfirmInterface  {
 
+
   id: number;
   cognome: string;
   nome: string;
-  telefono: string;
   email: string;
-  idevento: number;
+  telefono: string;
+  idEvento: number;
   devento: string;
+  descEvento: string;
+  localita: string;
+  indirizzo: string;
+  dataEvento: string;
+  oraEvento: string;
+  iban: string;
+  importo: number;
   idlogistica: number;
   idsettore: number;
   idfila: number;
@@ -21,5 +29,4 @@ export interface PrenotazeventomasterConfirmInterface  {
   codpren: string;
   created_at: Date;
   updated_at: Date;
-
 }

@@ -1,7 +1,8 @@
-<p>evento-posti-detail -----------------  works!</p>
+
 
 <div class="container">
   <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <br>
   <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
      <div >
       <form #fm ="ngForm">
@@ -10,7 +11,7 @@
       <div class="row">
         <label for="descrizione" class="col-sm-2 col-form-label">Evento</label>
         <div class=" col-md-6">
-          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">{{evento.id}}
+          <input disabled #descrizione="ngModel"  [(ngModel)]="evento.descrizione" class="form-control" name="descrizione" id="descrizione"   style="text-transform : uppercase">
         </div>
         <div class=" col-md-2">
     <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
@@ -37,11 +38,11 @@
       <div class="row">
           <label for="dsettore" class="col-sm-1 col-form-label">Settore</label>
           <div class="col-md-3">
-                <input  disabled [(ngModel)]="logsettore.dsettore" #dsettore="ngModel" class="form-control"  name="dsettore" id="dsettore">
+                <input  disabled [(ngModel)]="eventoSettore.dsettore" #dsettore="ngModel" class="form-control"  name="dsettore" id="dsettore">
           </div>
           <label for="dfila" class="col-sm-1 col-form-label">Fila</label>
           <div class="col-md-3">
-              <input  disabled [(ngModel)]="logfila.dfila" #dfila="ngModel" class="form-control"  name="dfila" id="dfila">
+              <input  disabled [(ngModel)]="eventoFila.dfila" #dfila="ngModel" class="form-control"  name="dfila" id="dfila">
           </div>
           <label for="dfila" class="col-sm-1 col-form-label">Posti</label>
           <div class="col-md-1">
@@ -52,6 +53,8 @@
           </div>
       </div>
       <br>
+
+
       <div class="form-row col-md-12">
         <div class="row col-md-12">
 
@@ -60,16 +63,18 @@
             <thead>
              <tr>
               <th scope="col">#</th>
-              <th scope="col">Posto</th>
-              <th scope="col">Biglietto Numero</th>
-              <th scope="col">Cognome</th>
-              <th scope="col">Nome</th>
+              <th scope="col" style="text-align: center;">Canale</th>
+              <th scope="col" style="text-align: center;">Posto</th>
+              <th scope="col"  style="text-align: center;">Biglietto Numero</th>
+              <th scope="col"  style="text-align: center;">Serie</th>
+              <th scope="col"  style="text-align: center;">Cognome</th>
+              <th scope="col"  style="text-align: center;">Nome</th>
               <th  colspan="2" style="text-align: center ">Action</th>
              </tr>
             </thead>
             <tbody>
 
-             <tr app-evento-posto *ngFor ="let posto of eventoposti | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
+             <tr app-evento-posto *ngFor ="let posto of eventoposti | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
                 [evento-posto-prog] = i+1
                 [evento-posto-data] = "posto"
 

@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 // service
 import { TtipobigliettoService} from '../../../services/ttipobiglietto.service';
 import { TtagliabigliettoService} from '../../../services/ttagliabiglietto.service';
+import { BigliettoService} from '../../../services/biglietto.service';
 // model
 import { Ttipobiglietto} from '../../../classes/T_tipo_biglietto';
 import { Ttagliabiglietto} from '../../../classes/T_taglia_biglietto';
+
+// aggiunti biglietti per passarli al padre (evento-ticket)
+import { Biglietto } from '../../../classes/Biglietto';
+
+
 
 import { Router } from '@angular/router';
 // per gestire il popup con esito operazione
@@ -14,6 +20,7 @@ import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowCl
 // popup per avviso cancellazione
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { BigliettoInterface } from '../../../interfaces/biglietto';
 
 
 @Component({
@@ -26,10 +33,18 @@ export class TipobigliettoComponent implements OnInit {
     // variabili passate dal componente padre
     @Input('tipobiglietto-data') tipobiglietto: Ttipobiglietto;
     @Input('tipobiglietto-prog') i: number;
+    // 2023/10/10  aggiunta per filtrare biglietti in base allo stato
+    @Input('tipobiglietto-stato') stato: number;
+
+
+    // variabili passate al componente Padre@Output('onSelectStato') OnSelectStato = new EventEmitter<number>();
+
+    @Output('onSelectbiglietti') onSelectbiglietti = new EventEmitter();
+
 
     public tagliabiglietto: Ttagliabiglietto;
-
-
+    public biglietti: Biglietto[] = [];
+    public bigliettinf: Biglietto[] = [];
 
     faUserEdit = faUserEdit;
     faTrash = faTrash;
@@ -55,6 +70,7 @@ export class TipobigliettoComponent implements OnInit {
     public alertSuccess = false;
     public function = 0;
     public nRec = 0;
+    // public stato = 0;
 
     public utenteFedele = false;
 
@@ -70,11 +86,13 @@ export class TipobigliettoComponent implements OnInit {
 
  // variabili per notifica esito operazione con Notifier
    public type = '';
+  onSelectStato: any;
 
 
 
     constructor(private tipobigliettoService: TtipobigliettoService,
                 private tagliabigliettoService: TtagliabigliettoService,
+                private bigliettoService: BigliettoService,
                 private modalService: NgbModal,
                 private route: Router,
                 private datePipe: DatePipe,
@@ -90,7 +108,11 @@ export class TipobigliettoComponent implements OnInit {
      this.textMessage1 = '?????????? ';
   //   this.textUser = this.messa.demessa;
      this.textMessage2 = 'Registrazione non possibile';
-     this.loadTagliabiglietto(this.tipobiglietto.idtipotaglia);
+   //  this.loadTagliabiglietto(this.tipobiglietto.idtipotaglia);   non serve
+
+alert('tipobiglietto ----- stato passato per selezione biglietti ' + this.stato);
+
+
 
   }
 
@@ -208,6 +230,89 @@ open(content: any, tipobiglietto: Ttipobiglietto) {
       this.showNotification(this.type, this.Message);
     });
   }
+
+/*
+  dettaglio(tipobiglietto: Ttipobiglietto) {
+    this.stato = 0;
+    localStorage.setItem('StatoAssegni', String(this.stato));
+    this.onSelecttipologia.emit(tipobiglietto.idtipotaglia);
+
+  }
+*/
+
+
+  listAll(tipobiglietto: Ttipobiglietto) {
+    this.stato = 9;  // fasccio elenco di tutti i biglietti emessi e liberi per serie
+    localStorage.setItem('StatoAssegni', String(this.stato));
+  //  this.onSelecttipologia.emit(tipobiglietto.idtipotaglia);
+
+  }
+
+
+//  da sistemare
+  async Dettaglio(tipobiglietto: Ttipobiglietto) {
+    console.log('frontend - Dettaglio:tipologia ' + tipobiglietto.idtipotaglia);
+    console.log('frontend - Dettaglio: stato: ' + this.stato);
+    let rc = await  this.bigliettoService.getAllbyTipo(tipobiglietto.idtipotaglia).subscribe(
+    response => {
+          if(response['rc'] === 'ok') {
+            this.biglietti = response['data'];
+               console.log('biglietti da editare: ' + JSON.stringify(this.biglietti));
+            }
+          if(response['rc'] === 'nf') {
+            this.biglietti = this.bigliettinf;
+          }
+          this.onSelectbiglietti.emit(this.biglietti);
+      },
+  error => {
+      alert('Dettaglio: ' + error.error.message);
+      this.isVisible = true;
+      this.alertSuccess = false;
+      this.type = 'error';
+      this.Message = 'Errore Dettaglio' + '\n' + error.error.message;
+      this.showNotification(this.type, this.Message);
+      console.log(error);
+  });
+
+  }
+
+
+
+
+
+
+
+  getColor(tipo: string) {
+    switch (tipo) {
+      case "INTERO":
+        return 'blue';
+      case "RIDOTTO":
+        return 'yellow';
+      case "GRATIS":
+        return 'red';
+      case "PREZZO UNICO":
+        return 'orange';
+      default:
+        return 'violet';
+    }
+  }
+
+  getBackground(tipo: string) {
+    switch (tipo) {
+      case "INTERO":
+        return 'yellow';
+      case "RIDOTTO":
+        return 'green';
+      case "GRATIS":
+        return 'black';
+      case "PREZZO UNICO":
+        return 'blue';
+      default:
+        return 'green';
+    }
+  }
+
+
 
 }
 

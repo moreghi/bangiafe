@@ -13,12 +13,6 @@ export class PrenotazioneService {
   private rotta = "/prenotazione";
   private rottafunction = '';
 
-  private rottadaevadere = '/pren/getPrenotazionidaEvadere';
-  private rottadaevaderebyday = '/pren/prenotazionibyday';
-  private rottaprenbystato = '/pren/getPrenotazionibyStato';
-  private rottaprenbyemail = '/pren/getPrenotazionibyemail';
-
-
   // vecchia versione senza environment
   //  private APIURL = 'http://localhost:8000/users';  // definisco l'url su cui effettuare la lettura sul server
 
@@ -41,7 +35,7 @@ export class PrenotazioneService {
       }
 
 
-    getPrenotazioni() {
+    getAll() {
 
       // ritorniamo un observoble - il subscribe devo farlo su users.component.ts
 
@@ -51,33 +45,25 @@ export class PrenotazioneService {
         //  return this.http.get(this.APIURL + '?token=' + this.auth.getToken());       // <---- 1° metodo  in chiaro su url
 
         // secondo metodo passando il token non in chiaro come header                   // <---- 2* metodo come header (non in chiaro)
-         return this.http.get(this.APIURL,  {
-          headers: this.getAuthHeader()
-        });      // ok      // ok
-
-
+             return this.http.get(this.APIURL,  {
+              headers: this.getAuthHeader()
+            });
         }
 
-        getPrenotazione(id: number) {
+    getbyid(id: number) {
           return this.http.get(this.APIURL + '/' + id,  {
             headers: this.getAuthHeader()
           });      // ok
         }
 
-
-        deletePrenotazione(prenotazione: Prenotazione) {
-
+    delete(prenotazione: Prenotazione) {
           this.rottafunction = 'deletebyid';
           return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + prenotazione.id,  {
             headers: this.getAuthHeader()
           });      // ok
-
         }
 
-
-
-    updatePrenotazione(prenotazione: Prenotazione) {
-
+    update(prenotazione: Prenotazione) {
       this.rottafunction = 'updatebyid';
       return this.http.put(this.APIURL + '/' + this.rottafunction + '/' +  prenotazione.id, prenotazione,  {
         headers: this.getAuthHeader()
@@ -85,64 +71,89 @@ export class PrenotazioneService {
 
     }
 
-
-     createPrenotazione(prenotazione: Prenotazione){
+     create(prenotazione: Prenotazione){
       this.rottafunction = 'create';
       return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione,  {
          headers: this.getAuthHeader()
       });      // ok
     }
 
-
-    getPrenotazinidaEvadere() {
-
-         this.APIURLSEARCH = this.APIURL + this.rottadaevadere;
-
-         return this.http.get(this.APIURLSEARCH,  {
-          headers: this.getAuthHeader()
-        });      // ok      // ok
-    }
-
-
-    getPrenotazinidaEvaderebyday(id: number) {
-
-      this.APIURLSEARCH = this.APIURL + this.rottadaevaderebyday;
-      console.log('--------- APIURL -------------------------------   prenotazioneService - prenbyday: ' + this.APIURL);
-      console.log('-----------------------------------------   prenotazioneService - prenbyday: ' + this.APIURLSEARCH);
-      return this.http.get(this.APIURLSEARCH + '/' + id,  {
+  getbystato(stato: number) {
+      this.rottafunction = 'stato';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + stato,  {
        headers: this.getAuthHeader()
      });      // ok      // ok
- }
+}
 
+getbyevento(evento: number) {
+  this.rottafunction = 'pren/Prenotazionibyevento';
+     return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + evento,  {
+   headers: this.getAuthHeader()
+ });      // ok      // ok
+}
 
-   getPrenotazinibystato(id: number) {
-
-  this.APIURLSEARCH = this.APIURL + this.rottaprenbystato;
-  return this.http.get(this.APIURLSEARCH + '/' + id,  {
+getbyeventoestato(evento: number, stato: number) {
+  this.rottafunction = 'pren/Prenotazionibyeventoestato';
+     return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + evento + '/' + stato,  {
    headers: this.getAuthHeader()
  });      // ok      // ok
 }
 
 
-getPrenotazinibyemail(email: string) {
 
-  this.APIURLSEARCH = this.APIURL + this.rottaprenbyemail;
-  return this.http.get(this.APIURLSEARCH + '/' + email,  {
+
+getbyemail(email: string) {
+  this.rottafunction = 'email';
+  return this.http.get(this.APIURL + "/" + this.rottafunction + "/'" + email + "'",  {
    headers: this.getAuthHeader()
- });      // ok      // ok
+   });
 }
 
+getCountbyevento(id: number) {
 
-// invio email dopo conferma definitiva prenotazione
-sendemailPrenotazioneConfermataMoreno(prenotazione: Prenotazione) {
-
-  console.log('frontend - prenotazioneConfirm.service - sendemailPrenotazioneConfermataMoreno ------  :  ' + JSON.stringify(prenotazione));
-
-  return this.http.post(this.APIURL + '/pren/invioemailprenotazione/' + prenotazione.email, prenotazione);
-
+  this.rottafunction = '/count';
+  return this.http.get(this.APIURL + this.rottafunction + '/' + id);
   }
 
+  getdaEvaderebyday(id: number) {
 
+    this.rottafunction = '/count';
 
+    alert('prenotazioneService -- metodo < getdaEvaderebyday > momentaneamente sospeso ')
+/*
+
+    this.APIURLSEARCH = this.APIURL + this.rottadaevaderebyday;
+    console.log('--------- APIURL -------------------------------   prenotazioneService - prenbyday: ' + this.APIURL);
+    console.log('-----------------------------------------   prenotazioneService - prenbyday: ' + this.APIURLSEARCH);
+    return this.http.get(this.APIURLSEARCH + '/' + id);      // ok      // ok
+    */
+    }
+
+sendConfermaPrenotazione(prenotazione: Prenotazione){
+  this.rottafunction = 'sendConferma';
+  return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione);
+    }
+
+    getgiornateConf(id: number) {
+
+      this.rottafunction = '/giornate';
+      return this.http.get(this.APIURL + this.rottafunction + '/' + id);
+
+      }
+
+      getbydataconf(dataconf: string) {
+        this.rottafunction = 'pren/getPrenotazionibydataconf';
+        return this.http.get(this.APIURL + "/" + this.rottafunction + "/" + dataconf,  {
+         headers: this.getAuthHeader()
+         });
+      }
 
 }
+
+
+
+
+
+
+
+
