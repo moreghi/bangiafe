@@ -17,6 +17,7 @@ export class User implements UserInterface {
   idLevel: number;
   idruoloweb: number;
   noteUtente: string;
+  token: string;
   eseguitaAbilitazione: string;
   remember_token: string;
   email_verified_at: string;
@@ -46,6 +47,7 @@ export class User implements UserInterface {
   this.idLevel = 0;
   this.idruoloweb = 0;
   this.noteUtente = '';
+  this.token = '';
   this.eseguitaAbilitazione = 'N';
   this.remember_token = '';
   this.email_verified_at = '';

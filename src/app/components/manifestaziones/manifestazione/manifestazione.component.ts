@@ -1,3 +1,6 @@
+
+// -------------------------
+
 import { Component, Input, OnInit } from '@angular/core';
 import { ManifestazioneService} from '../../../services/manifestazione.service';
 import { Manifestazione} from '../../../classes/Manifestazione';
@@ -9,7 +12,6 @@ import { faPlusSquare, faSearch, faSave, faUserEdit, faMinus, faPlus, faWindowCl
 // popup per avviso cancellazione
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'tr[app-manifestazione]',
@@ -21,6 +23,8 @@ export class ManifestazioneComponent implements OnInit {
    // variabili passate dal componente padre
    @Input('manif-data') manif: Manifestazione;
    @Input('manif-prog') i: number;
+
+
 
 
    faUserEdit = faUserEdit;
@@ -73,14 +77,20 @@ export class ManifestazioneComponent implements OnInit {
    public navigateGraficoDays = 'GraphDays';
 
    public messagenull = 'Nessun record presente !!!';
-   public pathimageRosso = environment.APIURL + '/upload/files/generic/rosso.jpg';
-   public pathimageVerde = environment.APIURL + '/upload/files/generic/verde.jpg';
+
    closeResult = '';
 
 // variabili per notifica esito operazione con Notifier
   public type = '';
-
-
+  public dataStart: Date;
+  public dataEnd: Date;
+  public dataStart_str = '';
+  public dataEnd_str = '';
+  public yyyy: any;
+  public mm: any;
+  public dd: any;
+  public timestamp = 0;
+  public dateParts: any;
 
    constructor(private manifService: ManifestazioneService,
                private modalService: NgbModal,
@@ -90,9 +100,6 @@ export class ManifestazioneComponent implements OnInit {
                 this.notifier = notifier;
               }
 
-
-
-
    ngOnInit(): void {
 
       //   per gestire eventuale popup
@@ -101,50 +108,63 @@ export class ManifestazioneComponent implements OnInit {
    //   this.textUser = this.messa.demessa;
       this.textMessage2 = 'Registrazione non possibile';
 
-      // this.loadManifestazioni();
+      // normalizzazione data start
+    //  this.dataStart = new Date(this.manif.dtInizio);
+
+
+    this.dateParts = this.manif.dtInizio.split("-");
+
+    this.dataStart=  new Date(Date.UTC(this.dateParts[2], this.dateParts[1]-1, this.dateParts[0]));
+
+
+
+
+    console.log('this.dataStart : ' + this.dataStart )
+
+
+   //   this.dataStart = new Date(this.manif.dtInizio);
+
+      console.log('manifestazione ---1---- dataStart' + JSON.stringify(this.dataStart))
+
+
+      this.yyyy = this.dataStart.getFullYear();
+      this.mm = this.dataStart.getMonth() + 1; // Months start at 0!
+      this.dd = this.dataStart.getDate();
+
+      console.log('manifestazione ---2---- yyyy' + JSON.stringify(this.yyyy))
+      console.log('manifestazione ---3---- mm' + JSON.stringify(this.mm))
+      console.log('manifestazione ---4---- mm' + JSON.stringify(this.dd))
+
+
+      if (this.dd < 10) this.dd = '0' + this.dd;
+      if (this.mm < 10) this.mm = '0' + this.mm;
+
+      this.dataStart_str = this.dd + '/' + this.mm + '/' + this.yyyy;
+
+
+
+    // date.ToString("dddd, " + CurrentCultureInfo.DateTimeFormat.ShortDatePattern);
+
 
    }
 
-
-   editUserDetail(manif) {
-    this.function = parseInt(localStorage.getItem('user_ruolo'));
-    if(this.function === -1) {
-      this.route.navigate(['users/' + this.manif.id + '/edit']);
-    } else {
-      this.route.navigate(['users/' + this.manif.id + '/inqu']);
-    }
-  }
-
-
-  navigate(pathNavigate: string, manif: Manifestazione) {
-
-    console.log(`navigate ---- funzione: ${pathNavigate} ---------------------  id: ${manif.id} `);
-
-
-    switch (pathNavigate) {
-
-      case 'Edit':
-        this.route.navigate(['manif/edit/' + manif.id]);
-        break;
-      case 'Days':
-        this.route.navigate(['manif/' + manif.id]);
-        break;
-      case 'GraphDays':
-        this.route.navigate(['manif/grafico/day/' + manif.id]);
-        break;
-      default:
-        alert('scelta errata \n navigazione non possibile');
-        break;
-    }
-  }
-
-
-  naviga(manif: Manifestazione) {
+  grafico(manif: Manifestazione) {
 let aa = 'manif/grafico/day/' + manif.id;
 console.log('path per grafico: ' + aa);
 return;
     this.route.navigate(['manif/grafico/day/' + manif.id]);
   }
+
+  viewgiornate(manif: Manifestazione) {
+        this.route.navigate(['giornate/' + manif.id]);
+    }
+
+      modifica(manif: Manifestazione) {
+
+        console.log('da fare ' );
+        return;
+            this.route.navigate(['manif/grafico/day/' + manif.id]);
+          }
 
 
 
@@ -161,7 +181,7 @@ open(content:any, manif:Manifestazione) {
   if(result === 'Delete click') {
     console.log('fare routine di cancellazione: ' + manif.id + ' - ' + manif.descManif );
    //this.cancellaProdotto(this.prodotto);
-   this.delete(manif);
+   this.delete(manif.id);
    this.cancellazioneCompleted(manif);
    // per riaggiornare elenco
    window.location.reload();
@@ -198,29 +218,16 @@ open(content:any, manif:Manifestazione) {
     this.showNotification(this.type, this.Message);
   }
 
-  async delete(manif: Manifestazione) {
-    console.log('cancelllllllllllllllllllllllo ---> ' + JSON.stringify(manif));
+  delete(id:any) {
+    console.log(id,'cancelllllllllllllllllllllllo --->');
+    this.manifService.delete(id).subscribe((res)=> {
+      console.log(res,'res- delete -->');
 
-    const ret = await this.manifService.delete(manif).subscribe(
-       res => {
-            if(res['rc'] === 'ok')  {
-              this.type = 'success';
-              this.Message = 'Manifestazione cancellata correttamente';
-              this.alertSuccess = true;
-              this.showNotification(this.type, this.Message);
-            } else {
-              this.type = 'error';
-              this.Message = res['message'];
-              this.showNotification(this.type, this.Message);
-            }
-        },
-        error => {
-           alert('Users  -- loadUserSanfra - errore: ' + error.message);
-           console.log(error);
-           this.Message = error.message;
-           this.alertSuccess = false;
-        })
-     }
+      this.type = 'error';
+      this.Message = res['message'];
+      this.showNotification(this.type, this.Message);
+    });
+  }
 
 /*
      Show a notification

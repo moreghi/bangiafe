@@ -1,0 +1,227 @@
+
+<div class="container">
+  <caption class="title_Inqu  col-md-12" style="text-align: center; font-weight: bold;">{{title}}</caption>
+ <br>
+ <div >
+   <div class="col-md-auto">
+     <form #fm ="ngForm"  method="POST">
+       <input hidden #id="ngModel"  [(ngModel)]="prenotazionework.id" class="form-control" name="id" id="id">
+       <!-- Cognome  -->
+       <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label for="cognome" class="col-sm-2 col-form-label">cognome</label>
+              <div class="col-sm-8">
+                <input type="text"  disabled #cognome="ngModel"  [(ngModel)]="prenotazionework.cognome" class="form-control" name="cognome" id="cognome"   style="text-transform : uppercase">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label for="nome" class="col-sm-2 col-form-label">nome</label>
+              <div class="col-sm-5">
+                <input type="text"  disabled #nome="ngModel"  [(ngModel)]="prenotazionework.nome" class="form-control" name="nome" id="nome"   style="text-transform : uppercase">
+              </div>
+            </div>
+          </div>
+       </div>
+       <br>
+       <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div *ngIf="nRecOrdinati > 0">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Prodotto</th>
+                  <th scope="col">Prezzo</th>
+                  <th scope="col">Qta</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+
+                <tr *ngFor ="let prodordinati of listinoprodworks | filter:searchText2 | paginate: { id: 'ordinato', itemsPerPage: 5, currentPage: p2 }; let i = index"   [attr.data-index]="i">
+                  <td>{{i+1}}</td>
+                  <td>{{prodordinati.descrizione}}</td>
+                  <td>{{prodordinati.prezzo | currency:'EUR'}}</td>
+                  <td>{{prodordinati.qta}}</td>
+                  <td >
+                    <button [disabled]="prodordinati.qta == 0" class="btn btn-sm  btn-danger" (click)="elimina(prodordinati)">
+                        <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                    </button>
+                  </td>
+                  <td >
+                    <button [disabled]="prodordinati.qta == 0" class="btn btn-sm  btn-info" (click)="togli(prodordinati)">
+                      <fa-icon [icon]="faMinus"  fixed="true"></fa-icon>
+                   </button>
+                  </td>
+                  <td >
+                    <button class="btn btn-sm  btn-success" (click)="aggiungi(prodordinati)">
+                      <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+                  </button>
+                  </td>
+                 </tr>
+              </tbody>
+            </table>
+            <pagination-controls   id="ordinato" (pageChange)="p2 = $event"></pagination-controls>
+          </div>
+          <div *ngIf="nRecOrdinati == 0">
+            <label  class="col-sm-10 col-form-label" style="color: red; text-align: center;font-weight: bold;">Nessun prodotto ordinato</label>
+          </div>
+        </div>
+       </div>
+       <br>
+
+      <div class="row" *ngIf="nRecOrdinati > 0">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <button  class="btn btn-danger btn-md " (click)="eliminatutto()">Elimina Tutto
+            <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+          </button>
+          &nbsp;&nbsp;
+          <button  class="btn btn-primary btn-md " (click)="conferma(prenotazionework)">Conferma
+            <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+          </button>
+        </div>
+      </div>
+    <br>
+       <div class="row" *ngIf="nRecTipologie > 0">
+        <div class="tab-content" id="myTabContent">
+  <!-- https://bbbootstrap.com/snippets/ecommerce-cards-89775625  -->
+
+          <table class="table table-striped table-hover" >
+            <thead>
+              <tr>
+
+          <!-- senza testata -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td app-card3 *ngFor ="let tipologia of tipologie | filter:searchText | paginate: {id: 'tipologia', itemsPerPage: 4, currentPage: p }; let i = index"
+                   [card3-data] = "tipologia"
+                   (tipologiaSelect) ="tipologiaSelect($event)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pagination-controls  id="tipologia" (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+      <br>
+      <div *ngIf="nRecbyTipologia > 0">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">prodotto</th>
+              <th scope="col">prezzo</th>
+              <th scope="col">qta</th>
+              <!--  versione 1 -->
+            <!--  <th scope="col">gestione</th>  -->
+
+              <!--  versione 2 -->
+              <th  colspan="2" style="text-align: center ">gestione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor ="let listprodw of listinoprodottiwork | filter:searchText1 | paginate: {id: 'selprod', itemsPerPage: 5, currentPage: p1 }; let i = index" >
+            <td>{{i + 1}}</td>
+            <td>{{listprodw.descrizione}}</td>
+            <td>{{listprodw.prezzo | currency:'EUR'}}</td>
+            <!--[style.background]="getBackground(listprodw.amenu)" -->
+            <td [style.color]="getColor(listprodw.qta)" >{{listprodw.qta}}</td>  <!-- [ngClass]="{'noaMenu': listprodw.amenu === 'N', 'siaMenu' : listprodw.amenu === 'S' }"-->
+            <td>
+              <button [disabled]="listprodw.qta == 0" class="btn btn-danger btn-md " (click)="elimina(listprodw)">
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+              </button>
+            </td>
+            <td>
+              <button [disabled]="listprodw.qta == 0" class="btn btn-info btn-md " (click)="togli(listprodw)">
+                  <fa-icon [icon]="faMinus"  fixed="true"></fa-icon>
+              </button>
+            </td>
+            <td>
+              <button  class="btn btn-success btn-md " (click)="aggiungi(listprodw)">
+                  <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+              </button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls id="selprod" (pageChange)="p1 = $event"></pagination-controls>
+      </div>
+      <div *ngIf="nRecbyTipologia == 0">
+        <label  class="col-sm-10 col-form-label" style="color: red; text-align: center;font-weight: bold;">Nessun Prodotto a listino presente</label>
+      </div>
+
+
+
+
+ <!-- Bottoni funzionali -->
+     <br>
+      <div class="footer"  *ngIf="nRec > 0">
+           <div class="row col-sm-10 offset-2">
+             <div class="col-sm-3">
+               <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
+                 <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+               </button>
+             </div>
+
+
+      </div>
+      </div>
+      <br>
+ <!--   messaggio con esito operazione -->
+
+      <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+        <p>{{Message}}</p>
+      </div>
+      <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+         <p>{{Message}}</p>
+      </div>
+     </form>
+   </div>
+ </div>
+</div>
+
+<ng-template #content let-modal>
+ <div class="modal-header modal-header-color">
+   <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <form>
+     <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+     <p></p>
+     <p><strong>{{manif.cognome}}&nbsp;&nbsp;{{manif.nome}}</strong>&nbsp;?</p>
+     <!--   esempio di calendario che funziona benissimo
+     <div class="form-group">
+       <label for="dateOfBirth">Date of birth</label>
+       <div class="input-group">
+         <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+         </div>
+       </div>
+     </div>
+     -->
+   </form>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+   <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+     <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+   </button>
+ </div>
+</ng-template>
+
+

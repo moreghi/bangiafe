@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';                                                //
+import { NgModule, Component } from '@angular/core';                                                //
 import { BrowserModule } from '@angular/platform-browser';                               //
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';                                 //
@@ -28,12 +28,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';  // per aprire una seconda po
 import { NgxImageZoomModule } from 'ngx-image-zoom';  // per fare zoom su foto
 import { ImgMagnifier } from 'ng-img-magnifier';  // per fare zoom su foto  - con resize whidt e heigth della foto
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// import { TabsModule} from 'ngx-bootstrap/tabs';
 
 // services
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
-import { TruoloService } from './services/truolo.service';
-import { TstatoutenteService } from './services/tstatoutente.service';
 import { TokenStorageService } from './services/token-storage.service';
 import { ForgotconfirmedService } from './services/forgotconfirmed.service';
 import { ForgotconfirmedtestService } from './services/forgotconfirmedtest.service';
@@ -41,10 +40,7 @@ import { ChangepassService } from './services/changepass.service';
 import { RouteGuardService } from './services/route-guard.service';
 import { UploadFilesService } from './services/upload-files.service';
 import { UserlevelService } from './services/userlevel.service';
-import { AdesioneConfirmService } from './services/adesione-confirm.service';
-import { QuotatesseraService } from './services/quotatassera.service';
 import { RegisterconfirmedService } from './services/registerconfirmed.service';
-import { SocioService } from './services/socio.service';
 
 // component
 import { SignupConfermeComponent } from './components/security/signup-conferme/signup-conferme.component';
@@ -55,102 +51,56 @@ import { ChangePasswordNewUserComponent } from './components/security/change-pas
 import { ChangePasswordComponent } from './components/security/changePassword/change-password/change-password.component';
 import { Page404Component } from './components/page404/page404.component';
 import { HomeComponent } from './components/home/home.component';
-import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
 import { User1Component } from './components/users/user1/user1.component';
 import { User2Component } from './components/users/user2/user2.component';
 import { UserDetail1Component } from './components/users/user-detail1/user-detail1.component';
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
-import { PrenotazioneComponent } from './components/prenotaziones/prenotazione/prenotazione.component';
 import { InfoComponent } from './components/popups/info/info.component';
-import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
-import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
-import { PrenotazioniComponent } from './components/prenotaziones/prenotazioni/prenotazioni.component';
-import { Prenotazione1Component } from './components/prenotaziones/prenotazione1/prenotazione1.component';
-import { InfoPrenotazioneComponent } from './components/prenotaziones/info-prenotazione/info-prenotazione.component';
 import { MessageComponent } from './components/popups/message/message.component';
 import { TabelleComponent } from './components/tabelles/tabelle/tabelle.component';
 import { TabellaComponent } from './components/tabelles/tabella/tabella.component';
 import { TabellaTwDettComponent } from './components/tabelles/tabella-tw-dett/tabella-tw-dett.component';
 import { TabellaTwDettPopComponent } from './components/popups/tabella-tw-dett-pop/tabella-tw-dett-pop.component';
-import { SociComponent } from './components/socios/soci/soci.component';
-import { SocioComponent } from './components/socios/socio/socio.component';
-import { TesseramentoComponent } from './components/tesseramentos/tesseramento/tesseramento.component';
-import { TesseramentoDetailComponent } from './components/tesseramentos/tesseramento-detail/tesseramento-detail.component';
-import { TesseramentoDataComponent } from './components/tesseramentos/tesseramento-data/tesseramento-data.component';
-import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
-import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
-import { LocalitapopComponent } from './components/popups/localitapop/localitapop.component';
-import { SocioSearchpopComponent } from './components/popups/socio-searchpop/socio-searchpop.component';
-import { RequestAdesioneComponent } from './components/adesiones/request-adesione/request-adesione.component';
-import { ResponseAdesioneComponent } from './components/adesiones/response-adesione/response-adesione.component';
-import { BandieragiallaDetailComponent } from './components/bandieragiallas/bandieragialla-detail/bandieragialla-detail.component';
-import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
-import { QuotatesseraComponent } from './components/quotatesseras/quotatessera/quotatessera.component';
-import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
+import { AbilitazioneComponent } from './components/security/abilitazione/abilitazione.component';
+import { TestuploadComponent } from './components/testupload/testupload.component';   // test - per provare upload
+import { CardComponent } from './components/compmoreno/cards/card/card.component';
 import { ManifestazioniComponent } from './components/manifestaziones/manifestazioni/manifestazioni.component';
 import { ManifestazioneComponent } from './components/manifestaziones/manifestazione/manifestazione.component';
 import { ManifestazioneDetailComponent } from './components/manifestaziones/manifestazione-detail/manifestazione-detail.component';
-import { ManifestazioneDaysComponent } from './components/manifestaziones/manifestazione-days/manifestazione-days.component';
-import { EventoComponent } from './components/eventos/evento/evento.component';
-import { EventoDetailComponent } from './components/eventos/evento-detail/evento-detail.component';
-import { EventoTicketComponent } from './components/eventos/evento-ticket/evento-ticket.component';
-import { TipobigliettoComponent } from './components/tipobigliettos/tipobiglietto/tipobiglietto.component';
-import { TipobigliettoDetailComponent } from './components/tipobigliettos/tipobiglietto-detail/tipobiglietto-detail.component';
-import { LogisticheComponent } from './components/logisticas/logistiche/logistiche.component';
-import { LogisticaComponent } from './components/logisticas/logistica/logistica.component';
-import { LogisticaDetailComponent } from './components/logisticas/logistica-detail/logistica-detail.component';
-import { LogisticaDetailPostiComponent } from './components/logisticas/logistica-detail-posti/logistica-detail-posti.component';
-import { LogisticapopComponent } from './components/popups/logisticapop/logisticapop.component';
-import { ElempopComponent } from './components/popups/elempop/elempop.component';
-import { LogsettfilapostiComponent } from './components/logisticas/logsettfilaposti/logsettfilaposti.component';
-import { LogpostipopComponent } from './components/popups/logpostipop/logpostipop.component';
-import { LogimagepopComponent } from './components/popups/logimagepop/logimagepop.component';
-import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
-import { EventoSettfilaComponent } from './components/eventos/evento-settfila/evento-settfila.component';
-import { EventiMappaComponent } from './components/eventos/eventi-mappa/eventi-mappa.component';
-import { RequestEventoNormalComponent } from './components/eventos/registrazione/evento/request-evento-normal/request-evento-normal.component';
-import { ResponseEventoNormalComponent } from './components/eventos/registrazione/evento/response-evento-normal/response-evento-normal.component';
-import { RequestEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/request-evento-logistica/request-evento-logistica.component';
-import { ResponseEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/response-evento-logistica/response-evento-logistica.component';
-import { EventoPostoComponent } from './components/eventos/evento-posto/evento-posto.component';
-import { EventoPostiDetailComponent } from './components/eventos/evento-posti-detail/evento-posti-detail.component';
-import { EventopostopopComponent } from './components/popups/eventopostopop/eventopostopop.component';
-import { EventoPosto1Component } from './components/eventos/evento-posto1/evento-posto1.component';
-import { EventoPosto2Component } from './components/eventos/evento-posto2/evento-posto2.component';
-import { PrenotazionieventoComponent } from './components/prenotazeventos/prenotazionievento/prenotazionievento.component';
-import { PrenotazioneeventoComponent } from './components/prenotazeventos/prenotazioneevento/prenotazioneevento.component';
-import { CassaDetailComponent } from './components/cassas/cassa-detail/cassa-detail.component';
-import { BigliettoEmissioneLogisticaComponent } from './components/bigliettos/biglietto-emissione-logistica/biglietto-emissione-logistica.component';
-import { BigliettoDetailComponent } from './components/bigliettos/biglietto-detail/biglietto-detail.component';
-import { CassamovComponent } from './components/cassas/cassamov/cassamov.component';
-import { AbilitazioneComponent } from './components/security/abilitazione/abilitazione.component';
-import { LocandinapopComponent } from './components/popups/locandinapop/locandinapop.component';
-import { TestuploadComponent } from './components/testupload/testupload.component';   // test - per provare upload
-import { PrenotazioniEventiComponent } from './components/prenotaziones/prenotazioni-eventi/prenotazioni-eventi.component';
-import { PrenotazioneDetailComponent } from './components/prenotaziones/prenotazione-detail/prenotazione-detail.component';
-import { LogisticaDetailMappapostiComponent } from './components/logisticas/logistica-detail-mappaposti/logistica-detail-mappaposti.component';
-import { LogpostopopComponent } from './components/popups/logpostopop/logpostopop.component';
-import { PrenotazioneDetailPostoComponent } from './components/prenotaziones/prenotazione-detail-posto/prenotazione-detail-posto.component';
-import { PrenotazioneDetailNologisticaComponent } from './components/prenotaziones/prenotazione-detail-nologistica/prenotazione-detail-nologistica.component';
-import { ResponsePrenotazioneEventoComponent } from './components/eventos/registrazione/masterprenotazione/response-prenotazione-evento/response-prenotazione-evento.component'
-import { EventoPrenotDetailComponent } from './components/eventos/evento-prenot-detail/evento-prenot-detail.component';
-
-import { BigliettoEmissioneDetailComponent } from './components/bigliettos/biglietto-emissione-detail/biglietto-emissione-detail.component';
-import { BigliettoComponent } from './components/bigliettos/biglietto/biglietto.component';
-import { RequestEventoNormal1Component } from './components/eventos/registrazione/evento/request-evento-normal1/request-evento-normal1.component';
-import { CassaDetailDayComponent } from './components/cassas/cassa-detail-day/cassa-detail-day.component';
-import { ComunicatoComponent } from './components/comunicatos/comunicato/comunicato.component';
-import { ComunicatiComponent } from './components/comunicatos/comunicati/comunicati.component';
-import { ComunicatoDetailComponent} from './components/comunicatos/comunicato-detail/comunicato-detail.component';
-import { BigliettoEmissioneDetailBgComponent} from './components/bigliettos/biglietto-emissione-detail-bg/biglietto-emissione-detail-bg.component';
-import { EventoPrenotazioniComponent } from './components/eventos/evento-prenotazioni/evento-prenotazioni.component';
-import { Evento1Component } from './components/eventos/evento1/evento1.component';
-import { EventonotepopComponent } from './components/popups/eventonotepop/eventonotepop.component';
-import { Evento2Component } from './components/eventos/evento2/evento2.component';
-import { InfoBgComponent } from './components/bandieragiallas/info-bg/info-bg.component';
-import { BigliettoPrintComponent } from './components/bigliettos/biglietto-print/biglietto-print.component';
-
-
+import { GiornateComponent } from './components/giornatas/giornate/giornate.component';
+import { GiornataComponent } from './components/giornatas/giornata/giornata.component';
+import { Giornata9Component } from './components/giornatas/giornata9/giornata9.component';
+import { GiornataDetailComponent } from './components/giornatas/giornata-detail/giornata-detail.component';
+import { Card1Component } from './components/tabellevarie/tipologia/card1/card1.component';
+import { PrenotazioniComponent } from './components/prenotaziones/prenotazioni/prenotazioni.component';
+import { Card2Component } from './components/prenotaziones/card2/card2.component';
+import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
+import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
+import { RequestPrenotazione1Component } from './components/prenotaziones/prenotazione/request-prenotazione1/request-prenotazione1.component';
+import { CommandawrigaComponent } from './components/commandawrigas/commandawriga/commandawriga.component';
+import { Card3Component } from './components/prenotaziones/card3/card3.component';
+import { Prenotazioni1Component } from './components/prenotaziones/prenotazioni1/prenotazioni1.component';
+import { Prenotazione1Component } from './components/prenotaziones/prenotazione1/prenotazione1.component';
+import { GiornataDetailProdottiComponent } from './components/giornatas/giornata-detail-prodotti/giornata-detail-prodotti.component';
+import { Card4Component } from './components/giornatas/card4/card4.component';
+import { GiornataDetailPersoneComponent } from './components/giornatas/giornata-detail-persone/giornata-detail-persone.component';
+import { VolontariComponent } from './components/volontaris/volontari/volontari.component';
+import { VolontarioComponent } from './components/volontaris/volontario/volontario.component';
+import { VolontarioDetailComponent } from './components/volontaris/volontario-detail/volontario-detail.component';
+import { CassasinteticaDetailComponent } from './components/cassasinteticas/cassasintetica-detail/cassasintetica-detail.component';
+import { GiornateDashboardComponent } from './components/giornatas/giornate-dashboard/giornate-dashboard.component';
+import { Card5Component } from './components/giornatas/card5/card5.component';
+import { CommandaComponent } from './components/commandas/commanda/commanda.component';
+import { CommandaRegistrazioneAnagraficaComponent } from './components/commandas/commanda-registrazione-anagrafica/commanda-registrazione-anagrafica.component';
+import { Persona1Component } from './components/personas/persona1/persona1.component';
+import { CommandaRegistrazioneComponent } from './components/commandas/commanda-registrazione/commanda-registrazione.component';
+import { CommandaRegistrazioneProdottiComponent } from './components/commandas/commanda-registrazione-prodotti/commanda-registrazione-prodotti.component';
+import { Card6Component } from './components/commandas/card6/card6.component';
+import { GiornataCassaEditComponent } from './components/giornatas/giornata-cassa-edit/giornata-cassa-edit.component';
+import { Prenotazione2Component } from './components/prenotaziones/prenotazione2/prenotazione2.component';
+import { CommandaRegistrazioneCassaComponent } from './components/commandas/commanda-registrazione-cassa/commanda-registrazione-cassa.component';
+import { CommandaPreviewComponent } from './components/commandas/commanda-preview/commanda-preview.component';
+import { CommandaGestioneComponent } from './components/commandas/commanda-gestione/commanda-gestione.component';
 /*
  * Custom angular notifier options
  */
@@ -196,9 +146,6 @@ const customNotifierOptions: NotifierOptions = {
   }
 };
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -216,102 +163,58 @@ const customNotifierOptions: NotifierOptions = {
     ChangePasswordComponent,
     Page404Component,
     HomeComponent,
-    JumbotronComponent,
     User1Component,
     User2Component,
     UserDetail1Component,
     UserDetailComponent,
-    PrenotazioneComponent,
     InfoComponent,
-    RequestPrenotazioneComponent,
-    ResponsePrenotazioneComponent,
-    PrenotazioniComponent,
-    Prenotazione1Component,
-    InfoPrenotazioneComponent,
     MessageComponent,
     TabelleComponent,
     TabellaComponent,
     TabellaTwDettComponent,
     TabellaTwDettPopComponent,
-    SociComponent,
-    SocioComponent,
-    TesseramentoComponent,
-    TesseramentoDetailComponent,
-    TesseramentoDataComponent,
-
-    SocioDetail1Component,
-    SocioDetailComponent,
-    LocalitapopComponent,
-    SocioSearchpopComponent,
-    RequestAdesioneComponent,
-    ResponseAdesioneComponent,
-    BandieragiallaDetailComponent,
-    QuotetesseraComponent,
-    QuotatesseraComponent,
-    QuotatesseraDetailComponent,
+    AbilitazioneComponent,
+    TestuploadComponent,
+    CardComponent,
     ManifestazioniComponent,
     ManifestazioneComponent,
     ManifestazioneDetailComponent,
-    ManifestazioneDaysComponent,
-    EventoComponent,
-    EventoDetailComponent,
-    EventoTicketComponent,
-    TipobigliettoComponent,
-    TipobigliettoDetailComponent,
-    LogisticheComponent,
-    LogisticaComponent,
-    LogisticaDetailComponent,
-    LogisticaDetailPostiComponent,
-    LogisticapopComponent,
-    ElempopComponent,
-    LogsettfilapostiComponent,
-    LogpostipopComponent,
-    LogimagepopComponent,
-    EventoPostiComponent,
-    EventoSettfilaComponent,
-    EventiMappaComponent,
-    RequestEventoNormalComponent,
-    ResponseEventoNormalComponent,
-    RequestEventoLogisticaComponent,
-    ResponseEventoLogisticaComponent,
-    EventoPostoComponent,
-    EventoPostiDetailComponent,
-    EventopostopopComponent,
-    EventoPosto1Component,
-    EventoPosto2Component,
-    PrenotazionieventoComponent,
-    PrenotazioneeventoComponent,
-    CassaDetailComponent,
-    BigliettoEmissioneLogisticaComponent,
-    BigliettoDetailComponent,
-    CassamovComponent,
-    AbilitazioneComponent,
-    LocandinapopComponent,
-    TestuploadComponent,
-    PrenotazioniEventiComponent,
-    PrenotazioneDetailComponent,
-    LogisticaDetailMappapostiComponent,
-    LogpostopopComponent,
-    PrenotazioneDetailPostoComponent,
-    PrenotazioneDetailNologisticaComponent,
-    ResponsePrenotazioneEventoComponent,
-    EventoPrenotDetailComponent,
-    BigliettoEmissioneDetailComponent,
-    BigliettoComponent,
-    RequestEventoNormal1Component,
-    CassaDetailDayComponent,
-    ComunicatoComponent,
-    ComunicatiComponent,
-    ComunicatoDetailComponent,
-    BigliettoEmissioneDetailBgComponent,
-    EventoPrenotazioniComponent,
-    Evento1Component,
-    EventonotepopComponent,
-    Evento2Component,
-    InfoBgComponent,
-    BigliettoPrintComponent
+    GiornateComponent,
+    GiornataComponent,
+    Giornata9Component,
+    GiornataDetailComponent,
+    Card1Component,
+    PrenotazioniComponent,
+    Card2Component,
+    RequestPrenotazioneComponent,
+    ResponsePrenotazioneComponent,
+    RequestPrenotazione1Component,
+    CommandawrigaComponent,
+    Card3Component,
+    Prenotazioni1Component,
+    Prenotazione1Component,
+    GiornataDetailProdottiComponent,
+    Card4Component,
+    GiornataDetailPersoneComponent,
+    VolontariComponent,
+    VolontarioComponent,
+    VolontarioDetailComponent,
+    CassasinteticaDetailComponent,
+    GiornateDashboardComponent,
+    Card5Component,
+    CommandaComponent,
+    CommandaRegistrazioneAnagraficaComponent,
+    Persona1Component,
+    CommandaRegistrazioneComponent,
+    CommandaRegistrazioneProdottiComponent,
+    Card6Component,
+    GiornataCassaEditComponent,
+    Prenotazione2Component,
+    CommandaRegistrazioneCassaComponent,
+    CommandaPreviewComponent,
+    CommandaGestioneComponent
 
-  ],
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -329,12 +232,14 @@ const customNotifierOptions: NotifierOptions = {
     NgxImageZoomModule,
     ModalModule.forRoot(),
     ImgMagnifier,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+  //  TabsModule.forRoot(),
+
 
   ],
-  providers: [AuthService, DatePipe, UserService, TruoloService, TokenStorageService, ForgotconfirmedService, ForgotconfirmedtestService,
-              ChangepassService, RouteGuardService, TstatoutenteService, UploadFilesService,
-              UserlevelService, SocioService, AdesioneConfirmService, QuotatesseraService, RegisterconfirmedService],
+  providers: [AuthService, DatePipe, UserService, TokenStorageService, ForgotconfirmedService, ForgotconfirmedtestService,
+              ChangepassService, RouteGuardService, UploadFilesService,
+              UserlevelService, RegisterconfirmedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

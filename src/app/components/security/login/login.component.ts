@@ -186,7 +186,7 @@ onSubmit(form: NgForm) {       // funziona alla perfezione
       if(res['rc']  === 'ok') {
         //    alert('login corretto');
         // salvo sulla locatStorage i dati dell'utente loggato
-            console.log('frontend  ----------------  salvo i dati dell utente loggato su localStorage');
+            console.log('frontend  ----------------  salvo i dati dell utente loggato su localStorage  --- ' + res['dRuolo']);
             localStorage.setItem('token', res['accessToken']);
             localStorage.setItem('username', res['username']);
             localStorage.setItem('cognome', res['cognome']);
@@ -197,6 +197,7 @@ onSubmit(form: NgForm) {       // funziona alla perfezione
             localStorage.setItem('expires_in', res['expires_in']);
             localStorage.setItem('user', String(JSON.stringify(res['user'])));
             localStorage.setItem('user_ruolo', String(res['level']));
+            localStorage.setItem('Druolo', res['dRuolo']);
             this.user = new User();
             this.user = res['user'];
 
@@ -230,7 +231,7 @@ loadProfilo(user: User) {
             console.log('frontend  ---- loadFrofilo --  .... ok .... ---  salvo i dati dell utente loggato su localStorage');
 
             this.userlevel = res['data'];
-            localStorage.setItem('Druolo', this.userlevel.UserLevelName);
+          //  localStorage.setItem('Druolo', this.userlevel.userLevelName);
 
             // imposto localStorage -- functionUser dal profilo
             switch (this.userlevel.id) {
@@ -299,7 +300,7 @@ creaevetemitter(user: User): void{
       this.showNotification(this.type, this.Message);
       this.isVisible = true;
       this.alertSuccess = true;
-      this.router.navigate(['/jumbotron']);
+      this.router.navigate(['/home']);  // jumbotron
     } else {
       this.type = 'error';
       this.Message = 'problemi su evenemitter utente loggato -- user.id ' + user.id + ' idevent ' + idevent;

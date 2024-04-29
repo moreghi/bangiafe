@@ -1,0 +1,44 @@
+
+@page {size: 210mm 297mm; margin: 25mm;}
+
+body{
+  font-size: 13pt;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#riga1 {
+  margin-left: 50px;
+  color: red
+
+}
+
+.bordep1 {
+   border: 3px solid blue;
+}
+
+.bordep2 {
+  border: 3px solid green;
+}
+
+.bordep3 {
+  border: 3px solid violet;
+}
+
+.lenp1 {
+  width: 80px;
+  display: none;
+}

@@ -6,7 +6,7 @@
   <div class="container-fluid d-flex flex-wrap">
   <ul id="menu">
     <a  href="#">
-      <img src="assets/images/logobandieragialla.jpg" width="30" height="30" alt="logo">
+      <img src="assets/images/logoSanfra.png" width="30" height="30" alt="logo">
     </a>
     <li>
       <div class="titolo nav-link">
@@ -16,7 +16,7 @@
     </li>
     <li><a href="#">Home</a>
       <ul>
-        <li><a  class="nav-link" [routerLink]="['home']" href="#">Info</a></li>
+        <li><a  class="nav-link" [routerLink]="['/info']" >Info</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
     </li>
@@ -25,7 +25,7 @@
     <li><a  href="#">Prenotazioni</a>
       <ul>
         <li><a   class="nav-link"  (click)="showInfoPrenotazionePopup()"  >Info</a></li>  <!-- [routerLink]="['prenotazione/infor']" -->
-        <li><a   class="nav-link"  [routerLink]="['evento/prenotazioni']"  >Eventi Prenotabili</a></li>  <!--  -->
+        <li><a   class="nav-link"  (click)="showPrenotazioni()" >Serate Prenotabili</a></li>  <!--  [routerLink]="['prenotazioni']" -->
 <!--
         <li><a   class="nav-link"  (click)="verifyPresentiGiornate()">Prenotazione</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === 0"  class="nav-link" href="#"  [routerLink]="['/prenotazioni']">Elenco Prenotazioni</a></li>
@@ -43,7 +43,7 @@
         <li><a   class="nav-link"  [routerLink]="['requestConfirmAdesione']"  >Biglietto</a></li>   <-- mettere la funzione di richiesta evento
         </ul>
     </li>  -->
-
+                                                                         <!--  isUserLoggedIn: {{isUserLoggedIn}}  -->
     <li><a class="nav-link"  href="#"  >Funzioni</a>
       <ul>
 
@@ -54,6 +54,8 @@
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/logistica']">Logistica</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/evento/prenotazioni']">Prenotazioni Evento</a></li>
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/adesioni']">adesioni</a></li>  <!-- da fare -->
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/GiornateDashboard']">dashboard</a></li>
+        <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/volontari']">volontari</a></li>
         <!--
 
         <li><a *ngIf="isUserLoggedIn && ruoloUser === -1" [routerLink]="['/persona']">Persone</a></li>
@@ -74,58 +76,40 @@
           </ul>
         </li>  -->
 
+
      </ul>
     </li>
+    <!-- isUserLoggedIn:{{isUserLoggedIn}}<br>
+    ruoloUser:{{ruoloUser}}<br>
+    dayAbilitato:{{dayAbilitato}}<br> -->
+    <li>
+        <div  *ngIf="isUserLoggedIn"  >   <!-- mettere anche se giornata attiva  -->
+            <button enabled *ngIf="(ruoloUser == 1 || ruoloUser == -1) && giornata.stato == 2 && giornata.statoCassa == 1 " class="btn btn-success btn-md pad" (click)="goActivity(ruoloCassa)">Cassa</button>
+        </div>
+    </li>
+    <li>
+       <div *ngIf="isUserLoggedIn">
+                <button  visible *ngIf="(ruoloUser == 2  || ruoloUser == -1)  && giornata.stato == 2 && giornata.statoMagazzino == 1" class="btn btn-danger btn-md pad"  (click)="goActivity(ruoloCucina)">Cucina</button>
+       </div>
+    </li>
+    <li>
+      <div *ngIf="isUserLoggedIn" >
+          <button  visible *ngIf="(ruoloUser == 3 || ruoloUser == -1)  && giornata.stato == 2 && giornata.statoMagazzino == 1" class="btn btn-primary btn-md pad"  (click)="goActivity(ruoloBevande)">Bevande</button>
+      </div>
+    </li>
 
-<!--  se faccio la verifica sul singolo evento creando emit
-  (eventoOpen)=controllaEvento($event)
 
--->
-
-
-    <li ><a *ngIf="eventoAttivo" class="nav-link"  [routerLink]="['/evento/registrazione']"  >Eventi All</a>&nbsp;
-   <!--  test  <li ><a (eventoOpen)=controllaEvento($event) class="nav-link"  href="#"  >Eventi 2</a>    -->
 
 
 
 
 <!--
-    <li>
-      {{isUserLoggedIn}} &nbsp; {{userAnonimus}} &nbsp; {{manifActive}}
-      <a *ngIf="!isUserLoggedIn && manifActive || isUserLoggedIn && userAnonimus && manifActive" href="#">Prenotazioni</a>
-      <ul>
-        <li><a   class="nav-link" [routerLink]="['info/infoprenotazione']" href="#">Info</a></li>
-        <li><a  *ngIf="!manifActive"   class="nav-link" [routerLink]="['/notopenSanfra']" href="#">Prenotazione</a></li>
-        <li><a  *ngIf="manifActive" class="nav-link" [routerLink]="['/reqPrenotazione']" href="#">Prenotazione</a></li>
-        <li><a *ngIf="isUserLoggedIn && userAnonimus"  class="nav-link" href="#"  [routerLink]="['/prenotazioni']">Elenco Prenotazioni</a></li>
-      </ul>
-    </li>   -->
-
-
-<!--
-    <li>
-        <div  *ngIf="isUserLoggedIn" >
-            <button visible *ngIf="ruoloUser == 1 || ruoloUser == -1" class="btn btn-success btn-md pad" (click)="goActivity(ruoloCassa)">Cassa</button>
-        </div>
-    </li>
-    <li>
-        <div *ngIf="isUserLoggedIn">
-            <button  visible *ngIf="ruoloUser == 2  || ruoloUser == -1" class="btn btn-danger btn-md pad"  (click)="goActivity(ruoloCucina)">Cucina</button>
-        </div>
-    </li>
-    <li>
-        <div *ngIf="isUserLoggedIn" >
-            <button  visible *ngIf="ruoloUser == 3 || ruoloUser == -1" class="btn btn-primary btn-md pad"  (click)="goActivity(ruoloBevande)">Bevande</button>
-        </div>
-    </li>  -->
-
-
     <li>
         <div class="titoliblue" *ngIf="isUserLoggedIn">
           {{cognome}}
         </div>
 
-    </li>
+    </li> -->
 
    <!-- <li> <a  *ngIf="isUserLoggedIn" class="nav-link" href="#" (click)="logout($event)">Logout</a></li>   -->
 
@@ -140,9 +124,7 @@
     <li class="nav-item text-nowrap">
       <a *ngIf="!isUserLoggedIn" (click)="signUp($event)"  class="nav-link titoliwhite" href="#">Registrazione</a>
     </li>  -->
-    <li>
-        <a *ngIf="isUserLoggedIn" class="nav-item nav-link nameUser">{{username}}</a>
-    </li>
+
     <!--
     <li class="nav-item text-nowrap">
           <a *ngIf="isUserLoggedIn" class="nav-link titoliwhite"  href="#" (click)=logout($event)>Sign out</a>
@@ -154,7 +136,7 @@
     <li   *ngIf="isUserLoggedIn" class="nav-item nav-link ">
       {{idDay}}
     </li>  -->
-    <li   *ngIf="isUserLoggedIn" class="nav-item nav-link titoliwhite">   <!-- hidden -->
+    <li   *ngIf="isUserLoggedIn" class="nav-item nav-link titoliwhite titolo">   <!-- hidden -->
       {{profilo}}
     </li>
     <li>
@@ -215,15 +197,20 @@
 
 
 
-
   </li>
 
 
+  <li>
+    <div class="titolo nav-link">
+      {{datadioggi}}
+    </div>
+
+  </li>
 
   </ul>
 </div>
-</nav>
 
+</nav>
 
 <ng-template #content let-modal>
 

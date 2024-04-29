@@ -1,0 +1,45 @@
+
+<div class="card" style="width: 18rem;">
+
+  <div class="card-header header"  [ngClass]="{'NonAttiva': giornataAttiva === false, 'Attiva' : giornataAttiva === true }">{{headerMessage}}
+  </div>
+
+  
+    <img class="card-img-top image " src={{pathimage}}  alt="..." style="width: 250px; height: 150px; text-align: center;">
+    
+
+    <div class="card-body ">
+
+
+     <h5 class="card-title " style="text-align: center;">{{manifestazione.descManif}}</h5>
+
+
+     <p class="price"   style="text-align: center; font-weight: bold;">Prenotazioni: <strong class="badge bg-primary rounded-pill" style="text-align: center; font-weight: bold;" >{{nprenot}}</strong> </p>
+
+    <div class="row">
+      <div class="col md-4">
+        <button [disabled]="giornataAbilitata === false" class="btn btn-primary btn-sm" style="text-align: center;"   [ngClass]="{'NonAttivato': giornata.statoCassa == 0, 'Attivato' : giornata.statoCassa == 1 }"  (click)="cassa(giornata.id)">Cassa
+           <!-- <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon> -->
+        </button>
+        <!-- <div  class="cerchio" [ngClass]="{'NonAttivato': giornata.statoCassa == 0,
+                                          'Attivato': giornata.statoCassa == 1}">
+        </div> -->
+      </div>
+      <div class="col md-4">
+        <button [disabled]="giornataAbilitata === false" class="btn btn-success btn-sm centrato"   [ngClass]="{'NonAttivato': giornata.statoUtenti == 0, 'Attivato' : giornata.statoUtenti == 1 }" style="text-align: center;" (click)="volontari(giornata.id)">Volont.
+          <!-- <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> -->
+        </button>
+      </div>
+      <div class="col md-4">
+        <button [disabled]="giornataAbilitata === false" class="btn btn-warning btn-sm centrato"  [ngClass]="{'NonAttivato': giornata.statoMagazzino == 0, 'Attivato' : giornata.statoMagazzino == 1 }" style="text-align: center;"(click)="magazzino(giornata.id)">Magaz.
+          <!-- <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> -->
+        </button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+

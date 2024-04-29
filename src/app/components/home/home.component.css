@@ -19,13 +19,38 @@
   font-weight: bold;
   font-size: 30px;
   font-family:cursive;
+  color:black;
 }
 
 img.ridotta {
+  /*
   max-width: 500px;
   min-width: 300px;
   max-height: 240px;
   min-height: 200px;
   height: 50%;
   width: 50%;
+  */
 }
+
+.title {
+  border-radius: 30px;
+  margin: 0 auto;
+  background-color: yellow;
+  border: 2px solid red;
+  box-shadow: 3px 4px 5px 4px #777777;
+}
+
+/*
+
+https://toolset.mrw.it/css/css3-box-shadow.html
+
+La sintassi di base di box-shadow prevede la definizione di quattro valori numerici:
+
+    il primo valore indica la posizione dell'ombra lungo l'asse orizzontale: i valori positivi collocano l'ombra sul lato destro dell'elemento, quelli negativi sul lato sinistro;
+    il secondo valore indica la posizione dell'ombra lungo l'asse verticale: i valori positivi collocano l'ombra sul lato inferiore dell'elemento, quelli negativi sul lato superiore;
+    il terzo valore definisce il livello di blur (sfocatura) dell'ombra: maggiore è questo valore, maggiormente sfocata apparirà l'ombra (se si usa 0 l'ombra sarà netta e senza sfocatura; non sono ammessi valori negativi);
+    il quarto valore definisce lo spread (diffusione) dell'ombra: maggiore è questo valore e più l'ombra tenderà ad espandersi in tutte le direzioni, viceversa valori negativi comportano una compressione dell'ombra.
+
+
+*/

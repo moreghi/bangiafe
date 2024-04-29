@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,25 +16,10 @@ export class ManifestazioneService {
   manif: Manifestazione;
 
   private rotta = "/manif";
-  private rottaSearch = '/manife';   // per ricerche con chiavi diverse da id
-
-  private rottaLast = "/manifestazione";
-  private rootManiflastid  = "/lastid";
-  private rootRicercaStato  = "/getbyStato/";
-  private rootActive  = "/getManifestazioneActive";
   private rottafunction = '';
-
-// vecchia versione senza environment
-//  private APIURL = 'http://localhost:8000/users';  // definisco l'url su cui effettuare la lettura sul server
-
-private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui effettuare la lettura sul server
-
-private APIURLLAST = environment.APIURL + this.rottaLast;
-
-private APIURLSEARCH = '';
+  private APIURL = environment.APIURL + this.rotta;  // definisco l'url su cui effettuare la lettura sul server
 
   constructor(private http: HttpClient, private auth: AuthService) { }
-
 
 // attenzione: per ogni funzione che voglio usare DEVO passare il token per dimostrare che sono loggato
 // metodo per concatenare il token nei metodi di chiamata al server
@@ -47,12 +33,30 @@ private APIURLSEARCH = '';
       }
 
       getAll() {
-        return this.http.get(this.APIURL,  {
+  // ritorniamo un observoble - il subscribe devo farlo su users.component.ts
+
+        // la chiamata la faccio solo se ho il token per abilitare la lettura solo a uteti loggati
+
+            // primo metodo passando il token in chiaro su url
+            //  return this.http.get(this.APIURL + '?token=' + this.auth.getToken());       // <---- 1° metodo  in chiaro su url
+
+            // secondo metodo passando il token non in chiaro come header                   // <---- 2* metodo come header (non in chiaro)
+
+             return this.http.get(this.APIURL,  {
                headers: this.getAuthHeader()
-             });
+             });      // ok
+
+
+         /*
+          return this.http.get(this.APIURL).subscribe(
+            data => console.log(data),
+            error => alert(error.message)
+          );
+  */
+
       }
 
-      getbyId(id: number) {
+      getbyid(id: number) {
         return this.http.get(this.APIURL + '/' + id, {
           headers: this.getAuthHeader()
         });
@@ -63,7 +67,6 @@ private APIURLSEARCH = '';
         return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + manif.id,  {
           headers: this.getAuthHeader()
         });
-
       }
 
       update(manif: Manifestazione) {
@@ -73,7 +76,6 @@ private APIURLSEARCH = '';
         });
       }
 
-
        create(manif: Manifestazione){
         this.rottafunction = 'create';
         return this.http.post(this.APIURL + '/' + this.rottafunction, manif,  {
@@ -81,51 +83,28 @@ private APIURLSEARCH = '';
         });
       }
 
-      getLastManifestazioneid() {
-        this.rottafunction = '/manifestazione/lastid';
-        return this.http.get(this.APIURL + '/' + this.rottafunction ,  {
-          headers: this.getAuthHeader()
-        });      // ok;
-
-      }
-
-      getManifbyStato(stato: number) {
-
+      getbyStato(stato: number) {
         this.rottafunction = 'getbyStato';
-        return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + stato,  {
-                headers: this.getAuthHeader()
+        return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + stato,  {
+               headers: this.getAuthHeader()
               });      // ok;
-
     }
 
-    /*
       getManifActive() {
-
-          this.APIURLSEARCH = environment.APIURL + this.rottaSearch + this.rootActive;
-
-          return this.http.get(this.APIURLSEARCH,  {
-            headers: this.getAuthHeader()
+          this.rottafunction = 'getManifestazioneActive';
+          return this.http.get(this.APIURL + '/' + this.rottafunction + '/getManifestazioneActive',  {
+           headers: this.getAuthHeader()
           });      // ok;
       }
-      */
 
-      getManifAttiva(stato: number) {
-
-        this.rottafunction = 'getActive/active';
-        return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + stato,  {
-                headers: this.getAuthHeader()
+      getbyAnno(anno: number) {
+        this.rottafunction = 'getbyAnno';
+        return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + anno,  {
+               headers: this.getAuthHeader()
               });      // ok;
-
     }
 
 
 
-
-     getrilascio(id: number) {
-        this.rottafunction = 'getrilascio';
-        return this.http.get(this.APIURL + '/' + this.rottafunction  + '/' + id,  {
-                headers: this.getAuthHeader()
-              });      // ok;
-     }
 
 }

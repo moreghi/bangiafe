@@ -1,0 +1,85 @@
+.image {
+  width: 200px;
+  height: 150px;
+  margin-left:10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-size: auto;
+}
+
+.header {
+  font-size: 15px;
+  text-align: center;
+  background-color: yellow;
+  color: black;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.dNormal {
+  font-weight: bold;
+  color: greenyellow;
+}
+
+.dHelp {
+  font-weight: bold;
+  color: yellow;
+}
+
+.dSos {
+  font-weight: bold;
+  color: red;
+
+}
+
+.borde {
+  border: 3px solid red;
+}
+
+.borde1 {
+  border: 3px solid green;
+}
+.borde2 {
+  border: 3px solid orange;
+}
+.borde3 {
+  border: 3px solid violet;
+}
+
+.centrato {
+  vertical-align: middle;
+
+}
+
+
+.cerchio {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-right: 5px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+
+}
+
+.Attivato {
+background-color: greenyellow;
+color: black;
+}
+
+.NonAttivato {
+background-color: Red;
+color:black;
+}
+
+.Attiva {
+  background-color: greenyellow;
+  }
+
+  .NonAttiva {
+  background-color: Red
+  }

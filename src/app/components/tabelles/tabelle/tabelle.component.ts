@@ -1,29 +1,33 @@
+// classi e service commentati per la creazione delle tabelle  -- struttura corretta
+
 import { Component, OnInit } from '@angular/core';
 import { faPlusSquare, faSearch } from '@fortawesome/free-solid-svg-icons';
-// service
+// ------------------------------------------------------------------- service
 import { TabellaService } from '../../../services/tabella.service';
 import { TabellaTwDettService } from '../../../services/tabella-tw-dett.service';
 //  service tabelle da normalizzare in twdett
 
-import { TruoloService } from '../../../services/truolo.service';  // tabella_3
-
-import { TstatoutenteService } from '../../../services/tstatoutente.service';  // tabella_16
+// import { TruoloService } from '../../../services/truolo.service';  // tabella_3
+// import { TstatoutenteService } from '../../../services/tstatoutente.service';  // tabella_16
+// import { TstatoprenotazioneService } from '../../../services/tstatoprenotazione.service';  // tabella_25
 import { TtitoloService } from '../../../services/ttitolo.service';  // tabella_19
-import { TstatoprenotazioneService } from '../../../services/tstatoprenotazione.service';  // tabella_25
 
-// classi
+
+// ----------------------------------------------------------------------------- classi
 import { Tabellat} from '../../../classes/Tabella_t';
 import { TabellatwDett } from '../../../classes/Tabella_tw_dett';
 // model classi tabelle da Normalizzare in twdwtt
 
-import { Truolo } from '../../../classes/T_ruolo';  // tabella_3
+// import { Truolo } from '../../../classes/T_ruolo';  // tabella_3
+// import { TstatoPrenotazione } from '../../../classes/T_stato_prenotazione';  // tabella_25
+
 
 import { TstatoUtente } from '../../../classes/T_stato_utente';  // tabella_16
 
 import { Ttitolo } from '../../../classes/T_titolo';  // tabella_19
 
 
-import { TstatoPrenotazione } from '../../../classes/T_stato_prenotazione';  // tabella_25
+
 
 // per gestire la notifica esito
 import { NotifierService } from 'angular-notifier';
@@ -49,13 +53,13 @@ export class TabelleComponent implements OnInit {
 
 // tabelle da normalizzare in twdett
 
-public truolo: Truolo;
+//public truolo: Truolo;
 
 public tstatoutente: TstatoUtente;
 
 public ttitolo: Ttitolo;
 
-public tstatoprenotazione: TstatoPrenotazione;
+// public tstatoprenotazione: TstatoPrenotazione;
 
 
  /*    legenda typo messaggio esito
@@ -122,11 +126,11 @@ public Message = '';
 constructor(private tabellaService: TabellaService,
             private tabellaTwDettService: TabellaTwDettService,
 
-            private tstatoutenteService: TstatoutenteService,
+         //   private tstatoutenteService: TstatoutenteService,
 
             private ttitoloService: TtitoloService,
-            private truoloService: TruoloService,
-            private tstatoprenotazioneService: TstatoprenotazioneService,
+        //    private truoloService: TruoloService,
+        //    private tstatoprenotazioneService: TstatoprenotazioneService,
 
             private router: Router,
             private route: ActivatedRoute,
@@ -259,6 +263,8 @@ showNotification( type: string, message: string ): void {
 
 
 async aggiornaTabella_03(id: number, descrizione: string) {
+//  metodo commentato per la creazione del Modello
+/*
   const rc =  await this.truoloService.getRuolo(id).subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -276,9 +282,12 @@ async aggiornaTabella_03(id: number, descrizione: string) {
          console.log(error);
          this.showNotification(this.type, this.Message);
         });
+        */
 }
 
 async aggiornaTabella_16(id: number, descrizione: string) {
+  //  metodo commentato per la creazione del Modello
+/*
   const rc =  await this.tstatoutenteService.getbyid(id).subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -296,6 +305,7 @@ async aggiornaTabella_16(id: number, descrizione: string) {
          console.log(error);
          this.showNotification(this.type, this.Message);
         });
+        */
 }
 
 
@@ -306,7 +316,8 @@ async aggiornaTabella_19(id: number, descrizione: string) {
           this.ttitolo = response['data'];
           this.ttitolo.d_titolo = descrizione;
           this.ttitolo.key_utenti_operation = parseInt(localStorage.getItem('user_ruolo'));
-          this.updatetabella_19(this.ttitolo);
+      //    function commentata per la creazione Modello  -- logica corretta
+       //   this.updatetabella_19(this.ttitolo);
           }
        },
     error =>
@@ -322,6 +333,8 @@ async aggiornaTabella_19(id: number, descrizione: string) {
 
 
 async aggiornaTabella_25(id: number, descrizione: string) {
+  //  metodo commentato per la creazione del Modello
+/*
   const rc =  await this.tstatoprenotazioneService.getbyid(id).subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -339,6 +352,7 @@ async aggiornaTabella_25(id: number, descrizione: string) {
          console.log(error);
          this.showNotification(this.type, this.Message);
         });
+        */
 }
 
 
@@ -348,6 +362,8 @@ async aggiornaTabella_25(id: number, descrizione: string) {
 */
 
 
+ //  metodo commentato per la creazione del Modello
+/*
 async updatetabella_03(truolo: Truolo) {
 
   const rc1 = await this.truoloService.updateRuolo(truolo).subscribe(
@@ -365,10 +381,11 @@ async updatetabella_03(truolo: Truolo) {
          this.showNotification(this.type, this.Message);
        });
 }
+*/
 
 
-
-
+//  metodo commentato per la creazione del Modello
+/*
 async updatetabella_16(tstatoutente: TstatoUtente) {
   const rc1 = await this.tstatoutenteService.update(tstatoutente).subscribe(
     resp => {
@@ -403,7 +420,11 @@ async updatetabella_19(ttitolo: Ttitolo) {
        });
 }
 
+*/
 
+
+//  metodo commentato per la creazione del Modello
+/*
 
 async updatetabella_25(tstatoprenotazione: TstatoPrenotazione) {
   const rc1 = await this.tstatoprenotazioneService.update(tstatoprenotazione).subscribe(
@@ -422,6 +443,7 @@ async updatetabella_25(tstatoprenotazione: TstatoPrenotazione) {
        });
 }
 
+*/
 async editaTabellatwdett() {
 
   let rc =  await  this.tabellaTwDettService.getAll().subscribe(

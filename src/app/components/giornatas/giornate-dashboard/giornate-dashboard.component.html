@@ -1,0 +1,37 @@
+<p>giornate-dashboard works!</p>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <caption class="title  col-md-10" style="background-color: red; color: white; text-align: center; font-weight: bold;">{{sanfra.nomeassociazione}}</caption>
+    <div class="col-md-1"></div>
+  </div>
+
+  <br>
+
+<div class="row" *ngIf="nRec > 0">
+  <table class="table table-striped table-hover" >
+    <thead>
+      <tr>
+  <!-- senza testata -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td app-card5 *ngFor ="let giornata of giornate | filter:searchText | paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
+           [card5-data] = "giornata"
+           (serataSelect) ="serataSelect($event)"
+
+           >   <!--   (prenotazioniSelect) =  "prenotazioniSelect($event)" -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+<div class="row" *ngIf="nRec == 0">
+  <label  class="col-sm-10 col-form-label" style="font-weight: bold; text-align: center; color: red">Non esistono giornate </label>
+</div>

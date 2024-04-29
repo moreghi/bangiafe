@@ -1,16 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-// model
-import { Prenotazione } from '../../../classes/Prenotazione';
-import { EventoPosto } from '../../../classes/Eventoposto'
-// Services
-import { PrenotazioneService} from '../../../services/prenotazione.service';
-import { EventopostoService } from 'src/app/services/eventoposto.service';
-import { faUserEdit, faTrash, faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Component, Input, OnInit } from '@angular/core';
+import { Prenotazione } from './../../../classes/Prenotazione';
+import { faUserEdit, faTrash, faInfo, faEuroSign, faUtensils, faStream, faChartBar, faList, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+// per gestire inserimento/Modifica con popup
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+//  import { GiornatapopComponent } from './../../components/popups/giornatapop/giornatapop.component';   gestire non con popup
+import { DatePipe } from '@angular/common';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'tr[app-prenotazione1]',
@@ -19,115 +16,55 @@ import { DatePipe } from '@angular/common';
 })
 export class Prenotazione1Component implements OnInit {
 
-  // variabili passate dal componente padre
-@Input('prenotazione1-data') prenotazione: Prenotazione;
-@Input('prenotazione1-prog') i: number;
-@Input('prenotazione1-level') level: number;
-// passo al figlio la segnalazione che ho effettuato la cancellazione- serve per rifare l'elemco aggiornato
-@Output('onDeletedPrenotazione') onDeletedPrenotazione = new EventEmitter();
 
-public eventoposto: EventoPosto;
-
-faUserEdit = faUserEdit;
-faTrash = faTrash;
-faInfo = faInfo;
-faInfoCircle = faInfoCircle;
-
-// -----
-public textMessage1 = '';
-public textMessage2 = '';
-public textUser = '';
-public headerPopup = '';
-public perDebug = 'utente passato: ';
-public Message = '';
-public presenti = false;
-public isVisible = false;
-public alertSuccess = false;
-public funcSearch = 0;
-public nRec = 0;
-
-public type = '';
-public utenteFedele = false;
-public functionEnabled = false;
-public idDay = 0;
-public deletedPrenot = 'Dpren';
+  @Input('prenotazione1-data') prenotazione: Prenotazione;
+  @Input('prenotazione1-prog') i: number;
 
 
+  faUserEdit = faUserEdit;
+  faTrash = faTrash;
+  faInfo = faInfo;
+  faEuroSign = faEuroSign;
+  faUtensils = faUtensils;
+  faStream = faStream;
+  faChartBar = faChartBar;
+  faList = faList;
+  faCalendarAlt = faCalendarAlt;
 
-// parametri per interfaccia a ghost
-// Parametri obbligatori:
-// - routeApp
-// parametri facoltativi
-// keyn ---->  se numerico trasformarlo in stringa
-// tipo
-//     S--> campo string
-//     N--> campo Numerico
-//     *--> non serve key
+  routeGiornata = '';
 
-// se impostato tipo = '*'  va impostato anche key a '*'
+  private dataOdierna: Date;
+  private datepipe: DatePipe = new DatePipe('en-US');
 
-public routeApp = '';
-public keyn = 0;
-public keys = '';
-public tipo = '';
-public routePersona = '';
+  private dt1: string;
+  private dt2: string;
 
-public dateString = '';
+  // variabili per visualizzazione messaggio di esito con notifier
+  public type = '';
+  public Message = '';
+  public statoPrenotazione = '';
 
-public data1 = '';
-
-public gg = '';
-public mm = '';
-public yyyy = '';
-public initialDate: any;
-public idTipo = 0;
-public operativita = '';
-closeResult = '';
-
-constructor(public modal: NgbModal,
-            private router: Router,
-            private prenotazioneService: PrenotazioneService,
-            private eventopostoService: EventopostoService,
-            private datePipe: DatePipe,
-            private notifier: NotifierService) {
-            this.notifier = notifier;
-          }
-
-ngOnInit(): void {
-
-   //   per gestire eventuale popup
-   this.headerPopup = 'Registrazione Persone';
-   this.textMessage1 = '?????????? ';
-//   this.textUser = this.messa.demessa;
-   this.textMessage2 = 'Registrazione non possibile';
- //  this.controllaGiornata();
-  // this.loadManifestazioni();
-
-  console.log('prenotazione1 - OnInit ----- level: ' + this.level);
-  console.log('prenotazione1 - OnInit ----- i: ' + this.i);
+  constructor(public modal: NgbModal,
+              private router: Router,
+              public notifier: NotifierService) {
+                this.notifier = notifier;
+              }
 
 
-}
+  ngOnInit(): void {
+    this.dataOdierna = new Date();
+    console.log('prenotazione: ' + JSON.stringify(this.prenotazione));
+    if(this.prenotazione.idstato == 0) {
+      this.statoPrenotazione = 'Da Confermare'
+    }
+    if(this.prenotazione.idstato == 1) {
+      this.statoPrenotazione = 'Confermata'
+    }
+  }
 
 
 
-
-
-
-
-
-
-/*   come passare da figlio a padre
-showPersonaDetailNew() {
-  //alert('creato evento per passare utente: ' + this.persona.cognome);
-  this.onSelectUser.emit(this.persona);
-  //alert(' ---- 2   creato evento per passare utente: ' + this.persona.cognome);
-}
-
-*/
-
-
-/**
+      /**
 * Show a notification
 *
 * @param {string} type    Notification type
@@ -135,206 +72,9 @@ showPersonaDetailNew() {
 */
 
 showNotification( type: string, message: string ): void {
-        this.notifier.notify( type, message );
-        }
-
-
-        // menu per cancellazione
-        open(content) {
-          this.modal.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-            // alert('controllo la modalità di chiusura della popup - chiusura su tasto save: ' + result);
-            if(result ===  'Cancel click') {
-               this.cancellazioneAbort();
-            }
-            if(result ===  'Delete click') {
-              // gestire uscita da popup
-              this.cancellaUser(this.prenotazione);
-            }
-          }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-         //   alert('controllo la modalità di chiusura della popup ------------------ chiusura su tasto close: ' + reason);
-            this.cancellazioneAbort();
-          });
-
-        }
-
-        // menu per modifica
-        openmod(contentmod) {
-          this.modal.open(contentmod, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-            // alert('controllo la modalità di chiusura della popup - chiusura su tasto save: ' + result);
-            if(result ===  'Cancel click') {
-               this.cancellazioneAbort();
-            }
-            if(result ===  'Modifica click') {
-              // gestire uscita da popup
-              this.modificaPrenotazione(this.prenotazione);
-            }
-          }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-         //   alert('controllo la modalità di chiusura della popup ------------------ chiusura su tasto close: ' + reason);
-            this.cancellazioneAbort();
-          });
-
-        }
-
-
-
-
-
-
-
-        private getDismissReason(reason: any): string {
-          if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-          } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-          } else {
-            return `with: ${reason}`;
-          }
-        }
-
-
-        cancellazioneAbort() {
-          this.type = 'warning';
-          this.Message = 'cancellazione abbandonata dall utente';
-          this.showNotification(this.type, this.Message);
-        }
-
-    async  cancellaUser(prenotazione: Prenotazione) {
-          console.log('cancella - emetto onDeleteprenotazione');
-         // this.onDeletedPrenotazione.emit(this.deletedPrenot);
-
-         let rc =  await    this.prenotazioneService.delete(prenotazione).subscribe(
-              response => {
-                if(response['rc'] === 'ok') {
-                  this.onDeletedPrenotazione.emit(this.deletedPrenot);  // imposto l'evento per passare la segnalazione di cancellazione al padre
-                  this.isVisible = true;
-                  this.alertSuccess = true;
-                  this.type = 'success';
-                  this.Message = 'Prenotazione cancellata correttamente';
-                  this.showNotification(this.type, this.Message);
-                }
-            },
-            error =>
-                {
-                  this.isVisible = true;
-                  this.alertSuccess = false;
-                  this.type = 'error';
-                  this.Message = 'Errore cancellazione prenotazione' + '\n' + error.message;
-                  this.showNotification(this.type, this.Message);
-                  console.log(error);
-                });
-        }
-
-
-   async  modificaPrenotazione(prenotazione: Prenotazione) {
-
-//  devo normalizzare la data per effettuare la corretta modifica
-
-/*
-        console.log('prenotazione modificata come n.persone - ' + JSON.stringify(prenotazione));
-
-
-        this.dateString = prenotazione.datapren.toString();
-        console.log('date---- su prenotazione: ' + prenotazione.datapren + '    su stringa: ' + this.dateString);
-
-       // date---- su prenotazione: 2022-03-17T23:00:00.000Z    su stringa: 2022-03-17T23:00:00.000Z
-
-
-        this.gg = this.dateString.substr(8, 2);
-        this.mm =  this.dateString.substr(5, 2);
-        this.yyyy =  this.dateString.substr(0, 4);
-
-        this.data1 = this.yyyy + '-' + this.mm + '-' + this.gg;
-
-
-
-
-
-        this.initialDate = this.datePipe.transform(this.data1, 'yyyy-MM-dd');
-
-        console.log('onInit - manipolazione this.dateString: ' + this.dateString);
-        console.log('onInit - gg mm yyyy ' + this.gg + ' -- ' + this.mm + ' -- ' + this.yyyy);
-        console.log('onInit - data1 ' + this.data1);
-        console.log('onInit - initialDate ' + this.initialDate);
-
-        prenotazione.datapren = this.initialDate;
-
-        */
-
-
-        let rc =  await   this.prenotazioneService.update(prenotazione).subscribe(
-              response => {
-                if(response['rc'] === 'ok') {
-                  this.isVisible = true;
-                  this.alertSuccess = true;
-                  this.type = 'success';
-                  this.Message = 'Prenotazione modificata correttamente';
-                  this.showNotification(this.type, this.Message);
-                }
-            },
-            error =>
-                {
-                  this.isVisible = true;
-                  this.alertSuccess = false;
-                  this.type = 'error';
-                  this.Message = 'Errore modifica prenotazione' + '\n' + error.message;
-                  this.showNotification(this.type, this.Message);
-                  console.log(error);
-                });
-        }
-
-
-
-  gestisciBiglietto(prenotazione: Prenotazione)  {
-
-     console.log('gestBiglietto ---------------------  appena entrato ' + JSON.stringify(prenotazione))
-     localStorage.removeItem('idPrenotazione');
-     localStorage.removeItem('operBiglietto');
-     localStorage.setItem('idPrenotazione', String(prenotazione.id));
-
-     if(prenotazione.idstato == 0) {
-       this.operativita = "E";
-     }
-     if(prenotazione.idstato == 1) {
-       this.operativita = "V";
-     }
-     localStorage.setItem('operBiglietto', this.operativita);
-
-     //alert('Manifestazioni   -- loadManifestazioni :  inizio ');
-     console.log('------------------------------------  emissione');
-
-     this.isVisible = true;
-      this.eventopostoService.getbycognnometoken(prenotazione.cognome, prenotazione.nome, prenotazione.token).subscribe(
-          res => {
-             this.eventoposto = res['data'];
-             this.idTipo = res['data'].idtipo
-             console.log('eventoposto da editare: ' + JSON.stringify(res['data']) + ' ---- idTipo: ' + this.idTipo);
-             console.log('router a:' + ' biglietto/' + this.eventoposto.id + '/edit');
-             // salvo su localStorage id della prenotazione per aggiornarla a fine emissione
-
-   console.log('fatta registrazione su localStorage')
-             if(this.idTipo == 1) {  // ilascio biglietto senza logistica
-               this.router.navigate(['biglietto/' + this.eventoposto.id + '/edit']);
-             }
-             if(this.idTipo == 2) {   // rilascio biglietto con logistica
-               this.router.navigate(['prenotevento/' + this.eventoposto.id + '/biglietto']);
-             }
-         },
-         error => {
-            alert('Prenotazioni  -- loadPrenotazioni - errore: ' + error.message);
-            console.log(error);
-            this.Message = error.message;
-            this.alertSuccess = false;
-         });
-  }
-
-  merda(prenotazione: Prenotazione) {
-    alert('sono in merda')
-  }
-
+  this.notifier.notify( type, message );
+}
 
 
 }
+

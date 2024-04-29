@@ -1,0 +1,94 @@
+.borde {
+  border: 3px solid red;
+}
+
+.widthqta {
+  width: 50px;
+  border: 3px solid blue;
+}
+
+.imagecenter {
+  display:block;
+  margin:0px auto;
+  text-align:center;
+}
+
+
+.marginBotton {
+  margin: 3px;
+
+}
+
+.nf {
+  color: red;
+  font-weight: bold;
+}
+.consegnare {
+  color: blue;
+  font-weight: bold;
+}
+.cucinare {
+  color: red;
+  font-weight: bold;
+}
+.consegnati {
+  color: green;
+  font-weight: bold;
+}
+
+.lavorato {
+  text-align: center;
+  font-weight: bold;
+  background-color: red;
+  color: white
+}
+
+.dalavorare {
+  text-align: center;
+  font-weight: bold;
+  background-color: yellow;
+  color: black
+}
+
+.consegnata {
+  text-align: center;
+  font-weight: bold;
+  background-color: green;
+  color: yellow
+}
+
+.daconsegnare {
+  text-align: center;
+  font-weight: bold;
+  background-color: orange;
+  color: blue
+}
+
+  .nondipertinenza {
+    background-color:aquamarine
+
+  }
+
+  .commandadalavorare {
+    text-align: center;
+    font-weight: bold;
+    background-color: green;
+    color: white
+
+
+  }
+
+  .commandaparzialmentevasa {
+    text-align: center;
+    font-weight: bold;
+    background-color: yellow;
+    color: black
+
+  }
+
+  .commandaevasa {
+    text-align: center;
+    font-weight: bold;
+    background-color: red;
+    color: white
+  }

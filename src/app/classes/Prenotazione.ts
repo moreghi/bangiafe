@@ -3,16 +3,19 @@ import { PrenotazioneInterface } from './../interfaces/prenotazione';
 export class Prenotazione implements PrenotazioneInterface {
 
   id: number;
+  idstato: number;
+  tipo: string;
+  idgiornata: number;
+  datagiornata: string;
   cognome: string;
   nome: string;
-  token: string;
   telefono: string;
-  idevento: number;
+  email: string;
+  persone: number;
   datapren: string;
   dataconf: string;
-  persone: number;
-  email: string;
-  idstato: number;
+  token: string;
+  key_utenti_operation: number;
   created_at: Date;
   update_at: Date;
    // tabella correlata
@@ -21,16 +24,19 @@ export class Prenotazione implements PrenotazioneInterface {
   constructor() {
 
     this.id = 0;
+    this.idstato = 0;
+    this.tipo = 'N';
+    this.idgiornata = 0;
+    this.datagiornata = '';
     this.cognome = '';
     this.nome = '';
-    this.token = '';
     this.telefono = '';
-    this.idevento = 0;
-    this.datapren ='';
-    this.dataconf = '';
-    this.persone = 0;
     this.email = '';
-    this.idstato = 0;
+    this.persone = 0;
+    this.datapren = '';
+    this.dataconf = '';
+    this.token = '';
+    this.key_utenti_operation = 0;
     this.created_at = new Date();
     this.update_at = new Date();
      // tabella correlata

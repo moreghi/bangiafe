@@ -1,0 +1,71 @@
+<!--
+
+<div class="card" style="width: 18rem;">
+  <h5 class="card-header">{{evento.descrizione}}</h5>
+  <img src="https://i.imgur.com/9VZGPJF.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <p class="card-text">{{evento.descbreve}}</p>
+    <p></p>
+    <p class="price">posti Disponibili: {{evento.nposti - evento.npostipren - evento.nbiglietti}}</p>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary btn-sm " (click)="gestione(evento.id)">Gestione
+     <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+   </button>
+  </div>
+</div>  -->
+
+
+<div class="card" style="width: 18rem;">
+
+
+<!--
+
+   da personalizzare creando card per gestire le giornate  (vedi bandiera gialla)
+
+
+
+
+    <div *ngIf="diffNormal === true">
+        <p class="price"   style="text-align: center; font-weight: bold;">Giorni: <strong class="badge bg-primary rounded-pill" style="text-align: center; font-weight: bold;" >{{diff}}</strong> </p>
+    </div>
+    <div *ngIf="diffLow === true">
+      <p class="price"   style="text-align: center; font-weight: bold;">Giorni: <strong class="badge bg-warning rounded-pill"  style="text-align: center; font-weight: bold;" >{{diff}}</strong> </p>
+    </div>
+    <div *ngIf="diffSos === true">
+      <p class="price"   style="text-align: center; font-weight: bold;">Giorni: <strong class="badge bg-danger rounded-pill" >{{diff}}</strong> </p>
+    </div>
+
+    <div *ngIf="diffNormal === false && diffLow === false && diffSos === false">
+      <p class="price"   style="text-align: center; font-weight: bold;"><strong class="badge rounded-pill" >{{diff}}</strong> </p>
+    </div>
+
+
+   <p class="price"><strong>Pr. </strong>Totali:&nbsp;&nbsp; {{nprenTot}}&nbsp;da Evadere:&nbsp;<strong class="badge bg-info rounded-pill">{{nprendaEvadere}}</strong>&nbsp;<strong class="badge bg-warning rounded-pill">{{nprenMasterTot}}</strong>  </p>
+   <p class="price">Biglietti:&nbsp;&nbsp; <strong class="badge bg-success rounded-pill">{{evento.nbiglietti}}</strong></p>
+   <hr>
+   <div *ngIf="this.eventoNormal === true">
+      <p class="price">posti Disponibili: <strong class="badge bg-primary rounded-pill"  >{{evento.nposti - evento.npostipren - evento.nbiglietti}}</strong> </p>
+   </div>
+   <div *ngIf="this.eventoHelp === true">
+      <p class="price">posti Disponibili: <strong class="badge bg-warning rounded-pill"  >{{evento.nposti - evento.npostipren - evento.nbiglietti}}</strong> </p>
+   </div>
+   <div *ngIf="eventoSoldout === true">
+      <p class="price">posti Disponibili: <strong class="badge bg-danger rounded-pill"  >{{evento.nposti - evento.npostipren - evento.nbiglietti}}</strong> </p>
+   </div>
+
+
+
+
+
+   <div class="card-footer">
+    <button class="btn btn-primary btn-sm " (click)="gestione(evento.id)">Gestione
+     <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+   </button>
+  </div>
+  </div>
+-->
+
+</div>
+
+

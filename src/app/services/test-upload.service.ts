@@ -17,6 +17,7 @@ export class TestUploadService {
   private apiUrl = '';
   private folder = 'eventos_locandina';
 
+  public filexx = 'PallinoRossovvvv.jpg'
 
   constructor(
     private http: HttpClient

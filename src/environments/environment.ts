@@ -1,5 +1,6 @@
 
 // per compilare in ambiente di sviluppo su localhost:   ng serve --port 4210
+// per generare build   ng build
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -7,13 +8,16 @@
 
 // per ambiente di sviluppo localhost
 
+
 export const environment = {
   production: false,
   APIURL: 'http://localhost:3001',
   APIAUTURL: 'http://localhost:3001/api/auth/',
   IMGURL: 'http://localhost:3001/storage/posts/',
-  PDFURL: 'http://localhost:3001/storage/pdfs/'
+  PDFURL: 'http://localhost:3001/storage/pdfs/',
+  version: 'V 1.0.0'
 };
+
 
 
 
@@ -21,15 +25,26 @@ export const environment = {
 /*
 export const environment = {
   production: false,
+  APIURL: 'https://api.bandieragiallarovigo-odv.it',
+  APIAUTURL: 'https://api.bandieragiallarovigo-odv.it/api/auth/',
+  IMGURL: 'https://api.bandieragiallarovigo-odv.it/storage/posts/',
+  PDFURL: 'http://api.bandieragiallarovigo-odv.it/storage/pdfs/',
+  version: 'V 1.0.0'
+};
+*/
+
+// per ambiente di produzione su EC2   -- esempio per ec2 Moreno
+/*
+export const environment = {
+  production: false,
   APIURL: 'https://api.ghisellinimoreno.it',
   APIAUTURL: 'https://api.ghisellinimoreno.it/api/auth/',
   IMGURL: 'https://api.ghisellinimoreno.it/storage/posts/',
-  PDFURL: 'http://api.ghisellinimoreno.it/storage/pdfs/'
+  PDFURL: 'http://api.ghisellinimoreno.it/storage/pdfs/',
+  version: 'V 1.0.0'
 };
 
 */
-
-
 
 
 /*

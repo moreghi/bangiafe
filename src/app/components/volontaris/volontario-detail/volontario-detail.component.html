@@ -1,0 +1,166 @@
+<p>volontario-detail works!</p>
+
+<div class="container borde">
+  <caption class="title_Inqu  col-md-12">{{title}}</caption>
+ <br>
+ <div >
+   <div class="col-md-auto">
+     <form #fm ="ngForm"  method="POST">
+       <input hidden #id="ngModel"  [(ngModel)]="volontario.id" class="form-control" name="id" id="id">
+       <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="volontario.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+       <!-- cognome  -->
+        <div class="form-row">
+         <div class="mb-3 row margini">
+           <label for="cognome" class="col-sm-2 col-form-label">Cognome:</label>
+           <div class="col-sm-5">
+           <input type="text" #cognome="ngModel"  [(ngModel)]="volontario.cognome" class="form-control" name="cognome" id="cognome" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire Cognome"  style="text-transform : uppercase">
+            <br>
+           <div *ngIf="cognome.invalid && (cognome.dirty || cognome.touched)" class="alert-danger">
+               <div *ngIf="cognome.errors.required">
+                   <span>il cognome è obbligatoria</span>
+               </div>
+               <div *ngIf="cognome.errors.minlength">
+                  <span>il cognome deve essere di almeno {{ cognome.errors.minlength.requiredLength }} caratteri</span>
+               </div>
+               <div *ngIf="cognome.errors.maxlength">
+                   <span>il cognome non può essere più lunga di {{ cognome.errors.maxlength.requiredLength }} caratteri</span>
+                </div>
+             </div>
+           </div>
+         </div>
+        </div>
+       <!-- Nome  -->
+       <div class="form-row">
+        <div class="mb-3 row margini">
+          <label for="nome" class="col-sm-2 col-form-label">nome:</label>
+          <div class="col-sm-5">
+          <input type="text" #nome="ngModel"  [(ngModel)]="volontario.nome" class="form-control" name="nome" id="nome" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire nome"  style="text-transform : uppercase">
+           <br>
+          <div *ngIf="nome.invalid && (nome.dirty || nome.touched)" class="alert-danger">
+              <div *ngIf="nome.errors.required">
+                  <span>il nome è obbligatoria</span>
+              </div>
+              <div *ngIf="nome.errors.minlength">
+                 <span>il nome deve essere di almeno {{ nome.errors.minlength.requiredLength }}  caratteri</span>
+              </div>
+              <div *ngIf="nome.errors.maxlength">
+                  <span>il nome non può essere più lunga di {{ nome.errors.maxlength.requiredLength }} caratteri</span>
+               </div>
+            </div>
+          </div>
+        </div>
+       </div>
+
+       <!-- email -->
+       <div class="form-row">
+        <div class="mb-3 row margini">
+          <label for="email" class="col-sm-2 col-form-label">email:</label>
+          <div class="col-sm-5">
+            <input type="email" name="email" class="form-control lowertxt" id="email" placeholder="inserire email" [(ngModel)]="volontario.email" email #email="ngModel" ngModel  style="text-transform : lowercase">
+          <br>
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
+              <div *ngIf="email.errors.required">
+                  <span>il email è obbligatoria</span>
+              </div>
+              <div *ngIf="email.errors?.email">
+                indirizzo email non corretto
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+<!-- cellulare -->
+    <div class="form-row">
+  <div class="mb-3 row margini">
+    <label for="cellulare" class="col-sm-2 col-form-label">cellulare:</label>
+    <div class="col-sm-5">
+    <input type="text" #cellulare="ngModel"  [(ngModel)]="volontario.cellulare" class="form-control" name="cellulare" id="cellulare" required minlength="10" maxlength="10" pattern="[0-9]*" placeholder="Inserire cellulare">
+     <br>
+    <div *ngIf="cellulare.invalid && (cellulare.dirty || cellulare.touched)" class="alert-danger">
+        <div *ngIf="cellulare.errors.required">
+            <span>il cellulare è obbligatoria</span>
+        </div>
+        <div *ngIf="cellulare.errors.minlength">
+           <span>il cellulare deve essere di almeno {{ cellulare.errors.minlength.requiredLength }}  caratteri</span>
+        </div>
+        <div *ngIf="cellulare.errors.maxlength">
+            <span>il cellulare non può essere più lunga di {{ cellulare.errors.malength.requiredLength }}  caratteri</span>
+         </div>
+      </div>
+    </div>
+  </div>
+    </div>
+     <br>
+<!-- fine  -->
+ <!-- Bottoni funzionali -->
+     <br>
+      <div class="footer" >
+           <div class="row col-sm-10 offset-2">
+             <div class="col-sm-3">
+               <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma(volontario)">Conferma
+                 <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+               </button>
+             </div>
+
+             <div class="col-sm-3" >
+               <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
+                 <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+               </button>
+             </div>
+             <div class="col-sm-3" >
+               <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+                 <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+               </button>
+             </div>
+           </div>
+      </div>
+      <br>
+ <!--   messaggio con esito operazione -->
+
+      <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+        <p>{{Message}}</p>
+      </div>
+      <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+         <p>{{Message}}</p>
+      </div>
+     </form>
+   </div>
+ </div>
+</div>
+
+<ng-template #content let-modal>
+ <div class="modal-header modal-header-color">
+   <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <form>
+     <p>confermi la cancellazione del collaboratore &nbsp;&nbsp;</p>
+     <p></p>
+     <p><strong>{{volontario.cognome}}&nbsp;&nbsp;{{volontario.nome}}</strong>&nbsp;?</p>
+     <!--   esempio di calendario che funziona benissimo
+     <div class="form-group">
+       <label for="dateOfBirth">Date of birth</label>
+       <div class="input-group">
+         <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+         </div>
+       </div>
+     </div>
+     -->
+   </form>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+   <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+     <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+   </button>
+ </div>
+</ng-template>
+
+
+

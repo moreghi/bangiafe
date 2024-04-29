@@ -1,0 +1,294 @@
+<p>commanda-registrazione-cassa works!</p>
+<div class="container">
+
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" ><strong>{{title}}</strong></label><br>
+  <!--
+  <div class="header_Edit" *ngIf="functionEdit || functionEdits">
+    functionEdit: {{functionEdit}}&nbsp;&nbsp;functionEdits: {{functionEdits}}
+    <caption class="title_Edit  col-md-12">{{title}}</caption>
+  </div>  -->
+
+<div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="commandaw.id" class="form-control" name="id" id="id">
+        <div class="row">
+          <label for="anagrafica_cliente" class="col-sm-1 col-form-label">Cliente</label>
+          <div class="col-sm-5">
+            <input disabled type="text" #anagrafica_cliente="ngModel"  [(ngModel)]="commandaw.anagrafica_cliente" class="form-control" name="anagrafica_cliente" id="anagrafica_cliente">
+          </div>
+          <label for="numPersone" class="col-sm-1 col-form-label">Persone</label>
+          <div class="col-md-1">
+            <input disabled type="text" #numPersone="ngModel"  [(ngModel)]="commandaw.numPersone" class="form-control" name="numPersone" id="numPersone">
+          </div>
+          <label for="numTavolo" class="col-sm-1 col-form-label">Tavolo</label>
+          <div class="col-sm-1">
+              <input disabled type="text" #numTavolo="ngModel"  [(ngModel)]="commandaw.numTavolo" class="form-control" name="numTavolo" id="numTavolo">
+          </div>
+
+          <div class="col-sm-2">
+            <input disabled #d_stato_commanda="ngModel"  [(ngModel)]="commandaw.d_stato_commanda" class="form-control" name="d_stato_commanda" id="d_stato_commanda" [style.color]="commandaw.stato == 1 ? 'red' : null">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+
+          <strong><label  class="col-sm-12 offset-6 col-form-label">Totali</label></strong>
+             <label for="importodaPagare" class="col-sm-2 col-form-label totali">Da Pagare</label>
+             <div class=" col-md-1">
+               <input disabled type="text" #importodaPagare="ngModel"  [(ngModel)]="commandaw.importodaPagare" class="form-control" name="importodaPagare" id="importodaPagare">
+             </div>
+             <label for="importoPagato" class="col-md-1 col-form-label totali">Incassato</label>
+              <div class=" col-md-1">
+               <input disabled type="text" #importoProdotti="ngModel"  [(ngModel)]="commandaw.importoPagato" class="form-control" name="importoPagato" id="importoPagato">
+              </div>
+              <label for="resto" class="col-sm-1 col-form-label totali">resto</label>
+              <div class=" col-md-1">
+               <input disabled type="text" #importodaPagare="ngModel"  [(ngModel)]="commandaw.resto" class="form-control" name="resto" id="resto">
+              </div>
+
+              <label for="sbilancio" class="col-sm-1 col-form-label totali">sbilancio</label>
+              <div class=" col-md-1">
+               <input disabled type="text" #sbilancio="ngModel"  [(ngModel)]="commandaw.importoPagato - commandaw.importodaPagare - this.reso" class="form-control" name="sbilancio" id="sbilancio">
+              </div>
+
+                 <label *ngIf="commandaw.idSanfra !== 0" for="buonoPasto" class="col-sm-2 col-form-label totali">Buono Pasto</label>
+                 <div class=" col-md-1" *ngIf="commandaw.idSanfra !== 0">
+                 <input disabled type="text" #buonoPasto="ngModel"  [(ngModel)]="commandaw.buonoPasto" class="form-control" name="buonoPasto" id="buonoPasto">
+                 </div>
+
+
+
+        </div>
+        <hr>
+
+
+   <br>
+   <!-- prodotti:{{prodotti | json}}<br> -->
+
+   <div class="row">
+    <div class="col-md-1"></div>
+     <div class="col-sm-4">
+          <div class="row">
+
+            <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white">
+              <tr>
+                <th class="pezzature"> Pezzatura</th>
+                <th  colspan="2" class="alignheader centro cassaIniziale" style="background-color: yellow; color: black">Cassa</th>
+
+
+              </tr>
+              <tr>
+                  <th> </th>
+                  <th class="centro  cassaIniziale"> Qta</th><th class="centro  cassaIniziale">valore</th>
+
+              </tr>
+              <tr>
+               <!-- banconota 100 -->
+               <td class="tagli"> <label>  € 100 </label></td>
+               <td >
+                 <input NumbersOnly [(ngModel)]="imp05"  #i100="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i100" id="i100"  (blur)="ctrimp05(imp05)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+               </td>
+               <td><input   disabled [(ngModel)]="valImp05"  #vi100="ngModel" class="form-control  num inizioCassa centro"  name="vi100" id="vi100"  min="0" max="10" step="0.25" value="0.00" ></td>
+              </tr>
+            <tr>
+              <td class="tagli"> <label>  €  50 </label></td>
+                  <!-- banconota 050 -->
+              <td >
+                  <input NumbersOnly [(ngModel)]="imp04"  #i050="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i050" id="i050"  (blur)="ctrimp04(imp04)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+              </td>
+              <td><input   disabled [(ngModel)]="valImp04"  #vi050="ngModel" class="form-control  num inizioCassa centro"  name="vi050" id="vi050"  min="0" max="10" step="0.25" value="0.00" ></td>
+            </tr>
+            <tr>
+              <td class="tagli"> <label>  €  20 </label></td>
+              <td>
+                   <input NumbersOnly [(ngModel)]="imp03"  #i020="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i020" id="i020"  (blur)="ctrimp03(imp03)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+              </td>
+              <td><input   disabled [(ngModel)]="valImp03"  #vi020="ngModel" class="form-control  num inizioCassa centro"  name="vi020" id="vi020"  min="0" max="10" step="0.25" value="0.00" ></td>
+            </tr>
+            <tr>
+              <td class="tagli"> <label>  €  10 </label></td>
+              <td>
+                  <input NumbersOnly [(ngModel)]="imp02"  #i010="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i010" id="i010"  (blur)="ctrimp02(imp02)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+              </td>
+              <td><input   disabled [(ngModel)]="valImp02"  #mi010="ngModel" class="form-control  num inizioCassa centro"  name="vi010" id="vi010"  min="0" max="10" step="0.25" value="0.00" ></td>
+            </tr>
+            <tr>
+              <td class="tagli"> <label>  €   5 </label></td>
+              <td >
+                  <input NumbersOnly [(ngModel)]="imp01"  #i005="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i005" id="i005"  (blur)="ctrimp01(imp01)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+              </td>
+              <td><input   disabled [(ngModel)]="valImp01"  #vi005="ngModel" class="form-control  num inizioCassa centro"  name="vi005" id="vi005"  min="0" max="10" step="0.25" value="0.00" ></td>
+            </tr>
+            <tr>
+              <td class="tagli"> <label> Moneta </label></td>
+              <td >
+                  <input NumbersOnly [(ngModel)]="imp06"  #icontante="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="icontante" id="icontante"  (blur)="ctrimp06(imp06)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+              </td>
+            </tr>
+            <tr>
+              <td>  <label style="color: red; font-weight: bold;">Incassato</label></td>
+              <td></td>
+              <td>  <input  disabled [(ngModel)]="commandaw.importoPagato"  #incassatox="ngModel" class="form-control num destra"  name="incassatox" id="incassatox" style="color: black; background-color: yellow; font-weight: bold;"></td>
+            </tr>
+        <br>
+
+      </table>
+
+
+    <!--                    merda   merda      merda      merda   -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+     </div>
+     <div class="col-md-2"></div>
+     <div class="col-sm-4" *ngIf="commandaw.importoPagato > 0">   <!--    se tipo cassa dettagliata-->
+      <div class="row">
+restoda dare: {{commandaw.importoPagato - commandaw.importodaPagare  }}<br>
+resto su 100:{{100 - (commandaw.importoPagato - commandaw.importodaPagare)}}<br>
+disabledr05: {{disabledr05}}<br>
+        <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white">
+          <tr>
+            <th class="pezzature"> Pezzatura</th>
+            <th  colspan="2" class="alignheader centro cassaIniziale" style="background-color: greenyellow; color:blue">Ressto</th>
+          </tr>
+          <tr>
+              <th> </th>
+              <th class="centro  cassaIniziale"> Qta</th><th class="centro  cassaIniziale">valore</th>
+          </tr>
+          <tr>
+           <!-- banconota 100 -->
+           <td class="resto"> <label>  € 100 </label></td>
+           <td >
+             <input [disalbled]="100 > commandaw.resto" NumbersOnly [(ngModel)]="res05"  #resto05="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="resto05" id="resto05"   (keypress)="onKeypress100Event($event)" [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >  <!--(blur)="resimp05(res05)"-->
+           </td>
+           <td><input   disabled [(ngModel)]="valRes05"  #vir100="ngModel" class="form-control  num inizioCassa centro"  name="vir100" id="vir100"  min="0" max="10" step="0.25" value="0.00" ></td>
+          </tr>
+        <tr>
+          <td class="resto"> <label>  €  50 </label></td>
+              <!-- banconota 050 -->
+          <td >
+              <input [disalbled]="disabledr04 === true" NumbersOnly [(ngModel)]="res04"  #i050="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i050" id="i050"  (blur)="resimp04(res04)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+          <td><input   disabled [(ngModel)]="valRes04"  #vir010="ngModel" class="form-control  num inizioCassa centro"  name="vir050" id="vir050"  min="0" max="10" step="0.25" value="0.00" ></td>
+        </tr>
+        <tr>
+          <td class="resto"> <label>  €  20 </label></td>
+          <td>
+               <input [disalbled]="disabledr03 === true" NumbersOnly [(ngModel)]="res03"  #i020="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i020" id="i020"  (blur)="resimp03(res03)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+          <td><input   disabled [(ngModel)]="valRes03"  #vir020="ngModel" class="form-control  num inizioCassa centro"  name="vir020" id="vir020"  min="0" max="10" step="0.25" value="0.00" ></td>
+        </tr>
+        <tr>
+          <td class="resto"> <label>  €  10 </label></td>
+          <td>
+              <input [disalbled]="disabledr02 === true" NumbersOnly [(ngModel)]="res02"  #i010="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i010" id="i010"  (blur)="resimp02(res02)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+          <td><input   disabled [(ngModel)]="valRes02"  #vir010="ngModel" class="form-control  num inizioCassa centro"  name="vir010" id="vir010"  min="0" max="10" step="0.25" value="0.00" ></td>
+        </tr>
+        <tr>
+          <td class="resto"> <label>  €   5 </label></td>
+          <td >
+              <input [disalbled]="disabledr01 === true"  [(ngModel)]="res01"  #i005="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i005" id="i005"  (blur)="resimp01(res01)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+          <td><input   disabled [(ngModel)]="valRes01"  #vir005="ngModel" class="form-control  num inizioCassa centro"  name="vir005" id="vir005"  min="0" max="10" step="0.25" value="0.00" ></td>
+        </tr>
+        <tr>
+          <td class="resto"> <label> Moneta </label></td>
+          <td >
+              <input NumbersOnly [(ngModel)]="res06"  #rcontante="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="rcontante" id="rcontante"  (blur)="resimp06(res06)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+        </tr>
+        <tr>
+          <td>  <label style="color: red; font-weight: bold;">Resto</label></td>
+          <td></td>
+          <td>  <input  disabled [(ngModel)]="reso"  #i005="ngModel" class="form-control num destra"  name="reso" id="reso" style="color: black; background-color: violet; font-weight: bold;"></td>
+        </tr>
+    <br>
+
+  </table>
+
+
+<!--                    merda   merda      merda      merda   -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+     </div>
+     <div class="col-md-1"></div>
+   </div>
+<!-- Bottoni funzionali -->
+<div class="container col-md-12 offset-3">
+    <div class="form-group form-footer">
+      <div class="row">
+        <div class="col-sm-3">
+          <button class="btn btn-primary  btn-md"  (click)="backToGiornata()">Back        <!--backToUsers()-->
+                <fa-icon [icon]="faHandPointLeft"></fa-icon>
+          </button>
+        </div>
+        <div class="col-sm-3" *ngIf="nRecOrd > 0">
+          <button [disabled]="fm.invalid" class="btn-md btn btn-info float-right"  (click)="registraIncasso()">Pagamento
+            <fa-icon [icon]="faHandPointLeft"></fa-icon>
+          </button>
+      </div>
+
+      </div>
+    </div>
+</div>
+
+
+
+    <!--  fine personaizzazione  -->
+
+          <br>
+      <!--   messaggio con esito operazione -->
+
+          <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+        <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+            <p>{{Message}}</p>
+            <hr>
+            <p hidden class="mb-0" *ngIf="nRec === 0">{{Message1err}}</p>
+          </div>
+          <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+      <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+            <p>{{Message}}</p>
+            <hr>
+            <p class="mb-0"></p>
+          </div>
+
+

@@ -28,7 +28,7 @@ export class PrenotazioneService {
     // passo il token dentro a header per non farlo passare in chiaro su url
     const headers = new HttpHeaders(
         {
-          authorization: 'Bearer ' + this.auth.getToken()
+            Authorization: 'Bearer ' +  this.auth.getToken()
         }
       );
       return headers;
@@ -45,31 +45,34 @@ export class PrenotazioneService {
         //  return this.http.get(this.APIURL + '?token=' + this.auth.getToken());       // <---- 1° metodo  in chiaro su url
 
         // secondo metodo passando il token non in chiaro come header                   // <---- 2* metodo come header (non in chiaro)
-             return this.http.get(this.APIURL,  {
-              headers: this.getAuthHeader()
-            });
-        }
+         return this.http.get(this.APIURL,  {
+          headers: this.getAuthHeader()
+        });      // ok      // ok
+     }
 
-    getbyid(id: number) {
+        getbyid(id: number) {
           return this.http.get(this.APIURL + '/' + id,  {
             headers: this.getAuthHeader()
           });      // ok
         }
 
-    delete(prenotazione: Prenotazione) {
+        delete(prenotazione: Prenotazione) {
+
           this.rottafunction = 'deletebyid';
           return this.http.delete(this.APIURL + '/' + this.rottafunction + '/' + prenotazione.id,  {
             headers: this.getAuthHeader()
           });      // ok
+
         }
 
     update(prenotazione: Prenotazione) {
+
       this.rottafunction = 'updatebyid';
       return this.http.put(this.APIURL + '/' + this.rottafunction + '/' +  prenotazione.id, prenotazione,  {
         headers: this.getAuthHeader()
       });      // ok
-
     }
+
 
      create(prenotazione: Prenotazione){
       this.rottafunction = 'create';
@@ -78,82 +81,89 @@ export class PrenotazioneService {
       });      // ok
     }
 
-  getbystato(stato: number) {
-      this.rottafunction = 'stato';
-      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + stato,  {
-       headers: this.getAuthHeader()
+    getAldaEvadere() {
+
+      this.rottafunction = 'pren/getPrenotazionidaEvadere/';
+      return this.http.get(this.APIURL + '/' + this.rottafunction,  {
+          headers: this.getAuthHeader()
+        });      // ok      // ok
+    }
+
+    getAlldaEvaderebyday(id: number) {
+
+      this.rottafunction = 'pren/prenotazionibyday';
+      return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id,  {
+         headers: this.getAuthHeader()
      });      // ok      // ok
-}
+ }
 
-getbyevento(evento: number) {
-  this.rottafunction = 'pren/Prenotazionibyevento';
-     return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + evento,  {
-   headers: this.getAuthHeader()
- });      // ok      // ok
-}
-
-getbyeventoestato(evento: number, stato: number) {
-  this.rottafunction = 'pren/Prenotazionibyeventoestato';
-     return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + evento + '/' + stato,  {
+   getAllbystato(idday: number, id: number) {
+    this.rottafunction = 'pren/getPrenotazionibyStato';
+    return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + idday + '/' + id,  {
    headers: this.getAuthHeader()
  });      // ok      // ok
 }
 
 
+getAllbyemail(email: string) {
 
-
-getbyemail(email: string) {
-  this.rottafunction = 'email';
-  return this.http.get(this.APIURL + "/" + this.rottafunction + "/'" + email + "'",  {
+  this.rottafunction = 'pren/getPrenotazionibyemail';
+  return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + email,  {
    headers: this.getAuthHeader()
-   });
+ });      // ok      // ok
 }
 
-getCountbyevento(id: number) {
 
-  this.rottafunction = '/count';
-  return this.http.get(this.APIURL + this.rottafunction + '/' + id);
+// invio email dopo conferma definitiva prenotazione
+sendemailPrenotazioneConfermataMoreno(prenotazione: Prenotazione) {
+
+  console.log('frontend - prenotazioneConfirm.service - sendemailPrenotazioneConfermataMoreno ------  :  ' + JSON.stringify(prenotazione));
+
+  return this.http.post(this.APIURL + '/pren/invioemailprenotazione/' + prenotazione.email, prenotazione);
+
   }
 
-  getdaEvaderebyday(id: number) {
+  getAllbyday(id: number) {
+    this.rottafunction = 'pren/getPrenotazionibygiornata';
+    return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + id,  {
+   headers: this.getAuthHeader()
+ });      // ok      // ok
+}
 
-    this.rottafunction = '/count';
+sendemailPrenotazionedaConfermareMoreno(prenotazione: Prenotazione) {
 
-    alert('prenotazioneService -- metodo < getdaEvaderebyday > momentaneamente sospeso ')
-/*
+//console.log('frontend - prenotazione.service - sendemailPrenotazionedaConfermareMoreno ------  inizio -- ' + JSON.stringify(prenotazione) );
+this.rottafunction = 'sendprenotazionedaConfermare';
+return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione);
 
-    this.APIURLSEARCH = this.APIURL + this.rottadaevaderebyday;
-    console.log('--------- APIURL -------------------------------   prenotazioneService - prenbyday: ' + this.APIURL);
-    console.log('-----------------------------------------   prenotazioneService - prenbyday: ' + this.APIURLSEARCH);
-    return this.http.get(this.APIURLSEARCH + '/' + id);      // ok      // ok
-    */
-    }
-
-sendConfermaPrenotazione(prenotazione: Prenotazione){
-  this.rottafunction = 'sendConferma';
-  return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione);
-    }
-
-    getgiornateConf(id: number) {
-
-      this.rottafunction = '/giornate';
-      return this.http.get(this.APIURL + this.rottafunction + '/' + id);
-
-      }
-
-      getbydataconf(dataconf: string) {
-        this.rottafunction = 'pren/getPrenotazionibydataconf';
-        return this.http.get(this.APIURL + "/" + this.rottafunction + "/" + dataconf,  {
-         headers: this.getAuthHeader()
-         });
-      }
+//  return this.http.post(`this.APIAUTHURL/gmmailforregister`,  this.registerconfirmed );
 
 }
 
+sendemailPrenotazioneProdottidaConfermareMoreno(prenotazione: Prenotazione) {
+  this.rottafunction = 'sendprenotazioneProdottidaConfermare';
+  return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione);
+}
+getbytoken(token: string) {
+  this.rottafunction = 'getbytoken';
+  return this.http.get(this.APIURL + '/' + this.rottafunction + '/' + token,  {
+      headers: this.getAuthHeader()
+  });      // ok
+}
+
+
+sendemailPrenotazioneConfermata(prenotazione: Prenotazione) {
+
+  //console.log('frontend - prenotazione.service - sendemailPrenotazionedaConfermareMoreno ------  inizio -- ' + JSON.stringify(prenotazione) );
+  this.rottafunction = 'sendconferma';
+  return this.http.post(this.APIURL + '/' + this.rottafunction, prenotazione);
+
+  //  return this.http.post(`this.APIAUTHURL/gmmailforregister`,  this.registerconfirmed );
+
+  }
 
 
 
 
 
-
-
+}

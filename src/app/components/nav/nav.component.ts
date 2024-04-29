@@ -2,22 +2,22 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { faUserPlus, faUserFriends, faUser, faUserCheck } from '@fortawesome/free-solid-svg-icons';
-// classes
+// ----------------------------------------------------  classes
 import { User } from '../../classes/User';
-import { Evento } from '../../classes/Evento';
+import { Giornata } from '../../classes/Giornata';
 import { Userlevel } from '../../classes/UserLevel';
 
-import { Prenotazione } from '../../classes/Prenotazione';
+// import { Prenotazione } from '../../classes/Prenotazione';
 import { Message } from '../../classes/Message';
-// component
-import { InfoPrenotazioneComponent } from './../../components/prenotaziones/info-prenotazione/info-prenotazione.component';
+// ---------------------------------------------------   component
+// import { InfoPrenotazioneComponent } from './../../components/prenotaziones/info-prenotazione/info-prenotazione.component';
 import { MessageComponent } from './../../components/popups/message/message.component';
 
 // import { Manifestazione } from '../../classes/Manifestazione';
-// services
+// ---------------------------------------------------------------  services
 import { AuthService } from './../../services/auth.service';
 import { UserlevelService } from './../../services/userlevel.service';
-import { EventoService } from './../../services/evento.service';
+import { GiornataService } from './../../services/giornata.service';
 
 
 import { MessageService } from './../../services/message.service';
@@ -26,6 +26,7 @@ import { MessageService } from './../../services/message.service';
 // per gestire il popup con esito operazione
 import { NotifierService } from 'angular-notifier';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -49,7 +50,7 @@ export class NavComponent implements OnInit {
   public isCollapsed = true;  // variabile per soluzione con ngbootstrap
   public username: string;
 
-  titolo = "Bandiera Gialla ";
+  titolo = "Sanfra in Festa ";
   anno = 2020;
 
   public isAbilityBevande = false;
@@ -58,12 +59,13 @@ export class NavComponent implements OnInit {
 
   public user: User;
   public userlevel: Userlevel;
+  public giornata: Giornata;
 
   // public manifestazione: Manifestazione;
   public manifActive = false;
-  public prenotazione: Prenotazione;
+ //  public prenotazione: Prenotazione;
   public message: Message;
-  public eventi: Evento[] = [];
+ // public eventi: Evento[] = [];
 
   public ruoloUser: number;
   public functionAdmin: number;
@@ -89,12 +91,17 @@ export class NavComponent implements OnInit {
   public eventoAttivo = false;
   public isreload = false;
 
+  public datadioggi = '';
+  public dataOdierna: Date;
+
+
   constructor(private route: Router,
               private auth: AuthService,
               private userlevelService: UserlevelService,
               private messageService: MessageService,
-              private eventoService: EventoService,
+              private giornataService: GiornataService,
               private notifier: NotifierService,
+              private datePipe: DatePipe,
               public modal: NgbModal,
              // private manifestazioneService: ManifestazioneService,
              ) {
@@ -104,6 +111,8 @@ export class NavComponent implements OnInit {
     // ascolto evento creato in auth.service
     auth.usersignedin.subscribe(
         (user: User)  => {
+
+          console.log('nav ----------- lettura user: ' + JSON.stringify(user))
             this.username = user.username;
             this.ruoloUser = user.idRuolo_Day;
             this.iduser = user.id;
@@ -111,7 +120,12 @@ export class NavComponent implements OnInit {
             this.isUserLoggedIn = true;
             // verifico se la giornata è attiva per gestione
             this.dayAbilitato = false;
-            this.profilo = localStorage.getItem('Druolo');
+            this.idGiornata = +localStorage.getItem('idGiornata');
+            if(this.idGiornata > 0) {
+              this.dayAbilitato = true;
+            }
+
+            this.profilo =  localStorage.getItem('Druolo');
 
         }
     );
@@ -159,22 +173,32 @@ export class NavComponent implements OnInit {
     const data = new Date();
     this.anno = data.getFullYear();
 
-    this.verificaseManifestazioneAttiva();
+    this.dataOdierna = new Date(data);
+    this.datadioggi =  this.datePipe.transform(this.dataOdierna, 'dd-MM-yyyy');
 
     this.isUserLoggedIn = this.auth.isUserLoggedIn();
+  //  alert('nav ---- datadioggi: ' + this.datadioggi)
+    this.loadGiornata(this.datadioggi);
+
+    this.verificaseManifestazioneAttiva();  // non serve -- da cancellare
+
+
 
       console.log('nav_onInit isUserLoggedIn: ' + this.isUserLoggedIn);
-
+      if(this.isUserLoggedIn === false) {
+        this.iduser = +localStorage.getItem('id');
+        this.isUserLoggedIn = true;
+      }
 
     if(this.isUserLoggedIn)  {
 
       const user = this.auth.getUtente();
       console.log('nav-  ngoninit ----- utente loggato: ' + JSON.stringify(user));
 
-    //  this.loadProfiloLogged(user.idRuolo_Day);  // metodo non necessario. recupero il profilo da localStorage
+      this.loadProfiloLogged(user.idLevel);  // metodo non necessario. recupero il profilo da localStorage
       this.username = user.cognome;
       this.ruoloUser = user.idRuolo_Day;
-      this.profilo = localStorage.getItem('Druolo');
+     // this.profilo = localStorage.getItem('Druolo');
 
       // verifico se utente anonimo abilito a visualizzare le proprie prenotazioni
       if(user.idruoloweb === 0) {
@@ -211,6 +235,9 @@ export class NavComponent implements OnInit {
 
 
 async verificaEventiOpen() {
+
+  // metodo commentato per problemi di mancanza  classe e service
+  /*
     let res = await this.eventoService.getAllActive().subscribe(
       response => {
            console.log('verificaEventiOpen -- dati: ' + JSON.stringify(response['data']));
@@ -225,11 +252,41 @@ async verificaEventiOpen() {
         alert('nav  -- verificaEventiOpen - errore: ' + error.message);
         console.log(error);
       });
+      */
   }
 
+async loadGiornata(ggmmaaaa: string) {
 
-
-
+  localStorage.removeItem('idGiornata');
+  console.log('loadGiornata: ' + ggmmaaaa);
+  let res = await this.giornataService.getGiornataggmmaaaa(ggmmaaaa).subscribe(
+    response => {
+         if(response['rc'] === 'ok') {
+           this.giornata = response['data'];
+           console.log('nav -- loadGiornata:  letta ........ ' + JSON.stringify(this.giornata))
+           if(this.giornata.dtGiornata1 == this.datadioggi) {
+            if(this.giornata.statoCassa == 1 &&
+               this.giornata.statoMagazzino == 1 &&
+               this.giornata.statoUtenti == 1) {
+                localStorage.setItem('idGiornata', String(this.giornata.id));
+                      this.dayAbilitato = true;
+                      console.log('trovato giornata aattiva')
+                 } else {
+                    this.dayAbilitato = false;
+                 }
+         } else {
+          this.dayAbilitato = false;
+         }
+        }
+         if(response['rc'] === 'nf') {
+          this.giornata = new Giornata();
+        }
+    },
+    error => {
+      alert('nav  -- loadProfiloLogged - errore: ' + error.message);
+      console.log(error);
+    });
+}
 
 
 
@@ -242,7 +299,7 @@ async verificaEventiOpen() {
         response => {
              if(response['number'] !== 0) {
                this.userlevel = response['data'];
-        //       this.profilo = this.userlevel.UserLevelName;
+               this.profilo = this.userlevel.userLevelName;
               } else {
                       this.manifActive = false;
              }
@@ -315,7 +372,7 @@ async verificaEventiOpen() {
               break;
           case 2:
                 if(ruolo === 2 || this.idruoloday === -1)  {
-                  this.routeGiornata = 'commanda/gestioneCucina';
+                  this.routeGiornata = 'commanda/gestioneCucina/' + this.idGiornata;
                   console.log('nav - lanciofunzioni: --------- route ' + this.routeGiornata);
                   this.route.navigate([`${this.routeGiornata}`]);
                 } else {
@@ -327,7 +384,7 @@ async verificaEventiOpen() {
           case 3:
 
                 if(ruolo === 3 || this.idruoloday === -1)  {
-                  this.routeGiornata = 'commanda/gestioneBevande';
+                  this.routeGiornata = 'commanda/gestioneBevande/' + this.idGiornata;
                   console.log('nav - lanciofunzioni: --------- route ' + this.routeGiornata);
                   this.route.navigate([`${this.routeGiornata}`]);
                 } else {
@@ -443,6 +500,8 @@ showNotification( type: string, message: string ): void {
 
 
 showInfoPrenotazionePopup() {
+// metodod corretto   commentato solo per problema doi mancanza classe e service
+  /*
   console.log('showInfoPrenotazione - lancio popup');
   this.prenotazione = new Prenotazione();
   this.prenotazione.id = 1;
@@ -460,12 +519,14 @@ showInfoPrenotazionePopup() {
         console.log('click Cancel');
       }
     );
-
+*/
 
 }
 
 
-
+showPrenotazioni() {
+  this.route.navigate(['prenotazioni']);
+}
 
 
 

@@ -1,20 +1,21 @@
-
+//  attenzione le ttabelle/service commentati sono dovuti alla creazione del Modello
+// inserire le tabelle corrette
 
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-// component
+// ------------------------------------------------------------------   component
 import { User } from '../../../classes/User';
-import { Truolo } from '../../../classes/T_ruolo';
+// import { Truolo } from '../../../classes/T_ruolo';
 import { TstatoUtente } from '../../../classes/T_stato_utente';
 
-// service
+// -------------------------------------------------------------------  service
 import { UserService } from './../../../services/user.service';
 import { UploadFilesService } from './../../../services/upload-files.service';
 
 // service da fare
-import { TruoloService } from './../../../services/truolo.service';
+// import { TruoloService } from './../../../services/truolo.service';
 
-import { TstatoutenteService  } from './../../../services/tstatoutente.service';
+// import { TstatoutenteService  } from './../../../services/tstatoutente.service';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 
@@ -61,8 +62,8 @@ export class UserDetail1Component implements OnInit {
  public user: User;
 
 
- public ruoli: Truolo[] = [];
- public ruolo: Truolo;
+// public ruoli: Truolo[] = [];
+// public ruolo: Truolo;
  public stati: TstatoUtente[] = [];
  public stato: TstatoUtente;
 
@@ -154,8 +155,8 @@ export class UserDetail1Component implements OnInit {
 
   constructor(  private modalService: NgbModal,
                 private userService: UserService,
-                private ruoloService: TruoloService,
-                private tstatoutenteService: TstatoutenteService,
+           //     private ruoloService: TruoloService,
+           //     private tstatoutenteService: TstatoutenteService,
                 private uploadService: UploadFilesService,
                 private router: Router,
                 private route: ActivatedRoute,
@@ -241,6 +242,8 @@ export class UserDetail1Component implements OnInit {
 
   loadRuoli() {
     console.log('loadRuoli-----  ');
+    // metodo commentato per creazione del Modello  -- insefrire le tabelle corrette
+    /*
     this.ruoloService.getRuoli().subscribe(
       res => {
             this.ruoli = res['data'];
@@ -251,10 +254,13 @@ export class UserDetail1Component implements OnInit {
            this.Message = error.message;
            this.alertSuccess = false;
         });
+        */
     }
 
 
   loadStati() {
+    // metodo commentato per creazione del Modello  -- insefrire le tabelle corrette
+    /*
     this.tstatoutenteService.getAll().subscribe(
       res => {
             this.stati = res['data'];
@@ -265,6 +271,7 @@ export class UserDetail1Component implements OnInit {
            this.Message = error.message;
            this.alertSuccess = false;
         });
+        */
   }
 
 

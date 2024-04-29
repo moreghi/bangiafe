@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  public title = 'in alto i valori della Cultura e della Solidarietà';
+  public title = 'Sanfra in festa ...... finalmente un pò di vita';
   public p1: number;
   public p2: number;
   public p3: number;
@@ -21,6 +21,9 @@ export class HomeComponent implements OnInit {
 
 
    ngOnInit(): void {
+    // cancello i localstorage
+
+
 
   }
 

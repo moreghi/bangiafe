@@ -17,6 +17,7 @@ export interface UserInterface {
   idLevel: number;
   idruoloweb: number;
   noteUtente: string;
+  token: string;
   eseguitaAbilitazione: string;
   remember_token: string;
   email_verified_at: string;

@@ -8,39 +8,33 @@ t_tipo_commandas
 
 
 */
-
+// attenzione classe - service  e metodi commentati per la creazione Modello -- logica corretta
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// Services
+// --------------------------------------------------------------------------  Services
 import { TabellaService} from '../../../services/tabella.service';
 import { TabellaTwDettService} from '../../../services/tabella-tw-dett.service';
 import { TabellaTwService} from '../../../services/tabella-tw.service';
 //  service tabelle da normalizzare in twdett
 
-import { TruoloService } from '../../../services/truolo.service';  // tabella_3
-
-import { TstatoutenteService } from '../../../services/tstatoutente.service';  // tabella_16
+// import { TruoloService } from '../../../services/truolo.service';  // tabella_3
+// import { TstatoutenteService } from '../../../services/tstatoutente.service';  // tabella_16
+// import { TstatoprenotazioneService } from '../../../services/tstatoprenotazione.service';  // tabella_25
 
 import { TtitoloService } from '../../../services/ttitolo.service';  // tabella_19
 
-
-import { TstatoprenotazioneService } from '../../../services/tstatoprenotazione.service';  // tabella_25
-
-// Model Class
+// --------------------------------------------------------------------------------  Model Class
 import { Tabellat} from '../../../classes/Tabella_t';
 import { TabellatwDett} from '../../../classes/Tabella_tw_dett';
 import { Tabellatw} from '../../../classes/Tabella_tw';
 // model class tabelle da portare in tabellatwdett
 // model classi tabelle da Normalizzare in twdwtt
 
-import { Truolo } from '../../../classes/T_ruolo';  // tabella_3
+// import { Truolo } from '../../../classes/T_ruolo';  // tabella_3
+// import { TstatoPrenotazione } from '../../../classes/T_stato_prenotazione';  // tabella_25
 
 import { TstatoUtente } from '../../../classes/T_stato_utente';  // tabella_16
-
 import { Ttitolo } from '../../../classes/T_titolo';  // tabella_19
-
-
-import { TstatoPrenotazione } from '../../../classes/T_stato_prenotazione';  // tabella_25
 
 
 import { Router } from '@angular/router';
@@ -77,11 +71,11 @@ export class TabellaComponent implements OnInit {
    public tabellat: Tabellat;
 
 
-   public truoli: Truolo[] = [];
+  // public truoli: Truolo[] = [];
    public tstatiutente: TstatoUtente[] = [];
    public ttitoli: Ttitolo[] = [];
 
-   public tstatiprenotazione: TstatoPrenotazione[] = [];
+  // public tstatiprenotazione: TstatoPrenotazione[] = [];
 
    faUserEdit = faUserEdit;
    faTrash = faTrash;
@@ -145,12 +139,12 @@ export class TabellaComponent implements OnInit {
    constructor(private tabellaService: TabellaService,
                private tabellaTwDettService: TabellaTwDettService,
                private tabellaTwService: TabellaTwService,
-               private tstatoutenteService: TstatoutenteService,
+          //     private tstatoutenteService: TstatoutenteService,
 
                private ttitoloService: TtitoloService,
-               private truoloService: TruoloService,
+          //     private truoloService: TruoloService,
 
-               private tstatoprenotazioneService: TstatoprenotazioneService,
+          //     private tstatoprenotazioneService: TstatoprenotazioneService,
 
                private modalService: NgbModal,
                private route: Router,
@@ -344,6 +338,9 @@ showNotification( type: string, message: string ): void {
 
 async editaTabella_03(idtab: number, tabella: Tabellat) {
   console.log('editaTabella_03 - appena entrato');
+
+  // metodo commentato per la creazione tabelle  -- corretta logica
+  /*
   const rc =  await this.truoloService.getRuoli().subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -374,12 +371,15 @@ async editaTabella_03(idtab: number, tabella: Tabellat) {
          console.log(error);
          this.showNotification(this.type, this.Message);
         });
+        */
 }
 
 
 
 async editaTabella_16(idtab: number, tabella: Tabellat) {
 
+  // metodo commentato per la creazione tabelle  -- corretta logica
+  /*
   const rc =  await this.tstatoutenteService.getAll().subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -410,6 +410,7 @@ async editaTabella_16(idtab: number, tabella: Tabellat) {
          console.log(error);
          this.showNotification(this.type, this.Message);
         });
+        */
 
 }
 
@@ -451,6 +452,8 @@ async editaTabella_19(idtab: number, tabella: Tabellat) {
 
 async editaTabella_25(idtab: number, tabella: Tabellat) {
 
+  // metodo commentato per la creazione tabelle  -- corretta logica
+  /*
   const rc =  await this.tstatoprenotazioneService.getAll().subscribe(
     response => {
         if(response['rc'] === 'ok') {            //  response['success']
@@ -482,7 +485,7 @@ async editaTabella_25(idtab: number, tabella: Tabellat) {
          this.showNotification(this.type, this.Message);
         });
 
-
+*/
 
 }
 

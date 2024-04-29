@@ -26,10 +26,12 @@ export class ForgotPasswordConfermeComponent implements OnInit {
 
   public form = {
     resetEmail: null,
+    resetToken: null,
     cognome: null,
     nome: null,
     username: null,
     email: null,
+    token: null,
     password: '',
     newpassword: '',
     confirmPassword: ''
@@ -40,7 +42,8 @@ export class ForgotPasswordConfermeComponent implements OnInit {
   public user: User;
   public forg: ForgotPassword;
   public email = '';
-  public newpassword = 'provvisoria';
+  public token = '';
+  public newpassword = '';
   // icone
   faTrash = faTrash;
 
@@ -48,7 +51,8 @@ export class ForgotPasswordConfermeComponent implements OnInit {
   public alertSuccess = false;
   public Message = '';
   public type = '';
-
+  public tokenCorrect = false;
+  public emailCorrect = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -60,7 +64,8 @@ export class ForgotPasswordConfermeComponent implements OnInit {
                 this.notifier = notifier;
                 route.queryParams.subscribe(
                   params => {
-                    this.form.resetEmail = params['email']
+                    this.form.resetEmail = params['email'],
+                    this.form.resetToken = params['token']
                             });
     }
 
@@ -69,6 +74,7 @@ export class ForgotPasswordConfermeComponent implements OnInit {
     this.forg  = new ForgotPassword();
 
     this.email = this.form.resetEmail;
+    this.token = this.form.resetToken;
     console.log('OnInit - email: ' + this.email);
 // leggo la tabella 'register_confirmed' per recuperare email
 //  originale  ----------------- getRegConfirmbyTokenProm
@@ -80,6 +86,7 @@ export class ForgotPasswordConfermeComponent implements OnInit {
       this.form.nome = this.forg.nome;
       this.form.username = this.forg.username;
       this.form.email = '';
+      this.form.token = '';
       this.form.newpassword = this.newpassword;
       },
       error => {
@@ -105,10 +112,10 @@ export class ForgotPasswordConfermeComponent implements OnInit {
 
     // verificate le credenziali per richiesta nuovo utente
 
-    console.log('ok forgotpasswordConfirm ' + form.value.email + ' ' + this.newpassword + ' dati passati a backend ' );
+    console.log('ok forgotpasswordConfirm ' + form.value.email + ' ' + this.form.newpassword + ' dati passati a backend ' );
 
 
-    const resp = await this.testService.resetpassword(form.value.email, this.newpassword);
+   //  const resp = await this.testService.resetpassword(form.value.email, this.newpassword);
 /*
     this.user = new User();
     this.user.email = form.value.email;
@@ -117,17 +124,43 @@ export class ForgotPasswordConfermeComponent implements OnInit {
     /////////   const resp = await this.forgotconfirmedService.resetpassword(form.value.email, this.newpassword);
    // const resp = await this.auth.confresetPassword(form.value.email, this.newpassword);  // non funziona
   //  const resp = await this.forgotconfirmedService.confresetPassword(form.value.email, this.newpassword);
-    if (resp) {
-        console.log('Ripristinata password iniziale ');
-        this.Message = 'password utente ' + this.forg.cognome + ' ' + this.forg.nome + ' Ripristinata con successo';
-        this.isVisible = true;
-        this.alertSuccess = true;
 
-        this.type = 'success';
-        this.showNotification(this.type, this.Message);
-       }
+ /* const resp = await this.auth.confchangePassword(form.value.email, this.form.newpassword);  // confresetPassword
 
-}
+  if (resp) {
+          if(resp['rc'] == 'ok') {
+            console.log('Ripristinata password iniziale ');
+            this.Message = 'password utente ' + this.forg.cognome + ' ' + this.forg.nome + ' Ripristinata con successo';
+            this.isVisible = true;
+            this.alertSuccess = true;
+
+            this.type = 'success';
+            this.showNotification(this.type, this.Message);
+          }
+
+       }  */
+
+
+       let rc = await  this.auth.confchangePassword(form.value.email, this.form.newpassword).subscribe(
+        response => {
+          if(response['rc'] === 'ok') {
+             this.Message = 'password utente ' + this.forg.cognome + ' ' + this.forg.nome + ' Ripristinata con successo';
+             this.isVisible = true;
+             this.alertSuccess = true;
+             this.type = 'success';
+             this.showNotification(this.type, this.Message);
+          }
+       },
+          error => {
+          alert('cambio password: ' + error.message);
+          console.log(error);
+          this.alertSuccess = false;
+          this.Message = error.message;
+          this.type = 'error';
+          this.showNotification( this.type, this.Message);
+          });
+        }
+
 
 handleError(error) {
   this.error = error.error.errors;
@@ -137,5 +170,40 @@ handleError(error) {
 showNotification( type: string, message: string ): void {
   this.notifier.notify( type, message );
 }
+
+verificaToken() {
+
+  if(this.form.resetToken === this.form.token) {
+        this.tokenCorrect = true;
+        this.Message = 'token verificato -- Procedere con inserimento email';
+        this.isVisible = true;
+        this.alertSuccess = true;
+  } else {
+        this.tokenCorrect = false;
+        this.Message = 'token NON verificato -- inserisci il valore ricevute nella email';
+        this.isVisible = true;
+        this.alertSuccess = false;
+  }
+}
+
+controlloEmail() {
+
+  if(this.form.resetEmail === this.form.email) {
+    this.emailCorrect = true;
+    this.Message = 'email verificata -- Procedere con inserimento nuova password';
+    this.isVisible = true;
+    this.alertSuccess = true;
+} else {
+    this.emailCorrect = false;
+    this.Message = 'email NON verificata -- inserisci indirizzo email corretto';
+    this.isVisible = true;
+    this.alertSuccess = false;
+}
+
+
+
+}
+
+
 
 }

@@ -1,0 +1,42 @@
+
+<div class="card" style="width: 18rem;">
+
+  <div class="card-header header" >{{headerMessage}}
+    </div>
+    <img class="card-img-top image " src={{pathimage}}  alt="..." style="width: 250px; height: 150px; text-align: center;">
+    <div class="card-body ">
+
+
+     <h5 class="card-title " style="text-align: center;">{{manifestazione.descManif}}</h5>
+
+
+     <p class="price"   style="text-align: center; font-weight: bold;">Prenotazioni: <strong class="badge bg-primary rounded-pill" style="text-align: center; font-weight: bold;" >{{nprenot}}</strong> </p>
+    <div class="form-inline align-items-center">
+
+        <button class="btn btn-primary btn-sm centrato" style="text-align: center;"(click)="registra(giornata.id)">Registra
+          <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+        </button>
+        &nbsp;&nbsp;
+
+      <button class="btn btn-success btn-sm centrato" style="text-align: center;"(click)="viewprenotazioni(giornata.id)">Prenotazioni
+        <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+      </button>
+
+
+<!--
+          <div class="card-footer">
+            <button class="btn btn-primary btn-sm centrato" style="text-align: center;"(click)="registra(giornata.id)">Registra
+            <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+          </button>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-success btn-sm centrato" style="text-align: center;"(click)="viewprenotazioni(giornata.id)">Prenotaz
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+          </button>
+          </div> -->
+
+    </div>
+  </div>
+</div>
+
+

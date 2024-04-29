@@ -1,0 +1,66 @@
+<div class="card" style="width: 16rem;">
+
+  <div class="card-header header" style="font-size: 13px;; background-color: aquamarine; text-align: center;" >{{headerMessage}}
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <img class="card-img-top image " src={{pathimage}}  alt="..." style="width: 80%; height: 80%; text-align: center;">
+    </div>
+
+    <div class="card-body ">
+
+     <div class="row">
+      <div class="col-md-7">
+        <h5 class="card-title" style="text-align: center; font-size: 15px;">Disponibile:</h5>
+      </div>
+      <div class="col-md-5">
+        <strong>{{commandawriga.disponibile_Day}}</strong>
+        <!-- <div  class="cerchio" [ngClass]="{'dispNormale': prodotto.disponibile > 10,
+                                          'livellominimo': prodotto.disponibile < 10 && prodotto.disponibile > 5,
+                                          'quasifine': prodotto.disponibile < 5}" style="text-align: center; font-weight: bold; padding-left: 15px; height: 10px;">
+                    {{prodotto.disponibile}} -->
+        </div>
+      </div>
+
+
+
+     <div class="row">
+      <div class="col-md-7">
+        <h5 class="card-title" style="text-align: center; font-size: 15px;">Ordinato:</h5>
+      </div>
+      <div class="col-md-4">
+        <div  class="cerchio1" [ngClass]="{'dispNormale':commandawriga.disponibile_Day > 10,
+                                          'livellominimo': commandawriga.disponibile_Day < 10 && commandawriga.disponibile_Day > 5,
+                                          'quasifine': commandawriga.disponibile_Day < 5}" style="text-align: center; font-weight: bold; padding-left: 15px; height: 10px;" style="text-align: center; font-size: 15px; color:red; padding: 10px; font-weight: bold;">
+                     {{commandawriga.qta}}
+        </div>
+      </div>
+     </div>
+
+
+
+
+    <div class="row">
+      <div class="col md-4">
+
+      </div>
+      <div class="col md-4">
+          <button  class="btn btn-success btn-sm centrato"   *ngIf="commandawriga.disponibile_Day > 0" style="text-align: center;" (click)="aggiungi(commandawriga)">+          <!--   [disabled]="giornataAbilitata === false"-->
+
+        </button>
+      </div>
+      <div class="col md-4">
+        <button  class="btn btn-warning btn-sm centrato"   style="text-align: center;" [disabled]="commandawriga.qta == 0"  (click)="togli(commandawriga)">-  <!--  [disabled]="giornataAbilitata === false" -->
+
+        </button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+

@@ -1,0 +1,36 @@
+<div class="card" style="width: 18rem;">
+
+  <div class="card-header header" >{{tipologia.d_tipologia}}
+    </div>
+    <img class="card-img-top image" src={{pathimage}}  alt="..." style="width: 270px; height: 150px; text-align: center;">
+    <div class="card-body">
+     <!-- <h5 class="card-title">{{evento.descbreve}}</h5>   -->
+
+     <p class="price"   style="text-align: center; font-weight: bold;">n.Prodotti: <strong class="badge bg-primary rounded-pill" style="text-align: center; font-weight: bold;" >{{ntipologia}}</strong> </p>
+     <div class="row">
+      <div class="col-md-10">
+        <div class="form-group row">
+          <label  class="col-sm-7 col-form-label" style="text-align: center; font-weight: bold;">Selezionati :</label>
+          <div class="col-sm-1">
+            <p class="price"> <strong class="badge bg-info rounded-pill" style="text-align: center; font-weight: bold;" >{{ntipologias}}</strong> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+     <br>
+
+     <div class="card-footer">
+      <button class="btn btn-primary btn-sm centrato" style="text-align: center;"(click)="gestione(tipologia.id)">Gestione&nbsp;
+       <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+     </button>
+    </div>
+    </div>
+
+</div>
+
+

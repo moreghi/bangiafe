@@ -45,10 +45,22 @@ onSubmit(form: NgForm): void {       // funziona alla perfezione
     return;
 }
 
+// creo e salvo il token
+
+
+
+
+
+
+
+
+
+
+
  // const { username, password } = this.form;
   this.isVisible = true;
-  //  this.auth.forgotPassword(form.value.email).subscribe(
-  this.forgotconfirmedService.forgotPwd(form.value.email).subscribe(
+    this.auth.forgotPassword(form.value.email).subscribe(
+  //                     this.forgotconfirmedService.forgotPwd(form.value.email).subscribe(
     data => {
       this.type = 'success';
       this.Message = 'richiesta di reset password inviata correttamente';

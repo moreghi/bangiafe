@@ -1,0 +1,42 @@
+.cassiere {
+  background-color: blue;
+}
+
+.spinatrice {
+  background-color: blueviolet;
+}
+
+.cucina {
+  background-color: chartreuse;
+}
+
+.nonassegnato {
+  background-color: red;
+}
+
+.cameriera {
+   background-color: cyan;
+}
+.nonoperativo {
+    background-color: coral;
+}
+
+.sala {
+  background-color: deeppink;
+}
+.addettocucina {
+  background-color: yellow;
+}
+
+
+.borde {
+  border: 3px solid violet;
+}
+
+.borde1 {
+  border: 3px solid red;
+}
+
+.borde2 {
+  border: 3px solid green;
+}

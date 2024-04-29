@@ -113,8 +113,7 @@ bsp;<p>user-detail works!</p>
 
         <!-- visualizzazione Inqu    [hidden]="!functionInqu" -->
         <br>
-        <div >
-          <div class="row">
+        <div class="row">
             <div class="form-group col-md-6">
               <label for="cognome">Cognome</label>
               <input #cognome="ngModel"  [(ngModel)]="user.cognome" class="form-control" name="cognome" id="cognome" required minlength="3" maxlength="40" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire cognome">
@@ -154,10 +153,9 @@ bsp;<p>user-detail works!</p>
                     </div>
               </div>
             </div>
-          </div>
-
-          <br>
-          <div class="row">
+        </div>
+        <br>
+        <div class="row">
             <div class="form-group col-md-6">
               <label for="email">Email</label>
               <input type="email" class="form-control"  #email="ngModel"  [(ngModel)]="user.email" name="email" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="Inserire indirizzo email">
@@ -190,10 +188,10 @@ bsp;<p>user-detail works!</p>
                     </div>
               </div>
             </div>
-          </div>
-          <br>
-          <div class="row">
-
+        </div>
+        <br>
+        <div class="row">
+            <!-- Stato -->
             <div  class="form-group col-md-4 was-validated">
               <label for="stato"  class="col-sm-4 control-label ">Stato</label>
               <select [(ngModel)]="selectedSta" ngModel name="stato" id="stato" class="form-select" required (change)="selectedStato($event.target.value)" aria-label="Default select example">
@@ -201,23 +199,52 @@ bsp;<p>user-detail works!</p>
                 <option *ngFor="let stato of stati" [value]="stato.id"  class="form-control"  >{{stato.d_stato_utente}}</option>
               </select>
             </div>
-
-
+            <!-- Ruoli in Bandiera Gialla -->
+            <!--    mancava classe. da errore  -------------------------   toglierlo
             <div  class="form-group col-md-4 was-validated">
               <label for="ruolo"  class="col-sm-4 control-label ">Ruolo</label>
               <select [(ngModel)]="selectedRuo" ngModel name="ruolo" id="ruolo" class="form-select" required (change)="selectedRuolo($event.target.value)" aria-label="Default select example">
                 <option selected value=""  >Seleziona il Ruolo</option>
                 <option *ngFor="let ruolo of ruoli" [value]="ruolo.id"  class="form-control"  >{{ruolo.d_ruolo}}</option>
               </select>
+            </div>  -->
+            <!-- livelli -->
+            <div  class="form-group col-md-4 was-validated">
+              <label for="livello"  class="col-sm-4 control-label ">Livello</label>
+              <select [(ngModel)]="selectedLvl" ngModel name="livello" id="livello" class="form-select" required (change)="selectedLevel($event.target.value)" aria-label="Default select example">
+                <option selected value=""  >Seleziona il Livello</option>
+                <option *ngFor="let level of userlevels" [value]="level.id"  class="form-control"  >{{level.id}}-{{level.userLevelName}}</option>
+              </select>
             </div>
 
 
-
-
-          </div>
         </div>
-
         <br>
+        userlevels: {{userlevels | json}}
+        <div class="row">
+             <div  class="form-group col-md-4 was-validated">
+              <label for="livello"  class="col-sm-4 control-label ">Livello</label>
+              <select [(ngModel)]="selectedLvl" ngModel name="livello" id="livello" class="form-select" required (change)="selectedLevel($event.target.value)" aria-label="Default select example">
+                <option selected value="9999"  >Seleziona il Livello</option>
+                <option *ngFor="let level of userlevels" [value]="level.id"  class="form-control"  >{{level.userLevelName}}</option>
+              </select>
+            </div>
+        </div>
+<br>
+
+  <div class="row">
+    <label for="livello" class="col-sm-2 col-form-label">Livellox</label>
+    <div class="dropdown col-sm-8">
+      <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedLvl" ngModel name="livello" id="livello" class="form-select" required (change)="selectedLevel($event.target.value)" aria-label="Default select example">
+        <option selected value="9999"  >Seleziona il livello</option>
+
+        <option *ngFor="let level of userlevels" [value]="level.id"  class="form-control"  >{{level.userLevelName}}</option>
+      </select>
+    </div>
+    <div class="invalid-feedback">effettuare la scelta del livello</div>
+  </div>
+
+
 
 <!--
           <div class="form-row" >

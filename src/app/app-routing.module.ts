@@ -15,61 +15,33 @@ import { ChangePasswordConfermeComponent } from './components/security/changePas
 import { ChangePasswordComponent } from './components/security/changePassword/change-password/change-password.component';
 import { Page404Component } from './components/page404/page404.component';
 import { HomeComponent } from './components/home/home.component';
-import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
 // import { UserDetail1Component } from './components/users/user-detail1/user-detail1.component';  // test
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
-import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
-import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
-import { PrenotazioniComponent } from './components/prenotaziones/prenotazioni/prenotazioni.component';
-import { InfoPrenotazioneComponent } from './components/prenotaziones/info-prenotazione/info-prenotazione.component';
 import { TabelleComponent } from './components/tabelles/tabelle/tabelle.component';
-import { SociComponent } from './components/socios/soci/soci.component';
-import { TesseramentoDetailComponent } from './components/tesseramentos/tesseramento-detail/tesseramento-detail.component';
-import { TesseramentoDataComponent } from './components/tesseramentos/tesseramento-data/tesseramento-data.component';
-import { SocioDetail1Component } from './components/socios/socio-detail1/socio-detail1.component';
-import { SocioDetailComponent } from './components/socios/socio-detail/socio-detail.component';
-import { RequestAdesioneComponent } from './components/adesiones/request-adesione/request-adesione.component';
-import { ResponseAdesioneComponent } from './components/adesiones/response-adesione/response-adesione.component';
-import { BandieragiallaDetailComponent } from './components/bandieragiallas/bandieragialla-detail/bandieragialla-detail.component';
-import { QuotetesseraComponent } from './components/quotatesseras/quotetessera/quotetessera.component';
-import { QuotatesseraDetailComponent } from './components/quotatesseras/quotatessera-detail/quotatessera-detail.component';
-import { ManifestazioniComponent } from './components/manifestaziones/manifestazioni/manifestazioni.component';
-import { ManifestazioneDetailComponent } from './components/manifestaziones/manifestazione-detail/manifestazione-detail.component';
-import { ManifestazioneDaysComponent } from './components/manifestaziones/manifestazione-days/manifestazione-days.component';
-import { EventoDetailComponent } from './components/eventos/evento-detail/evento-detail.component';
-import { EventoTicketComponent } from './components/eventos/evento-ticket/evento-ticket.component';
-import { TipobigliettoDetailComponent } from './components/tipobigliettos/tipobiglietto-detail/tipobiglietto-detail.component';
-import { LogisticheComponent } from './components/logisticas/logistiche/logistiche.component';
-import { LogisticaDetailComponent } from './components/logisticas/logistica-detail/logistica-detail.component';
-import { LogisticaDetailPostiComponent } from './components/logisticas/logistica-detail-posti/logistica-detail-posti.component';
-import { EventoPostiComponent } from './components/eventos/evento-posti/evento-posti.component';
-import { EventiMappaComponent } from './components/eventos/eventi-mappa/eventi-mappa.component';
-import { RequestEventoNormalComponent } from './components/eventos/registrazione/evento/request-evento-normal/request-evento-normal.component';
-import { RequestEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/request-evento-logistica/request-evento-logistica.component';
-import { ResponseEventoNormalComponent } from './components/eventos/registrazione/evento/response-evento-normal/response-evento-normal.component';
-import { EventoPostiDetailComponent } from './components/eventos/evento-posti-detail/evento-posti-detail.component';
-import { ResponseEventoLogisticaComponent } from './components/eventos/registrazione/eventologistica/response-evento-logistica/response-evento-logistica.component';
-import { PrenotazionieventoComponent } from './components/prenotazeventos/prenotazionievento/prenotazionievento.component';
-import { CassaDetailComponent } from './components/cassas/cassa-detail/cassa-detail.component';
-import { BigliettoEmissioneLogisticaComponent } from './components/bigliettos/biglietto-emissione-logistica/biglietto-emissione-logistica.component';
-import { BigliettoDetailComponent } from './components/bigliettos/biglietto-detail/biglietto-detail.component';
 import { AbilitazioneComponent } from './components/security/abilitazione/abilitazione.component';
 import { TestuploadComponent } from './components/testupload/testupload.component';
-import { PrenotazioniEventiComponent } from './components/prenotaziones/prenotazioni-eventi/prenotazioni-eventi.component';
-import { PrenotazioneDetailComponent } from './components/prenotaziones/prenotazione-detail/prenotazione-detail.component';
-import { LogisticaDetailMappapostiComponent } from './components/logisticas/logistica-detail-mappaposti/logistica-detail-mappaposti.component';
-import { PrenotazioneDetailPostoComponent } from './components/prenotaziones/prenotazione-detail-posto/prenotazione-detail-posto.component';
-import { PrenotazioneDetailNologisticaComponent } from './components/prenotaziones/prenotazione-detail-nologistica/prenotazione-detail-nologistica.component';
-import { ResponsePrenotazioneEventoComponent } from './components/eventos/registrazione/masterprenotazione/response-prenotazione-evento/response-prenotazione-evento.component';
-import { EventoPrenotDetailComponent } from './components/eventos/evento-prenot-detail/evento-prenot-detail.component';
-import { BigliettoEmissioneDetailComponent } from './components/bigliettos/biglietto-emissione-detail/biglietto-emissione-detail.component';
-import { RequestEventoNormal1Component } from './components/eventos/registrazione/evento/request-evento-normal1/request-evento-normal1.component';
-import { CassaDetailDayComponent } from './components/cassas/cassa-detail-day/cassa-detail-day.component';
-import { ComunicatiComponent } from './components/comunicatos/comunicati/comunicati.component';
-import { BigliettoEmissioneDetailBgComponent } from './components/bigliettos/biglietto-emissione-detail-bg/biglietto-emissione-detail-bg.component';
-import { EventoPrenotazioniComponent } from './components/eventos/evento-prenotazioni/evento-prenotazioni.component';
-import { InfoBgComponent } from './components/bandieragiallas/info-bg/info-bg.component';
-import { BigliettoPrintComponent } from './components/bigliettos/biglietto-print/biglietto-print.component';
+import { ManifestazioniComponent } from './components/manifestaziones/manifestazioni/manifestazioni.component';
+import { ManifestazioneDetailComponent } from './components/manifestaziones/manifestazione-detail/manifestazione-detail.component';
+import { GiornateComponent } from './components/giornatas/giornate/giornate.component';
+import { GiornataDetailComponent } from './components/giornatas/giornata-detail/giornata-detail.component';
+import { PrenotazioniComponent } from './components/prenotaziones/prenotazioni/prenotazioni.component';
+import { RequestPrenotazioneComponent } from './components/prenotaziones/prenotazione/request-prenotazione/request-prenotazione.component';
+import { ResponsePrenotazioneComponent } from './components/prenotaziones/prenotazione/response-prenotazione/response-prenotazione.component';
+import { RequestPrenotazione1Component } from './components/prenotaziones/prenotazione/request-prenotazione1/request-prenotazione1.component';
+import { Prenotazioni1Component } from './components/prenotaziones/prenotazioni1/prenotazioni1.component';
+import { GiornataDetailProdottiComponent } from './components/giornatas/giornata-detail-prodotti/giornata-detail-prodotti.component';
+import { GiornataDetailPersoneComponent } from './components/giornatas/giornata-detail-persone/giornata-detail-persone.component';
+import { VolontariComponent } from './components/volontaris/volontari/volontari.component';
+import { VolontarioDetailComponent } from './components/volontaris/volontario-detail/volontario-detail.component';
+import { CassasinteticaDetailComponent } from './components/cassasinteticas/cassasintetica-detail/cassasintetica-detail.component';
+import { GiornateDashboardComponent } from './components/giornatas/giornate-dashboard/giornate-dashboard.component';
+import { CommandaRegistrazioneAnagraficaComponent } from './components/commandas/commanda-registrazione-anagrafica/commanda-registrazione-anagrafica.component';
+import { CommandaRegistrazioneComponent } from './components/commandas/commanda-registrazione/commanda-registrazione.component';
+import { CommandaRegistrazioneProdottiComponent } from './components/commandas/commanda-registrazione-prodotti/commanda-registrazione-prodotti.component';
+import { GiornataCassaEditComponent } from './components/giornatas/giornata-cassa-edit/giornata-cassa-edit.component';
+import { CommandaRegistrazioneCassaComponent } from './components/commandas/commanda-registrazione-cassa/commanda-registrazione-cassa.component';
+import { CommandaPreviewComponent } from './components/commandas/commanda-preview/commanda-preview.component';
+import { CommandaGestioneComponent } from './components/commandas/commanda-gestione/commanda-gestione.component';
 
 
 const routes: Routes = [
@@ -97,324 +69,13 @@ const routes: Routes = [
     path: 'forgotpasswordConferme',
     component: ForgotPasswordConfermeComponent
   },
-  {
-    path: 'jumbotron',
-    component: JumbotronComponent
-  },
-  // -------------------------------------------------------  Bandiera Gialla
-{
-  path: 'yellowFlat',
-   component: BandieragiallaDetailComponent
-},
-{
-  path: 'info',
-   component: InfoBgComponent
-},
-
-// -------------------------------------------------------  Quota Tessera
-{
-  path: 'quotat',
-   component: QuotetesseraComponent
-},
-// -------------------------------------------------------  Quota Tessera - dettaglio
-{
-  path: 'quotat/new',
-   component: QuotatesseraDetailComponent
-},
-{
-  path: 'quotat/:id',
-   component: QuotatesseraDetailComponent
-},
-// -------------------------------------------------------  Richiesta adesione
-{
-  path: 'requestConfirmAdesione',
-   component: RequestAdesioneComponent
-},
-{
-  path: 'adesioneConferma',
-   component: ResponseAdesioneComponent
-},
-// ----------------------------------------------------------------  Manifestazione
-{
-  path: 'manif',
-  component: ManifestazioniComponent
-},
-{
-  path: 'manif/edit/:id',
-  component: ManifestazioneDetailComponent
-},
-{
-  path: 'manif/new',
-  component: ManifestazioneDetailComponent
-},
-{
-  path: 'manif/:id',
-  component: ManifestazioneDaysComponent
-},
-// ----------------------------------------------------------------  Eventi
-{
-  path: 'evento/new/:idManif',
-  component: EventoDetailComponent
-},
-{
-  path: 'evento/edit/:id/:idManif',
-  component: EventoDetailComponent
-},
-{
-  path: 'evento/:id/Posti',
-  component: EventoPostiComponent
-},
-// ---------------------------------------- Elenco Prenotazioni Eventi
-{
-  path: 'evento/prenotazioni',
-  component: EventoPrenotazioniComponent
-},
-{
-  path: 'evento/:id/S/:idSett/F/:idFila',
-  component: EventoPostiDetailComponent
-},
-
-// ---------------------------------------------------------------  mappa di registrazione n evevnti
-{
-  path: 'evento/registrazione',
-  component: EventiMappaComponent
-},
-{
-  path: 'evento/registrazione/normal/:id',     // registrazione evento senza logistica  <---
-  component: RequestEventoNormalComponent
-},
-{
-  path: 'evento/registrazione/normal1/:id',     // refistrazione evento senza logistica
-  component: RequestEventoNormal1Component
-},
-{
-  path: 'evento/registrazione/logistica/:id',
-  component: RequestEventoLogisticaComponent
-},
-
-{
-  path: 'evento/prenotazionenormaleConferma',
-   component: ResponseEventoNormalComponent
-},
-{
-  path: 'evento/prenotazionelogisticaConferma',
-   component: ResponseEventoLogisticaComponent
-},
-// risposta prenotazione Master
-{
-  path: 'evento/prenotazioneeventoConferma',
-   component: ResponsePrenotazioneEventoComponent
-},
-
-
-
-
-
-// ----------------------------------------------------------------  tipo biglietto per eventi
-{
-  path: 'evento/:id/tipobiglietti',
-  component: EventoTicketComponent
-},
-{
-  path: 'tbiglietto/new/:idEvento',
-  component: TipobigliettoDetailComponent
-},
-{
-  path: 'tbiglietto/edit/:id',
-  component: TipobigliettoDetailComponent
-},
-// ---------------------------------------------------------------- Gestione Prenotazioni
-{
-  path: 'Evento/prenotdetail/:id',
-  component: EventoPrenotDetailComponent
-},
-// ---------------------------------------  merda ------------------------- Elenco Prenotazioni
-{
-  path: 'Evento/prenot',
-  component: EventoPrenotazioniComponent
-},
-// ----------------------------------------------------------------  tipo biglietto per eventi
-{
-  path: 'biglietto/:id/edit',
-  component: BigliettoEmissioneDetailComponent        //BigliettoDetailComponent   creava problemi
-},
-//  non più usata al momento
-{
-  path: 'biglietto/:id/edit/xx',
-  component: BigliettoDetailComponent        //BigliettoDetailComponent   creava problemi
-},
-{
-  path: 'biglietto/:id/edit/BG',
-  component: BigliettoEmissioneDetailBgComponent        //   creava problemi
-},
-{
-  path: 'bigliettoprint/:id',
-  component: BigliettoPrintComponent        //   stampa
-},
-
-
-
-// ----------------------------------------------------------------  Prenotazioni evento
-{
-  path: 'pronotevento',
-  component: PrenotazionieventoComponent
-},
-{
-  path: 'prenotevento/:id/biglietto',
-  component: BigliettoEmissioneLogisticaComponent
-},
-// ----------------------------------------------------------------  logistiche
-{
-  path: 'logistica',
-  component: LogisticheComponent
-},
-{
-  path: 'logistica/new',
-  component: LogisticaDetailComponent
-},
-{
-  path: 'logistica/edit/:id',
-  component: LogisticaDetailComponent
-},
-// ----------------------------------------------------------------  logistica - mappatura posti
-{
-  path: 'logposti/:id/new',
-  component: LogisticaDetailPostiComponent
-},
-{
-  path: 'logposti/:id/edit',
-  component: LogisticaDetailPostiComponent
-},
-{
-  path: 'logposti/:id/edit/:idp/posti',
-  component: LogisticaDetailPostiComponent
-},
-
-{
-  path: 'logmappaposti/:id/crea',
-  component: LogisticaDetailMappapostiComponent
-},
-
-
-
-// -------------------------------------------------------------------------   Cassa
-{
-  path: 'cassa/:dataodierna/tipo/:tipo/:idEvento',    //   path: 'cassa/:dataodierna/tipo/:tipo',
-  component: CassaDetailComponent
-},
-{
-  path: 'cassa/:idEvento',    //   path: 'cassa/:dataodierna/tipo/:tipo',
-  component: CassaDetailDayComponent
-},
-
-
-
-
-// -------------------------------------------------------------------------   soci   --- test Bandiera gialla
-{
-  path: 'socio',
-  component: SociComponent,
- // canActivate: [RouteGuardService]
-},
-
-{
-  path: 'socio/edit/:id',
-   component: SocioDetailComponent
-},
-{
-  path: 'socio/new',
-   component: SocioDetailComponent
-},
-
-{
-  path: 'test/edit/:id',
-   component: SocioDetail1Component
-},
-{
-  path: 'test/new',
-   component: SocioDetail1Component
-},
-
-// -------------------------------------------------------  Prenotazioni
-{
-  path: 'requestConfirmPrenotazione',
-   component: RequestPrenotazioneComponent
-},
-{
-  path: 'prenotazioneConferma',
-   component: ResponsePrenotazioneComponent
-},
-{
-  path: 'prenotazione/:id',
-   component: PrenotazioniComponent,
-   canActivate: [RouteGuardService]
-},
-
-{
-  path: 'prenotazione/infor',
-   component: InfoPrenotazioneComponent
-},
-// ----------------------------- prenotazione eventi
-// visualizzavo gli eventi della manifestazione
-{
-  path: 'prenotEventi/:id/:nev',
-   component: PrenotazioniEventiComponent
-},
-
-{
-  path: 'prenEventi/edit/:idev/:id',
-   component: PrenotazioneDetailComponent
-},
-{
-  path: 'prenEventi/new/:idev',
-   component: PrenotazioneDetailComponent
-},
-{
-  path: 'prenEventi/nol/new/:idev',
-   component: PrenotazioneDetailNologisticaComponent
-},
-
-
-
-{
-  path: 'prenPosto/:id/:idposto',
-   component: PrenotazioneDetailPostoComponent
-},
-// ----------------------------------------------------------------  Comunicazioni
-{
-  path: 'comunic',
-   component: ComunicatiComponent
-},
-
-
-// ----------------------------------------------------------------  Tesseramento
-
-{
-  path: 'socio/tessera/:id',
-   component: TesseramentoDetailComponent,
-   canActivate: [RouteGuardService]
-},
-{
-  path: 'socio/rinn/:id',
-   component: TesseramentoDataComponent
-},
-
-
-
 
 // ----------------------------------------------------------------  Tabelle
 {
   path: 'tabella',
   component: TabelleComponent
 },
-// ----------------------------------------------------------------  Manifestazione
-
-
-
-// ------------------------------------------------------------------  Users
-
-
-  {
+ {
     path: 'users',
     component: UsersComponent,
     canActivate: [RouteGuardService]
@@ -438,6 +99,138 @@ const routes: Routes = [
     path: 'users/new',
     component: UserDetailComponent,
     canActivate: [RouteGuardService]
+  },
+  //  ------------------------------------------------------------------------------------ Manifestazione
+  {
+    path: 'manif',
+    component: ManifestazioniComponent
+  },
+  {
+    path: 'manif/edit/:id',
+    component: ManifestazioneDetailComponent
+  },
+  {
+    path: 'manif/new',
+    component: ManifestazioneDetailComponent
+  },
+  // -------------------------------------------------------------------------  Cassa sintetica
+  {
+    path: 'cassasintetica/new/:id',
+    component: CassasinteticaDetailComponent
+  },
+  {
+    path: 'cassasintetica/edit/:id',
+    component: CassasinteticaDetailComponent
+  },
+  // ---------------------------------------------------- Giornate
+  {
+    path: 'GiornateDashboard',
+    component: GiornateDashboardComponent
+  },
+  {
+    path: 'giornate/:idManif',
+    component: GiornateComponent
+  },
+  {
+    path: 'giornata/edit/:id/:idManif',
+    component: GiornataDetailComponent
+  },
+  {
+    path: 'giornata/new/:idManif',
+    component: GiornataDetailComponent
+  },
+  // dettaglio giornata della manifestazione  -- dettaglio Prodotti
+  {
+    path: 'giornata/Prod/:id',
+    component: GiornataDetailProdottiComponent
+  },
+  // dettaglio giornata della manifestazione  -- dettaglio Perone
+  {
+    path: 'giornata/Pers/:id',
+    component: GiornataDetailPersoneComponent
+  },
+  // dettaglio cassa di giornata
+  {
+    path: 'giornata/CassaDett/:id',
+    component: GiornataCassaEditComponent
+  },
+
+
+  // -------------------------------------------------------------------------------------   commanda
+  {
+    path: 'commanda/RegistraAnag/new/:idGiornata',
+    component: CommandaRegistrazioneAnagraficaComponent
+  },
+  {
+    path: 'commanda/Registrazione/new/:idGiornata',
+    component: CommandaRegistrazioneComponent
+  },
+  // Registrazione Commanda - Prodotti
+  {
+    path: 'commanda/RegistraProd/new/:idCommanda',
+    component: CommandaRegistrazioneProdottiComponent
+  },
+  // Registrazione Commanda - Prodotti
+  {
+    path: 'commanda/RegistraCassa/:idCommanda',
+    component: CommandaRegistrazioneCassaComponent
+  },
+  {
+    path: 'prewcommanda/:id',
+    component: CommandaPreviewComponent,
+   // canActivate: [RouteGuardService]
+  },
+// ----------------------------------------------------------------  Gestione Bevance / Cucina
+
+{
+  path: 'commanda/gestioneCucina/:idGiornata',
+  component: CommandaGestioneComponent,
+ // canActivate: [RouteGuardService]
+},
+{
+  path: 'commanda/gestioneBevande/:idGiornata',
+  component: CommandaGestioneComponent,
+ // canActivate: [RouteGuardService]
+},
+
+
+
+
+
+  // -------------------------------------------------------------------------------------   Volontari
+  {
+    path: 'volontari',
+    component: VolontariComponent
+  },
+  {
+    path: 'volontario/new',
+    component: VolontarioDetailComponent
+  },
+  {
+    path: 'volontario/:id',
+    component: VolontarioDetailComponent
+  },
+
+  // -------------------------------------------------------------------------------------   Prenotazioni
+  {
+    path: 'prenotazioni',
+    component: PrenotazioniComponent
+  },
+  {
+    path: 'requestConfirmPrenotazione/:id',
+     component: RequestPrenotazioneComponent
+  },
+  {
+    path: 'requestConfirmPrenotazione1/:idday/:id',
+     component: RequestPrenotazione1Component
+  },
+  {
+    path: 'prenotazioneConferma',
+     component: ResponsePrenotazioneComponent
+  },
+  {                                  // prenotazioni di giornata
+    path: 'PrenotazionidelGiorno/:id',
+     component: Prenotazioni1Component
   },
   // -------------------------------------------------------------------------------------   abilitazione
   {
@@ -470,11 +263,6 @@ const routes: Routes = [
     path: 'testupload',
     component: TestuploadComponent
   },
-
-
-
-
-
   {
     path: '',
     redirectTo: 'home',  //home   // login

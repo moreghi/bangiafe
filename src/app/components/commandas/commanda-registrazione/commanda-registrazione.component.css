@@ -1,0 +1,13 @@
+.hiddentab {
+  display: none;
+}
+
+.visibletab {
+  display: initial;
+}
+
+.active {
+  border-bottom: 3pz solid greenyellow;
+  transition: ease-in-out .3s;
+}
+

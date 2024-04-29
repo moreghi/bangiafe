@@ -1,0 +1,56 @@
+
+.header {
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.card-footer {
+  text-align: center;
+}
+
+.noaMenu {
+  color: red;
+  font-weight: bold;
+}
+
+.siaMenu {
+  color: green;
+  font-weight: bold;
+}
+
+
+
+
+.borde {
+  border: 3px solid red;
+}
+
+.borde1 {
+  border: 3px solid green;
+}
+.borde2 {
+  border: 3px solid orange;
+}
+.borde3 {
+  border: 3px solid violet;
+}
+
+.prezzoInError {
+  background-color: red;
+}
+
+.prezzoCorrect {
+  background-color: green;
+}
+
+
+.qtaInError {
+  background-color: red;
+}
+
+.qtaCorrect {
+  background-color: green;
+}

@@ -1,0 +1,29 @@
+<td>{{i}}</td>
+<td>{{giornata.dtGiornata | date: 'dd-MM-yyyy'}}</td>  <!-- {{giornata.dtGiornata | date: 'dd-MM-yyyy'}} -->
+<td [style.color]="giornata.stato == 0 ? 'red' : 'green'">{{giornata.d_stato_giornata}}</td>
+
+<td class="buttons">
+  <div class="row col-sm-12">
+    <div class="col-sm-2">
+      <button class="btn btn-dark  btn-sm" (click)="showlistinoGiornata(giornata)"  type="button">
+       <fa-icon [icon]="faCalendarAlt" fixed="true"></fa-icon>
+
+      </button>
+    </div>
+
+    <div class="col-sm-2">
+      <button class="btn btn-primary  btn-sm" (click)="showPrenptazioniGiornata(giornata)"  type="button">
+        <fa-icon [icon]="faInfo" fixed="true"></fa-icon>
+
+
+      </button>
+    </div>
+
+
+  </div>
+</td>
+
+
+
+
+

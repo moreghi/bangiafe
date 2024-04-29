@@ -1,0 +1,208 @@
+<p>giornata-detail-persone works!</p>
+
+<div class="container">
+  <form #fm ="ngForm"  method="POST">
+    <input hidden #id="ngModel"  [(ngModel)]="giornata.id" class="form-control" name="id" id="id">
+    <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="giornata.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+
+    <div class="row">
+      <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+      <div class=" col-md-6">
+        <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif">
+      </div>
+
+      <div class=" col-md-4">
+
+        <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <label class="col-sm-2 col-form-label">Giornata</label>
+      <div class=" col-md-5">
+        <label class="col-form-label"><strong>{{giornata.dtGiornata1}}</strong></label>
+      </div>
+    </div>
+  <hr>
+  <div class="row" >
+    <div class="col-md-1">
+      <label class="col-form-label">Persone</label>
+    </div>
+    <div class="col-md-6">
+        <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
+          <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
+        </div>
+    </div>
+
+    <td class="col-md-2">
+      <div class="dropdown">
+        <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedRuolox" ngModel name="ruolo1" id="ruolo1" class="form-select" required (change)="selectedRuolo1(giornata.id,$event.target.value)" aria-label="Default select example">
+          <option selected value="999"  >Seleziona il Ruolo</option>
+          <option *ngFor="let ruolox of truoli" [value]="ruolox.id"  class="form-control"  >{{ruolox.d_ruolo_day}}</option>
+        </select>
+      </div>
+  </td>
+
+    <div *ngIf="nRec > 0"  class="col-md-3">
+        <strong>n. Rec:</strong>&nbsp;&nbsp; {{nRec}}
+    </div>
+  </div>
+  <br>
+
+
+<div *ngIf="nRec > 0">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">cognome</th>
+        <th scope="col">nome</th>
+        <th scope="col">cellulare</th>
+        <th scope="col">Ruolo</th>
+        <th scope="col">in Servizio</th>
+        <th  colspan="2" style="text-align: center ">gestione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor ="let persona of persone | filter:searchText | paginate: {  id: 'persone',  itemsPerPage: 10, currentPage: p1 }; let i = index" >
+      <td>{{i + 1}}</td>
+
+      <td>{{persona.cognome}}</td>
+      <td>{{persona.nome}}</td>
+      <td>{{persona.cellulare}}</td>
+      <td [ngClass]="{'cassiere': persona.idRuolo == 1,
+                      'spinatrice' : persona.idRuolo == 3,
+                      'cucina' : persona.idRuolo == 2,
+                      'nonassegnato' : persona.idRuolo == 0,
+                      'cameriera' : persona.idRuolo == 5,
+                      'nonoperativo' : persona.idRuolo == 99,
+                      'sala' : persona.idRuolo == 4,
+                      'addettocucina': persona.idRuolo == 6
+                       }">{{persona.dRuolo}}</td>
+      <td>{{persona.inServizio}}</td>
+      <td>
+        <div class="form-check form-check-inline" *ngFor="let option1 of options1; index as idx">
+          <input type="radio" name="radiogroup1"  [value]="option1" (change)="onSelectionChange1(option1,persona)">&nbsp;&nbsp; {{option1}}
+        </div>
+      </td>
+      <td class="col-md-2">
+          <div class="dropdown">
+            <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedRuo" ngModel name="ruolo" id="ruolo" class="form-select" required (change)="selectedRuolo(persona, $event.target.value)" aria-label="Default select example">
+              <option selected value="999"  >Seleziona il Ruolo</option>
+              <option *ngFor="let ruolo of truoli" [value]="ruolo.id"  class="form-control"  >{{ruolo.d_ruolo_day}}</option>
+            </select>
+          </div>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls id="persone"   (pageChange)="p1 = $event"></pagination-controls>
+</div>
+<div *ngIf="nRec == 0 ">
+  <label  class="col-sm-10 col-form-label" style="color: red; text-align: center;font-weight: bold;">Nessuna Persona presente</label>
+</div>
+
+<!-- visualizzo un listino senza prezzo day per i prodotti selezionati--->
+<!--
+<div *ngIf="nRec > 0 && tipoRichiesta == 'A' && giornata.statoMagazzino == 0">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">prodotto</th>
+        <th scope="col">prezzo</th>
+        <th scope="col">Disp.</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor ="let listprodw of listinoprodottiwork | filter:searchText | paginate: {  id: 'prodtipologia',  itemsPerPage: 10, currentPage: p1 }; let i = index" >
+      <td>{{i + 1}}</td>
+      <td>{{listprodw.descrizione}}</td>
+      <td>{{listprodw.prezzo}}</td>
+      <td>{{listprodw.pz}}</td>
+      <td>{{listprodw.qta}}</td>
+      <td [style.color]="getColor(listprodw.amenu)" >{{listprodw.amenu}}</td>
+      <td>
+        <button   class="btn btn-danger btn-md " (click)="modificaProdotto(listprodw)">Annulla
+          <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+        </button>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls id="prodtipologia"   (pageChange)="p1 = $event"></pagination-controls>
+</div>
+<div *ngIf="nRec == 0  && tipoRichiesta == 'A'  && giornata.statoMagazzino == 0">
+  <label  class="col-sm-10 col-form-label" style="color: red; text-align: center;font-weight: bold;">Nessun Prodotto a listino presente</label>
+</div>
+<br>   -->
+nrecx: {{nRecx}}
+<div class="footer" >   <!-- *ngIf="listinowork.nprodx == 0  && giornata.statoMagazzino == 0"-->
+  <div class="row col-sm-10 offset-2">
+    <div class="col-sm-3" *ngIf="aggiornatiVolontari === true">
+      <button class="btn btn-success btn-md " (click)="conferma()">Conferma
+        <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+      </button>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!--   visualizzazione del listino dopo la corretta valorizzazikone -->
+
+<div class="row" *ngIf="giornata.statoUtenti == 1">
+  <div class="col-md-3">
+    <label class="col-form-label">Persone per servizio</label>
+  </div>
+
+  <div *ngIf="nRec > 0"  class="col-md-3">
+      <strong>n. Rec:</strong>&nbsp;&nbsp; {{nRec}}
+  </div>
+</div>
+<br>
+<div *ngIf="nRec > 0 && giornata.statoUtenti == 1">
+  <div class="row">
+
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">prodotto</th>
+            <th scope="col">prezzo</th>
+            <th scope="col">Disp.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor ="let listprod of listinoprodotti | filter:searchText | paginate: {  id: 'prodtipologia',  itemsPerPage: 10, currentPage: p1 }; let i = index" >
+              <td>{{i + 1}}</td>
+              <td>{{listprod.descrizione}}</td>
+              <td>{{listprod.prezzo | currency:'EUR'}}</td>
+              <td>{{listprod.qta}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls id="prodtipologia"   (pageChange)="p1 = $event"></pagination-controls>
+    </div>
+
+  </div>
+
+</div>
+<br>
+<div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+  <p>{{Message}}</p>
+</div>
+<div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+  <p>{{Message}}</p>
+</div>
+
+
+
+
+
+    </form>
+</div>

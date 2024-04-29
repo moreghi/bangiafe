@@ -1,0 +1,38 @@
+
+<td>{{i}}</td>
+<td style="text-align: center;">{{prenotazione.cognome}}</td>
+<td style="text-align: center;">{{prenotazione.nome}}</td>
+<td style="text-align: center;">{{prenotazione.email}}</td>
+<td style="text-align: center;">{{prenotazione.telefono}}</td>
+<td style="text-align: center;">{{prenotazione.persone}}</td>
+<td style="text-align: center;" [ngClass]="{'daconfermare': prenotazione.idstato == 0, 'confermata' :  prenotazione.idstato == 1  }">{{statoPrenotazione}}</td>
+<td class="buttons">
+  <div class="row">
+    <div class="col-sm-4">
+      <button   class="btn btn-primary  btn-sm" (click)="selectedPrenotazione()">
+           <fa-icon [icon]="faUserEdit" fixed="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+</td>
+
+
+
+
+
+
+
+
+<!--  versione 2 -->
+<!--
+
+<td>
+<button class="btn btn-sm btn-danger" (click)="modifica(manif)">Update
+<fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+</button>
+</td>
+<td >
+<button class="btn btn-sm btn-warning" (click)="viewgiornate(manif)">giornate
+<fa-icon [icon]="faList"  fixed="true"></fa-icon>
+</button>
+</td>  -->

@@ -1,0 +1,121 @@
+<p>prenotazioni1 works!</p>
+<div class="container">
+  <caption class="title  col-sm-12"><strong>{{title}}</strong></caption>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <form #fm ="ngForm">
+        <input Hidden #id="ngModel"  [(ngModel)]="manifestazione.id" class="form-control" name="id" id="id">
+
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manifestazione.descManif" class="form-control" name="descManif" id="descManif">
+            </div>
+
+          <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manifestazione.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manifestazione.stato == 2 ? 'red' : 'white'"  [style.background-color]="manifestazione.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <!--  riga date inizio e finei  -->
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Giornata</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="giornata.dtGiornata1"  #dtGiornata1="ngModel" class="form-control"  name="dtGiornata1" id="dtGiornata1" >
+          </div>
+      </div>
+      </form>
+    </div>
+   </div>
+   <br>
+
+
+   <div class="row">
+    <div class="col-md-2">
+      <label  class="col-form-label">Ricerca  </label>&nbsp;&nbsp;
+          <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+    </div>
+    <div class="row col-md-6">
+            <div class="search-hero">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder=" inserisci campo di ricerca">
+          </div>
+    </div>
+
+  </div>
+<br>
+
+  <!-- riga per filtro di ricerca -->
+  <div>
+      <div class="row">
+        <div class="col-md-1"></div>
+          <div class="col-md-7">  <!--  class="col-12 col-sm-6 col-md-8"-->
+            <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
+              <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
+            </div>
+          </div>
+          <div *ngIf="nRec > 0"  class="col-md-4">
+            <strong>n. Rec:</strong>&nbsp;&nbsp; {{nRec}}
+          </div>
+      </div>
+
+  <br>
+<div class="row"  *ngIf="nRec > 0">
+  <div class="col-md-1"></div>
+    <div class="form-row col-md-10">
+
+
+        <!-- tabella di dettaglio dei fedeli -->
+        <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white table-bordered table-responsive-lg table-container">
+          <tr>
+            <th>#</th>
+            <th style="text-align: center;">cognome</th>
+            <th style="text-align: center;">nome</th>
+            <th style="text-align: center;">email</th>
+            <th style="text-align: center;">telefono</th>
+            <th style="text-align: center;">persone</th>
+            <th style="text-align: center;">stato</th>
+          </tr>
+          <!--   [style.color]="giornata.stato > 1 ? 'red' : null"  [attr.data-index]="i"-->
+
+          <tr app-prenotazione1 *ngFor ="let prenotazione of prenotazioni | filter:searchText | paginate: {  id: 'prenotaz', itemsPerPage: 5, currentPage: p }; let i = index"
+              [prenotazione1-prog] = i+1
+              [prenotazione1-data] = "prenotazione"
+            >
+
+            </tr>
+        </table>
+        <pagination-controls id="prenotaz" (pageChange)="p = $event"></pagination-controls>
+        </div>
+</div>
+
+<div class="row"  *ngIf="nRec == 0">
+  <label  class="col-form-label" style="color: red; text-align: center; font-weight: bold;">Nessun Prenotazione Presente </label>
+</div>
+       <br>
+       <div class="form-row">
+        <div class="col-md-12">
+           <!-- messaggi -->
+          <div *ngIf="!alertSuccess && isVisible" class="alert alert-danger" role="alert">
+            <!--   <h4 class="alert-heading">Errore in elenco</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+           </div>
+           <div *ngIf="alertSuccess && isVisible" class="alert alert-success" role="alert">
+             <!--   <h4 class="alert-heading">Modifca Password</h4>    -->
+                  <div class="col md-12">
+                    <p>{{Message}}</p>
+                  </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+

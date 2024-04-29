@@ -1,178 +1,115 @@
-
-<br>
-<div class="container ">
-  <div class="header_Edit title_Edit" *ngIf="fase  ===  'M'">
-      <strong>{{title}}</strong>
-  </div>
-  <div class="header_New" *ngIf="fase  ===  'N'">
-    <caption class="title_New  col-md-12 ">{{title}}</caption>
-  </div>
-
-
-<br>
-
-
+<div class="container borde">
+   <caption class="title_Inqu  col-md-12">{{title}}</caption>
+  <br>
   <div >
     <div class="col-md-auto">
       <form #fm ="ngForm"  method="POST">
         <input hidden #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id">
         <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="manif.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
         <!-- Descrizione  -->
-         <div class="row">
-            <div class="col-md-8">
-                  <div class="mb-3 row margini">
-                    <label for="descManif" class="col-sm-2 col-form-label">Descrizione:</label>
-                    <div class="col-sm-7">
-                    <input type="text" #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z,\s]*" placeholder="Inserire Descrizione Manifestazione"  style="text-transform : uppercase">
-                    <br>
-                    <div *ngIf="descManif.invalid && (descManif.dirty || descManif.touched)" class="alert-danger">
-                        <div *ngIf="descManif.errors.required">
-                            <span>la descrizione è obbligatoria</span>
-                        </div>
-                        <div *ngIf="descManif.errors.minlength">
-                          <span>la descrizione deve essere di almeno 4 caratteri</span>
-                        </div>
-                        <div *ngIf="descManif.errors.maxlength">
-                            <span>la descrizione non può essere più lunga di 50 caratteri</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-             </div>
-
-
-            <div class="col-md-4">
-              <div class=" col-md-6">
-                <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
-                    <div>
-                      <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'"  style="text-transform : uppercase">
-                    </div>
+         <div class="form-row">
+          <div class="mb-3 row margini">
+            <label for="descManif" class="col-sm-2 col-form-label">Descrizione:</label>
+            <div class="col-sm-5">
+            <input type="text" #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif" required minlength="4" maxlength="50" pattern="[0-9a-zA-Z\s]*" placeholder="Inserire Descrizione"  style="text-transform : uppercase">
+             <br>
+            <div *ngIf="descManif.invalid && (descManif.dirty || descManif.touched)" class="alert-danger">
+                <div *ngIf="descManif.errors.required">
+                    <span>la descrizione è obbligatoria</span>
+                </div>
+                <div *ngIf="descManif.errors.minlength">
+                   <span>la descrizione deve essere di almeno 4 caratteri</span>
+                </div>
+                <div *ngIf="descManif.errors.maxlength">
+                    <span>la descrizione non può essere più lunga di 50 caratteri</span>
+                 </div>
               </div>
-
-
             </div>
           </div>
-          <br>
-
-          <!--  riga date inizio e fine  -->
-          <div class="row"  *ngIf="fase  ===  'M'">
-            <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
-            <div class=" col-md-2">
-              <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" placeholder="sel. data Inizio">
-            </div>
-            <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
-            <div class=" col-md-2">
-              <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  placeholder="sel. data Fine" >
-            </div>
-          </div>
-        <br>
- <!-- stato  -->
-
-        <div class="row"  *ngIf="fase  ===  'M'">
-          <div class="col-md-4">
-            <div class="row">
-              <label for="stato" class="col-sm-2 col-form-label">Stato</label>
-              <div class="dropdown col-sm-8">
-                <select class="btn btn-primary dropdown-toggle borde" type="button" data-toggle="dropdown" [(ngModel)]="selectedStato" ngModel name="stato" id="stato" class="form-select" required (change)="onSelectedStato($event.target.value)" aria-label="Default select example">
-                  <option selected value="9999"  >Seleziona lo stato</option>
-                  <option *ngFor="let stato of statimanif" [value]="stato.id"  class="form-control"  >{{stato.d_stato_manifestazione}}</option>
-                </select>
+         </div>
+        <!-- Buono Pasto  -->
+        <div class="form-row">
+        <div class="mb-3 row margini">
+          <label for="buonoPastoCommanda" class="col-sm-2 col-form-label">Buono Pasto:</label>
+           <div class="col-sm-2">
+              <input NumbersOnly type="text" #buonoPastoCommanda="ngModel"  [(ngModel)]="manif.buonoPastoCommanda" class="form-control" name="buonoPastoCommanda" id="buonoPastoCommanda" pattern="^\d*(\.\d{0,2})?$" placeholder="Inserire Buono Pasto">
+              <br>
+              <div *ngIf="buonoPastoCommanda.invalid && (buonoPastoCommanda.dirty || buonoPastoCommanda.touched)" class="alert-danger">
+          <!--   <div class="valid-feedback">Campo corretto</div>
+                <div class="invalid-feedback">insersci un valore corretto</div>   -->
+              <div *ngIf="buonoPastoCommanda.errors.required">
+                  <span>Inserire l'importo del buono pasto</span>
               </div>
-              <div class="invalid-feedback">effettuare la scelta dello stato</div>
-            </div>
+              <div *ngIf="buonoPastoCommanda.errors?.pattern">
+                  <span>il buono pasto non può essere negativo</span>
+              </div>
+              </div>
+           </div>
           </div>
-
-
         </div>
-         <br>
-<div class="row">
 
-    <div class="col-md-1">
-      <label class="col-form-label">Locandina</label>
-    </div>
-    <div class="col-md-1">
-      <button class="btn btn-success btn-sm"  (click)="viewLocandina()">Visualizza
-      </button>
-    </div>
-    <div class="col-md-3" *ngIf="visualizzaLocandina === true">
-      <lib-ngx-image-zoom
-      [thumbImage]=pathimage
-      [fullImage]=pathimage
-      [magnification]="1"
-      [enableScrollZoom]="true"
-      [enableLens]="true"
-      [lensWidth]="200"
-    ></lib-ngx-image-zoom>
-    </div>
-</div>
-<br>
-
-<!--
-
-
-
-
-
-         <div class="row">
-              <label class="col-sm-1 col-form-label">Locandina</label>
-
-                <div class="col-md-3" *ngIf="visualizzaLocandina === true">
-                  <lib-ngx-image-zoom
-                  [thumbImage]=pathimage
-                  [fullImage]=pathimage
-                  [magnification]="1"
-                  [enableScrollZoom]="true"
-                  [enableLens]="true"
-                  [lensWidth]="200"
-                ></lib-ngx-image-zoom>
+        <!-- Coperto -->
+        <div class="form-row">
+      <div class="mb-3 row margini">
+        <label for="impCoperto" class="col-sm-2 col-form-label">Coperto:</label>
+        <div class="col-sm-2">
+        <input #impCoperto="ngModel"  [(ngModel)]="manif.impCoperto" class="form-control" name="impCoperto" id="impCoperto" pattern="^\d*(\.\d{0,2})?$" placeholder="Inserire Coperto">
+        <br>
+        <div *ngIf="impCoperto.invalid && (impCoperto.dirty || impCoperto.touched)" class="alert-danger">
+              <div *ngIf="impCoperto.errors.required">
+                  <span>Inserire il coperto</span>
+              </div>
+              <div *ngIf="impCoperto.errors?.pattern">
+                  solo valori posotivi
                 </div>
-                <div class="col-md3">
+             </div>
+        </div>
+      </div>
+        </div>
 
-                </div>
-                <div class="col-md-1">
-                  <button class="btn btn-success btn-sm"  (click)="viewLocandina()">Visualizza
-                  </button>
-                </div>
-
-         </div>  -->
-
+        <!-- radio button per selezione stampa  radio-inline -->
         <div class="row">
+          <div class="form-group col-md-5">
+            Impostare se stampa interna &nbsp;&nbsp;
 
-
-          <div class="col-8">
-            <label class="btn btn-default p-0">
-              <input type="file" (change)="selectFile($event)" />
+            <label class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="S" (change)="changeStampa($event)" >
+              <label class="form-check-label" for="inlineRadio1">Si</label>
+            </label>
+            <label class="form-check form-check-inline">
+                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="N" (change)="changeStampa($event)" >
+                <label class="form-check-label" for="inlineRadio2">No</label>
             </label>
           </div>
-
-          <div class="col-4">
-            <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
-              Upload
-            </button>
+          <div class="form-group col-md-3">
+            <input disabled  [(ngModel)]="statoStampa" class="form-control" name="statoStampa" id="statoStampa" [style.color]="manif.stampeBackOffice == 'N' ? 'red' : 'green'">
           </div>
         </div>
-        <br>
+
+      <br>
   <!-- Note  -->
        <div class="input-group">
-          <div for="note" class="input-group-prepend">
-              <span class="input-group-text">Note</span>
-          </div>&nbsp;&nbsp;
-          <textarea  aria-label="With textarea"  #note="ngModel"  [(ngModel)]="manif.noteManifestazione" class="form-control" name="note" id="note"  placeholder="Inserire eventuali note"  style="text-transform : uppercase"></textarea>
-      </div>
+    <div for="note" class="input-group-prepend">
+      <span class="input-group-text">Note</span>
+    </div>&nbsp;&nbsp;
+    <textarea  aria-label="With textarea"  #note="ngModel"  [(ngModel)]="manif.noteManifestazione" class="form-control" name="note" id="note"  placeholder="Inserire eventuali note"></textarea>
+       </div>
+<!-- fine  -->
+  <!-- Bottoni funzionali -->
       <br>
        <div class="footer" >
             <div class="row col-sm-10 offset-2">
-              <div class="col-sm-3" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+              <div class="col-sm-3">
                 <button [disabled]="fm.invalid " class="btn btn-success btn-md " (click)="conferma()">Conferma
                   <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
                 </button>
               </div>
-              <div class="col-sm-3" *ngIf="fase  ===  'N' || fase  ===  'M' ">
+              <div class="col-sm-3">
                 <button [disabled]="fm.invalid " class="btn btn-primary btn-md " (click)="reset()">Reset
                   <fa-icon [icon]="faTimes"  fixed="true"></fa-icon>
                 </button>
               </div>
-              <div class="col-sm-3"  *ngIf="fase  ===  'M'">
+              <div class="col-sm-3" >
                 <button [disabled]="fm.invalid " class="btn btn-danger btn-md "  (click)="open(content)"> Cancella
                   <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
                 </button>
@@ -188,25 +125,12 @@
   <!--   messaggio con esito operazione -->
 
        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
-    <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
          <p>{{Message}}</p>
-         <hr>
-         <p class="mb-0">{{Message1err}}</p>
        </div>
        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
-  <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
-         <p>{{Message}}</p>
-         <hr>
-         <p class="mb-0"></p>
+          <p>{{Message}}</p>
        </div>
-
-
-
-
-
-
-
-     </form>
+      </form>
     </div>
   </div>
 </div>

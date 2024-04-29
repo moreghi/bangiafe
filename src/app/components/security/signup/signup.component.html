@@ -28,7 +28,7 @@
 
 <!-- -------   nuova   -->
 
-<h3 class="card-header">Sign up</h3>
+<h3 class="card-header"  style="text-align: center;">Sign up</h3>
 <div class="card-body">
 
   <form name="signupForm" #signupForm=ngForm (ngSubmit)="onSubmit(signupForm)">
@@ -41,7 +41,7 @@
 
               <div class="form-group col-5">
                 <label for="cognome" class="col-sm-5 col-form-label">cognome</label>
-                  <input type="text" class="form-control" name="cognome" placeholder="inserire cognome" [(ngModel)]="form.cognome" required #cognome="ngModel"  ngModel id="cognome" minlength="3" maxlength="32"/>
+                  <input type="text" class="form-control" name="cognome" placeholder="inserire cognome" [(ngModel)]="form.cognome" required #cognome="ngModel"  ngModel id="cognome" minlength="3" maxlength="32"  style="text-transform : uppercase"/>
                   <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
                     <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
                   <!--  validatore lato client -->
@@ -58,7 +58,7 @@
               </div>
               <div class="form-group col-5">
                 <label for="nome" class="col-sm-2 col-form-label">nome</label>
-                  <input type="text" class="form-control" name="nome" placeholder="inserire nome" [(ngModel)]="form.nome" required #nome="ngModel"  ngModel id="nome"  minlength="5" maxlength="32"/>
+                  <input type="text" class="form-control" name="nome" placeholder="inserire nome" [(ngModel)]="form.nome" required #nome="ngModel"  ngModel id="nome"  minlength="5" maxlength="32"  style="text-transform : uppercase"/>
                   <div *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
                     <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
                   <!--  validatore lato client -->
@@ -79,7 +79,7 @@
           <div class="row">
                 <div class="form-group  col-5">
                   <label for="username" class="col-sm-6 col-form-label">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="inserire username" required  #username="ngModel" ngModel id="username"   minlength="8" maxlength="32"/>
+                    <input type="text" class="form-control" name="username" placeholder="inserire username" required  #username="ngModel" ngModel id="username"   minlength="7" maxlength="32"  style="text-transform : uppercase"/>
                     <div *ngIf="username.dirty && username.touched && username.invalid" class="alert alert-danger">
                       <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
                     <!--  validatore lato client -->
@@ -96,7 +96,7 @@
                 </div>
                 <div class="form-group  col-5">
                   <label for="email" class="col-sm-5 col-form-label">indirizzo Email</label>
-                  <input type="email" class="form-control"  name="email" placeholder="inserire email" [(ngModel)]="form.email" required  #email="ngModel" ngModel id="email" email  maxlength="40" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+                  <input type="email" class="form-control"  name="email" placeholder="inserire email" [(ngModel)]="form.email" required  #email="ngModel" ngModel id="email" email  maxlength="40" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  style="text-transform : lowercase"/>
                   <div *ngIf="email.dirty && email.touched && email.invalid" class="alert alert-danger">
                     <!-- {{ demessa.errors | json }}  per editare gli errori e poi impostare il validatore corretto -->
                   <!--  validatore lato client -->

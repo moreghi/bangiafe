@@ -1,17 +1,22 @@
+// tabelle e service commentati per creazione modello  -- logica corretta  -- mettere tabelle corrette
+
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-// component
+// ------------------------------------------------------------------------------  class
 import { User } from '../../../classes/User';
-import { Truolo } from '../../../classes/T_ruolo';
+// import { Truolo } from '../../../classes/T_ruolo';
 import { TstatoUtente } from '../../../classes/T_stato_utente';
-
-// service
+import { Userlevel } from '../../../classes/UserLevel';
+// ------------------------------------------------------------------------------  service
 import { UserService } from './../../../services/user.service';
 import { UploadFilesService } from './../../../services/upload-files.service';
-
+import { UserlevelService } from './../../../services/userlevel.service';
 // service da fare
-import { TruoloService } from './../../../services/truolo.service';
-import { TstatoutenteService  } from './../../../services/tstatoutente.service';
+// import { TruoloService } from './../../../services/truolo.service';
+// import { TstatoutenteService  } from './../../../services/tstatoutente.service';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 
@@ -46,10 +51,10 @@ public IMGURL = environment.IMGURL;
 
 public users: User[] = [];
 public user: User;
+public userlevels: Userlevel[] = [];
 
-
-public ruoli: Truolo[] = [];
-public ruolo: Truolo;
+// public ruoli: Truolo[] = [];
+// public ruolo: Truolo;
 public stati: TstatoUtente[] = [];
 public stato: TstatoUtente;
 
@@ -98,6 +103,7 @@ public displayedImage = '';
 public selectedRuoloValue = 0;
 public selectedStatoValue = 0;
 public selectedRuolowebValue = 0;
+public selectedLevelValue = 0;
 
 public href = '';
 public idUser = 0;
@@ -110,6 +116,7 @@ public selectedTit = 0;
 public selectedRuo = 0;
 public selectedweb = 0;
 public selectedSta = 0;
+public selectedLvl = 0;
 
 closeResult = '';
 
@@ -141,8 +148,9 @@ public pathimage = '';
 
  constructor(  private modalService: NgbModal,
                private userService: UserService,
-               private ruoloService: TruoloService,
-               private tstatoutenteService: TstatoutenteService,
+               private userlevelService: UserlevelService,
+           //    private ruoloService: TruoloService,
+           //    private tstatoutenteService: TstatoutenteService,
                private uploadService: UploadFilesService,
                private router: Router,
                private route: ActivatedRoute,
@@ -172,7 +180,7 @@ public pathimage = '';
   // parte personalizzata
   this.loadRuoli();
   this.loadStati();
-
+  this.loadlevels();
   this.user = new User();
   this.user.key_utenti_operation = +localStorage.getItem('id');
 
@@ -196,6 +204,7 @@ public pathimage = '';
            this.selectedRuo = this.user.idRuolo;
            this.selectedweb = this.user.idruoloweb;
            this.selectedSta = this.user.idStato;
+           this.selectedLvl = this.user.idLevel;
            console.log('fatto lettura user: ' + this.user.cognome);
         },
      error => {
@@ -212,6 +221,10 @@ public pathimage = '';
 
  loadRuoli() {
    console.log('loadRuoli-----  ');
+
+//  metodo commentato per la creazione modello  -- corretto
+
+/*
    this.ruoloService.getRuoli().subscribe(
      res => {
            this.ruoli = res['data'];
@@ -222,10 +235,14 @@ public pathimage = '';
           this.Message = error.message;
           this.alertSuccess = false;
        });
+       */
    }
 
 
  loadStati() {
+  //  metodo commentato per la creazione modello  -- corretto
+
+/*
    this.tstatoutenteService.getAll().subscribe(
      res => {
            this.stati = res['data'];
@@ -236,8 +253,22 @@ public pathimage = '';
           this.Message = error.message;
           this.alertSuccess = false;
        });
+       */
  }
 
+ loadlevels() {
+  console.log('loadRuoli-----  ');
+  this.userlevelService.getAlls().subscribe(
+    res => {
+          this.userlevels = res['data'];
+       },
+      error => {
+         alert('loadLevels - errore: ' + error.message);
+         console.log(error);
+         this.Message = error.message;
+         this.alertSuccess = false;
+      });
+  }
 
 
  selectedRuolo(selectedValue: number) {
@@ -249,11 +280,10 @@ public pathimage = '';
      this.alertSuccess = false;
      this.isVisible = true;
      return;
-  } else {
-   this.selectedRuoloValue = selectedValue;
-  }
-
-  }
+    } else {
+     this.selectedRuoloValue = selectedValue;
+    }
+ }
 
   selectedStato(selectedValue: number) {
      //  alert('selezionato: ' + selectedValue);
@@ -267,10 +297,22 @@ public pathimage = '';
       } else {
        this.selectedStatoValue = selectedValue;
       }
-
   }
 
 
+  selectedLevel(selectedValue: number) {
+    // alert('selezionato: ' + selectedValue);
+    if(selectedValue ===  0) {
+      this.type = 'error';
+      this.Message = 'selezione non corrette';
+      this.showNotification(this.type, this.Message);
+      this.alertSuccess = false;
+      this.isVisible = true;
+      return;
+     } else {
+      this.selectedLevelValue = selectedValue;
+     }
+  }
 
  async conferma() {
    console.log('conferma - fase: ' + this.fase);

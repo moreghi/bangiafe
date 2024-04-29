@@ -1,0 +1,348 @@
+<p>response-prenotazione works,,,,,,,,,,!</p>
+merdeaaaaaaaaaaaaaaaaaaaa
+giornata: {{giornata | json}}<br>
+prenotazione: {{prenotazione | json}}
+
+<div class="container">
+  <!--<caption class="title  col-sm-12"><strong>{{title}}</strong></caption>  -->
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" >{{title}}</label><br>
+  <br>
+  <div class="row col-md-12">    <!--  <div class="row justify-content-md-center"> -->
+     <div >
+      <!--<form #fm ="ngForm">  -->
+
+      <form name="confPrenotazioneForm"  #confPrenotazioneForm=ngForm >  <!-- (ngSubmit)="onSubmit(confRegEventoForm)" -->
+        <input #id="ngModel"  [(ngModel)]="prenotazione.token" class="form-control" name="token" id="token" ngModel>
+
+        <input  #id="ngModel"  [(ngModel)]="manif.id" class="form-control" name="id" id="id" ngModel>
+        <input  #idev="ngModel"  [(ngModel)]="prenotazione.id" class="form-control" name="idev" id="idev" ngModel>
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif"   style="text-transform : uppercase">
+            </div>
+
+          <div class=" col-md-2">
+            <div>
+              <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : 'white'"  [style.background-color]="manif.stato == 2 ? 'yellow' : 'red'">
+            </div>
+          </div>
+        </div>
+        <hr>
+
+
+        <div class="row">
+          <label for="descrizione" class="col-sm-2 col-form-label">Giornata</label>
+          <div class=" col-md-4">
+            <input disabled #giornata="ngModel"  [(ngModel)]="giornata.dtGiornata" class="form-control" name="giornata" id="giornata" >
+          </div>
+        </div>
+        <br>
+
+<div class="row">
+  <div class="col-md-2">
+    <label class="col-sm-2 col-form-label" style="color: red;">Referente</label>
+  </div>
+
+  <div class="col-md-4">
+    <input disabled type="text" name="cognome" class="form-control" id="cognome" placeholder="cognome" [(ngModel)]="prenotazione.cognome" #cognome="ngModel" ngModel  style="text-transform : uppercase">
+  </div>
+  <div class="col-md-3">
+    <input disabled type="text" name="nome" class="form-control" id="nome" placeholder="Name" [(ngModel)]="prenotazione.nome"  #nome="ngModel" ngModel  style="text-transform : uppercase">
+  </div>
+  <div class="col-md-2">
+    <div class="row">
+      <label class="col-sm-5 col-form-label" style="color: red;">Persone</label>
+      <div class="col-md-7">
+        <input disabled type="text" name="persone" class="form-control" id="persone" placeholder="persone" [(ngModel)]="prenotazione.persone"  #persone="ngModel" ngModel >
+      </div>
+    </div>
+   </div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-md-2">
+    <label class="col-sm-2 col-form-label" style="color: red;">Email</label>
+  </div>
+  <div class="col-md-5">
+    <input disabled type="email" name="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="prenotazione.email" #email="ngModel" ngModel  style="text-transform : lowercase">
+  </div>
+  <label class="col-sm-2 col-form-label" style="color: red;">Cellulare</label>
+  <div class="col-md-2">
+
+    <input disabled type="text" name="telefono" class="form-control" id="telefono" placeholder="telefono" [(ngModel)]="prenotazione.telefono" #telefono="ngModel" ngModel pattern="^[0-9]*$">
+  </div>
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-md-2">
+    <label  class="col-sm-12 col-form-label" style="color: red;">Cod. Prenotazione</label>
+  </div>
+  <div class="col-md-2">
+    <input type="text" name="token" class="form-control" id="token" placeholder="codice di prenotazione " [(ngModel)]="wprenotazione.token" required #token="ngModel" ngModel  minlength="5" maxlength="5">
+<!--
+    <div class="col-sm-10 alert alert-danger  has-error" *ngIf="codpren.dirty && codpren.touched && codpren.invalid" >
+      <div  *ngIf="codpren.errors.required">
+        il campo Codice Prenotazione è obbligatorio
+      </div>
+      <div  *ngIf="codpren.errors.minlength">
+        il campo deve essere lungo più di {{ codpren.errors.minlength.requiredLength }} caratteri
+      </div>
+      <div  *ngIf="codpren.errors.maxlength">
+        il campo non deve essere lungo più di {{ codpren.errors.maxlength.requiredLength }} caratteri
+      </div>
+    </div>  -->
+  </div>
+  <div class="col-md-2">
+    <button  [disabled]="!confPrenotazioneForm.valid" class="btn btn-primary float-right "  (click)="controlToken()"> Controlla
+      <fa-icon [icon]="faUserEdit"  fixed="true"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1">
+    <!-- vuoto -->
+  </div>
+
+  <div class="col-md-2" *ngIf="eseguitoVerifica === true">
+    <label  class="col-sm-12 col-form-label" [ngClass]="esitocodpren == 'ERRATO' ? 'colorred' : 'colorgreen'" style="text-align: center;"><strong>{{esitocodpren}}</strong></label>
+  </div>
+</div>
+<br>
+<div class="row" *ngIf="token.dirty && token.touched && token.invalid">
+  <div class="col-md-2">
+    <!--  vuoto -->
+  </div>
+  <div class="col-md-10">
+    <div class="col-sm-10 alert alert-danger  has-error" *ngIf="token.dirty && token.touched && token.invalid" >
+      <div  *ngIf="token.errors.required">
+        il campo Codice Prenotazione è obbligatorio
+      </div>
+      <div  *ngIf="token.errors.minlength">
+        il campo deve essere lungo più di {{ token.errors.minlength.requiredLength }} caratteri
+      </div>
+      <div  *ngIf="token.errors.maxlength">
+        il campo non deve essere lungo più di {{ token.errors.maxlength.requiredLength }} caratteri
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<br>
+
+<div class="row" *ngIf="tokenVerify ===  true  && prenotazione.tipo == 'P'">
+  <div class="col-md-2">
+
+  </div>
+  <div class="col-md-8 messaggio">
+    <textarea disabled id="w3review" name="w3review" rows="9" cols="50" disabled style="resize: none;">
+
+      La Prenotazione per la partecipazione alla serata è stata verificata.
+      - Cliccando su 'Conferma' rendi definitivamente attiva la partecipazione.
+      - Cliccando sull'icona con il cestino, presente sulle singole righe di dettaglio,
+      hai la possibilità di cancellare i prodotti ordinati.
+      - Cliccando su 'Cancella' elimini tutti i prodotti ordinati.
+
+    </textarea>
+  </div>
+
+  <div class="col-md-2">
+
+    </div>
+</div>
+<div class="row" *ngIf="tokenVerify ===  true  && prenotazione.tipo == 'N'">
+  <div class="col-md-2">
+
+  </div>
+  <div class="col-md-8 messaggio">
+    <textarea disabled id="w3review" name="w3review" rows="9" cols="50" disabled style="resize: none;">
+
+      La Prenotazione per la partecipazione alla serata è stata verificata.
+      Cliccando su 'Conferma' rendi definitivamente attiva la partecipazione.
+
+    </textarea>
+  </div>
+
+  <div class="col-md-2">
+
+    </div>
+</div>
+<br>
+
+<div class="row" *ngIf="tokenVerify ===  true  && prenotazione.tipo == 'P'">
+  <div class="col-md-2">
+    <div class="row">
+      <div class="col-md-7">
+        <label class="col-sm-2 col-form-label" style="color: red;">Prodotti</label>&nbsp;
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-8" >
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">prodotto</th>
+              <th scope="col">quantita</th>
+              <th scope="col">prezzo</th>
+                 <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr  *ngFor ="let prodotto of prenotazioneprodotti  let i = index ">
+
+              <td >{{i + 1}}</td>
+              <td>{{prodotto.descrizione}}</td>
+              <td>{{prodotto.qta}}</td>
+              <td>{{prodotto.prezzo | currency:'EUR'}}</td>
+              <td>
+                <div  >
+                  <button class="btn btn-danger btn-sm " (click)="previewCancella(prodotto, content)">  <!--  open(content)         deletePostoPrenotato(evposto)-->
+                    <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-1">
+    <!-- lasciato vuoto -->
+  </div>
+</div>
+
+
+      <br>
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+      <br>
+      <div class="form-group row">
+          <div class="col-sm-10 offset-2">
+
+            <div class="row">
+              <div class="col-sm-3" >  <!--  *ngIf="registratoevento === false"-->
+                <button  class="btn btn-danger float-right "  (click)="openMaster(contentMaster)"> Cancella
+                  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+                </button>
+              </div>
+              <div class="col-sm-3" >  <!--  *ngIf="registratoevento === false" -->
+                <button  class="btn btn-primary btn-sm-2" [disabled]="!confPrenotazioneForm.valid  && visibleConferma === true"  (click)="conferma()">Conferma
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="card-body" *ngIf="confermataPrenotazione === true">
+  <p></p>
+  <p> grazie <strong>{{prenotazione.cognome}} &nbsp; {{prenotazione.name}} &nbsp;</strong> di aver confermato la tua presenza per la serata del &nbsp;<strong>{{form.datapren}}</strong></p>
+  <p>Abbiamo inviato al tuo indirizzo mail <strong>{{prenotazione.email}}</strong> un promemoria per la tua gradita presenza al sanfra</p>
+  <p>siamo onorati della tua presenza e cercheremo di farti trascorrere quanche ora in allegria</p>
+  <p></p>
+  <p>se hai provveduto a registrarti, effettuando il  login avrai modo di verificare le tue prenotazioni</p>
+  <p>ti aspettiamo</p>
+  <p></p>
+  <p *ngIf="emailsend === true">Sanfra</p>
+</div>
+
+
+
+
+
+
+
+<ng-template #content let-modal>
+<div class="modal-header modal-header-color">
+<h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione Prenotazione</h4>
+<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form>
+
+<p>confermi la cancellazione della Prenotazione &nbsp;&nbsp;</p>
+<p></p>
+<p> a nome <strong>{{delCognome}}&nbsp;{{delNome}} </strong>&nbsp;?</p>
+<!--   esempio di calendario che funziona benissimo
+<div class="form-group">
+  <label for="dateOfBirth">Date of birth</label>
+  <div class="input-group">
+    <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+    </div>
+  </div>
+</div>  -->
+
+</form>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+<button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+<fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+</button>
+</div>
+</ng-template>
+
+<br>
+
+<ng-template #contentMaster let-modal>
+  <div class="modal-header modal-header-color">
+  <h4 class="modal-title" id="modal-basic-title">Cancellazione Globale Prenotazione</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  <form>
+
+  <p>confermi la cancellazione totale della Prenotazione &nbsp;&nbsp;</p>
+  <p></p>
+
+  <!--   esempio di calendario che funziona benissimo
+  <div class="form-group">
+    <label for="dateOfBirth">Date of birth</label>
+    <div class="input-group">
+      <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+      </div>
+    </div>
+  </div>  -->
+
+  </form>
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel Global click')">Cancel</button>
+
+  <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete Global click')"> Conferma
+  <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+  </button>
+  </div>
+  </ng-template>
+

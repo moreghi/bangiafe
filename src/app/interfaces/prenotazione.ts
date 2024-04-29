@@ -4,16 +4,19 @@
 export interface PrenotazioneInterface  {
 
   id: number;
+  idstato: number;
+  tipo: string;
+  idgiornata: number,
+  datagiornata: string;
   cognome: string;
   nome: string;
-  token: string;
   telefono: string;
-  idevento: number,
+  email: string;
+  persone: number;
   datapren: string;
   dataconf: string;
-  persone: number;
-  email: string;
-  idstato: number;
+  token: string;
+  key_utenti_operation: number;
   created_at: Date;
   update_at: Date;
    // tabella correlata

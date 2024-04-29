@@ -1,0 +1,15 @@
+.borde {
+  border: 2px solid red;
+}
+.borde1 {
+  border: 2px solid violet;
+}
+.borde2 {
+  border: 2px solid green;
+}
+.borde3 {
+  border: 2px solid blue;
+}
+td {
+  font-size: 12px;
+}

@@ -1,4 +1,5 @@
 
+
 /*   link per documentazione utilizzata
 1     https://www.bezkoder.com/angular-11-jwt-auth/
 2     https://www.bezkoder.com/node-js-angular-11-jwt-authentication/
@@ -11,11 +12,14 @@
 
 */
 
+//  attenzione  tabelle e metodi commentati per creazione Modello  -- struttura valida  -- mettere le tabelle necessarie
+
+
 import {HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders} from '@angular/common/http';
 import {Injectable, Output, EventEmitter} from '@angular/core';
 import { User } from '../classes/User';
 import { Registerconfirmed } from '../classes/Register_confirmed';
-import { PrenotazioneConfirm } from '../classes/PrenotazioneConfirm';
+//  import { PrenotazioneConfirm } from '../classes/PrenotazioneConfirm';
 
 import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
@@ -42,7 +46,7 @@ export class AuthService {
 
   public  user: User;
   public registerconfirmed: Registerconfirmed;
-  public prenotazioneConfirm: PrenotazioneConfirm;    // prenotazione serata a sanfra
+ // public prenotazioneConfirm: PrenotazioneConfirm;    // prenotazione serata a sanfra
   private isUserLogged = true;
 
   // emettiamo degli eventi (la auth.service) che potranno essere ascoltati su altri componenti
@@ -185,6 +189,9 @@ creaevenemitterlogin(user: User) {
   registerConfermetPrenotazioneMoreno(cognome: string, nome: string, email: string, telefono: string,
                                       giornata: string, numpersone: number) {
 
+  // metodo commentato per la creazione del modello  .. funzione valida se metto  classe/service
+
+/*
     console.log(`frontend - auth.service - registerConfermetPrenotazioneMoreno ------  inizio -- cognome passato: ${cognome} ` );
 
     this.prenotazioneConfirm = new PrenotazioneConfirm();
@@ -206,19 +213,9 @@ creaevenemitterlogin(user: User) {
 
     //  return this.http.post(`this.APIAUTHURL/gmmailforregister`,  this.registerconfirmed );
 
+    */
+
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
   signUp(cognome: string, nome: string, username: string, email: string, password: string) {
 
@@ -259,8 +256,6 @@ creaevenemitterlogin(user: User) {
     });
 }
 
-
-
   logout() {   // ------  ok
 
     // devo eliminare tutte le eventuali variabili salvate su localStorage
@@ -277,6 +272,15 @@ creaevenemitterlogin(user: User) {
     localStorage.removeItem('token_type');
     localStorage.removeItem('expires_in');
     localStorage.removeItem('idGiornata');
+
+    localStorage.removeItem('Druolo');
+    localStorage.removeItem('emBigliettoEvento');
+    localStorage.removeItem('emBigliettoTipo');
+    localStorage.removeItem('evemitlogin');
+    localStorage.removeItem('functUser');
+    localStorage.removeItem('tipoBiglietto');
+    localStorage.removeItem('idPrenotazione');
+    localStorage.removeItem('operBiglietto');
 
     this.userlogout.emit();
     this.isUserLogged = false;
@@ -325,7 +329,7 @@ creaevenemitterlogin(user: User) {
    console.log('sono in auth.Service  -  confchangePasssword');
    console.log('email: -->  ' + email);
    console.log('password: -->  ' + password);
-
+   console.log('url per modifica: ' + this.APIAUTHURL + "confchangePassword")
 
    return  this.http.post(this.APIAUTHURL + "confchangePassword",
    {
@@ -335,19 +339,25 @@ creaevenemitterlogin(user: User) {
  }
 
  //  spostato su forgotConfirmed   - da eliminare
- /*
+
  forgotPassword(email: string) {
-  return this.http.post(this.APIAUTHURL + "forgotpassword", { email });
+  return this.http.post(this.APIAUTHURL + "forgotpassword", {
+     email
+      });
 }
-*/
+
+
+
 
 
 
 confresetPassword(email: string, newpassword: string) {
+
+  console.log('authService ------------  sono dentro a confresetPassword -- chiamo ' + this.APIAUTHURL + "resetpwduser")
   this.user = new User();
   this.user.email = email;
   this.user.password = newpassword;
-  return this.http.post(this.APIAUTHURL + "confforgotpassword", { email, newpassword });
+  return this.http.post(this.APIAUTHURL + "resetpwduser", { email, newpassword });   // confforgotpassword
 }
 
 
@@ -395,7 +405,7 @@ controlpassword(email: string, password: string)  {
                 localStorage.setItem('token', payload.access_token);
                 console.log(payload)
                 localStorage.setItem('user', JSON.stringify(payload));
-                // campi aggiuntivi messi per testare - facoltativi
+                // campi aggiuntivi messi per testare - facoltausersignedintivi
                 localStorage.setItem('user_name', payload.user_name);
                 localStorage.setItem('user_email', payload.email);
                 localStorage.setItem('user_psw', payload.password);

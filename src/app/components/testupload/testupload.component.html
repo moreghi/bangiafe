@@ -7,10 +7,20 @@
         <label for="formFile" class="form-label">Upload file example</label>
         <input (change)="this.onFilechange($event)" class="form-control" type="file" id="formFile">
         <button (click)="this.upload()" type="button" class="btn btn-primary mt-3">Upload</button>
+
       </div>
     </div>
   </div>
  </div>
+
+
+<div>
+  <embed src="https://drive.google.com/viewerng/
+  viewer?embedded=true&url=https://eloquentjavascript.net/Eloquent_JavaScript.pdf" width="100%" height="100%">
+  <button (click)="this.downloadMoreno()" type="button" class="btn btn-success mt-3">download</button>
+</div>
+
+
 
 
  <h3> Right aligning the button</h3>
@@ -33,3 +43,794 @@
     </div>
 
 </div>
+
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="form-control">
+      <div class="col-sm-2" >
+        <button  class="btn btn-primary btn-rounded"  (click)="creaCard()">
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; Crea card
+        </button>
+      </div>
+      <div class="col-sm-2" >
+        <button  class="btn btn-info btn-rounded"  (click)="creaCardtd()">
+            <fa-icon [icon]="faSearch"  fixed="true"></fa-icon> &nbsp; Creo card td
+        </button>
+      </div>
+    </div>
+  </div>
+  <br>
+  nRec: {{nRec}}<br>
+
+<!-- https://bbbootstrap.com/snippets/ecommerce-cards-89775625  -->
+
+<div class="row" *ngIf="cardarray === true">
+  <div class="col-md-12"  *ngIf="nRec > 0">
+    <div class="row" >
+      <!-- prima Card-->
+      <div class="col-md-3" *ngIf="nameevento[0] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://i.imgur.com/9VZGPJF.jpg"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[0]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[0]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                   <button class="btn btn-primary btn-sm " (click)="gestione(idevento[0])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+      </div>
+      <!-- seconda Card-->
+      <div class="col-md-3" *ngIf="nameevento[1] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZXZlbnRpfGVufDB8fDB8fHww"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[1]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[1]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[1])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+      <!-- terza Card-->
+      <div class="col-md-3" *ngIf="nameevento[2] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZXZlbnRpfGVufDB8fDB8fHww"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[2]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[2]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[2])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+  <!-- quarta Card-->
+      <div class="col-md-3" *ngIf="nameevento[3] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGV2ZW50aXxlbnwwfHwwfHx8MA%3D%3D"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[3]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[3]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[3])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+ <!-- quinta Card-->
+       <div class="col-md-3" *ngIf="nameevento[4] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://i.imgur.com/9VZGPJF.jpg"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[4]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[4]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[4])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+      <!-- sesta Card-->
+      <div class="col-md-3" *ngIf="nameevento[5] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://i.imgur.com/9VZGPJF.jpg"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[5]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[5]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                   <button class="btn btn-primary btn-sm " (click)="gestione(idevento[5])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+      </div>
+      <!-- settima Card-->
+      <div class="col-md-3" *ngIf="nameevento[6] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZXZlbnRpfGVufDB8fDB8fHww"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[6]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[6]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[6])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+      <!-- ottava Card-->
+      <div class="col-md-3" *ngIf="nameevento[7] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZXZlbnRpfGVufDB8fDB8fHww"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[7]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[7]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[7])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+  <!-- Nona Card-->
+      <div class="col-md-3" *ngIf="nameevento[8] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGV2ZW50aXxlbnwwfHwwfHx8MA%3D%3D"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[8]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[8]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[8])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+ <!-- decima Card-->
+       <div class="col-md-3" *ngIf="nameevento[9] != ''">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://i.imgur.com/9VZGPJF.jpg"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              <!--Card Body-->
+              <div class="card-body card-body-cascade text-center">
+
+                <!--Card Title-->
+                <h4 class="card-title"><strong><a href="">{{nameevento[9]}}</a></strong></h4>
+
+                <!-- Card Description-->
+                <p class="card-text">note dell evento.
+                </p>
+                <p class="price">posti Disponibili: {{dispevento[9]}}</p>
+
+                <!-- Card Rating-->
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <!--Card footer-->
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm " (click)="gestione(idevento[9])">Gestione
+                    <fa-icon [icon]="faSearch"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="cardtd === true">
+   costruire tabella x td
+</div>
+
+<!--
+    esempio con parte nuova versione e vecchia
+<div class="row">
+  <div class="col-md-12"  *ngIf="nRec > 0">
+    <div class="row" >
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <div class="col-sm">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+             --Card image
+              <div class="view view-cascade overlay text-center">
+                <img class="card-img-top" src="https://i.imgur.com/9VZGPJF.jpg"
+            alt="" >
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+
+              --Card Body-
+              <div class="card-body card-body-cascade text-center">
+
+                 --Card Title
+                <h4 class="card-title"><strong><a href="">{{nameevento[0]}}</a></strong></h4>
+
+                -- Card Description-
+                <p class="card-text">note dell evento.
+                </p>
+
+
+                <p class="price">posti Disponibili: {{dispevento[0]}}</p>
+
+                -- Card Rating-
+                <ul class="row rating">
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+
+
+                --Card footer-
+                <div class="card-footer">
+                  <a href="#" class="btn btn-success" click="gestione({{idevento[0]}})">Gestione</a>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+
+
+
+
+
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[0]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[0]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[0]}})">Gestione</a>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[1]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[1]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[1]}})">Gestione</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[0]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[0]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[0]}})">Gestione</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[2]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[2]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[2]}})">Gestione</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[0]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[0]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[0]}})">Gestione</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="col-sm-12"    >
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{nameevento[3]}}</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Disponibili: </li>{{dispevento[3]}}
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="btn btn-success" click="gestione({{idevento[3]}})">Gestione</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+-->
+
+
+
+
+
+
+
+<!--  gestione con tabelle   -----   non funziona  bene
+
+  <div class="row">
+
+      riga di card
+
+      <div *ngIf="nRec > 0" class="col-md-12  borde">
+        <table class="table table-striped table-hover borde1"  >
+
+        <tbody>
+          <div  class="borde2 col-md-12">
+            <tr  *ngFor ="let evento of eventi let i = index " >
+              <td *ngIf="nCard == 1">
+                <div class="col-md-3">
+                  <div class="card" style="width: 13rem;">
+                    <img src="{{pathimageSoci}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <a routerLink="/socio" class="btn btn-primary">Soci</a>
+                    </div>
+                    <ol class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno Prec.</div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.descrizione}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno att.</div>
+                       </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.localita}}</span>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+
+              </td>
+              <td *ngIf="nCard == 2">
+                <div class="col-md-3">
+                  <div class="card" style="width: 13rem;">
+                    <img src="{{pathimageSoci}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <a routerLink="/socio" class="btn btn-primary">Soci</a>
+                    </div>
+                    <ol class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno Prec.</div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.descrizione}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno att.</div>
+                       </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.localita}}</span>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+
+              </td>
+              <td *ngIf="nCard == 3">
+                <div class="col-md-3">
+                  <div class="card" style="width: 13rem;">
+                    <img src="{{pathimageSoci}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <a routerLink="/socio" class="btn btn-primary">Soci</a>
+                    </div>
+                    <ol class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno Prec.</div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.descrizione}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno att.</div>
+                       </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.localita}}</span>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+
+              </td>
+              <td *ngIf="nCard == 4">
+                <div class="col-md-3">
+                  <div class="card" style="width: 13rem;">
+                    <img src="{{pathimageSoci}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <a routerLink="/socio" class="btn btn-primary">Soci</a>
+                    </div>
+                    <ol class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno Prec.</div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.descrizione}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">anno att.</div>
+                       </div>
+                        <span class="badge bg-primary rounded-pill">{{evento.localita}}</span>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+
+              </td>
+
+            </tr>
+          </div>
+        </tbody>
+        </table>
+    </div>
+
+
+</div>  -->
+

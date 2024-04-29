@@ -1,0 +1,147 @@
+<p>cassasintetica-detail works!</p><p>giornata-detail works!</p>
+
+<br>
+
+<div class="container">
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" ><strong>{{title}}</strong></label><br>
+<br>
+
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="cassasintetica.id" class="form-control" name="id" id="id">
+        <input hidden #idGiornata="ngModel"  [(ngModel)]="giornata.id" class="form-control" name="giornata" id="giornata">
+        <!-- parte testata  disabled -->
+
+
+        <div class="row" >
+          <div class="col-md-2">
+            <button class="btn btn-success btn-md " (click)="cassaDettagliata(giornata)">Cassa Dettagliata  <!--[disabled]=" enabledDay === false" -->
+              <fa-icon [icon]="faEuroSign"  fixed="true"></fa-icon>
+          </button>
+          </div>
+
+        </div>
+        <br>
+
+
+
+        <div class="row">
+          <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+          <div class=" col-md-6">
+            <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif">
+          </div>
+
+        <div class=" col-md-4">
+      <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+          <div>
+            <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : null">
+          </div>
+        </div>
+      </div>
+    <br>
+     <div class="row">
+      <label for="dataev" class="col-sm-2 col-form-label">Giornata</label>
+      <div class=" col-md-2">  <!-- input-group  -->
+        <input type="text" disabled [(ngModel)]="giornata.dtGiornata1"  #dataev="ngModel" class="form-control"  name="dataev" id="dataev"  />
+
+       <!--  <input type="date" [(ngModel)]="giornata.dtGiornata"  [ngModel]="giornata.dtGiornata | date:'dd/MM/yyyy'"  #dtGiornata1="ngModel" class="form-control"  name="dtGiornata1" id="dtGiornata1" required placeholder="dd/mm/yyyy" />  -->
+      </div>
+     </div>
+     <br>
+
+      <div class="row" *ngIf="nRecCommande == 0">
+          <label  class="col-sm-2 col-form-label" style="color: green; text-align: center;font-weight: bold;">Cassa Iniziale</label>
+          <div class="col-md-5">
+            <input NumbersOnly type="text" [(ngModel)]="cassasintetica.cassaIniziale"  #cassaIniziale="ngModel" class="form-control"  name="cassaIniziale" id="cassaIniziale" required pattern="^\d*(\.\d{0,2})?$" placeholder="inserire cassa Iniziale" (blur)="aggiornacassaAttuale($event.target.value)" />
+            <br>
+            <div *ngIf="cassaIniziale.invalid && (cassaIniziale.dirty || cassaIniziale.touched)" class="alert-danger">
+            <div *ngIf="cassaIniziale.errors.required">
+                <span>Inserire l'importo della cassa iniziale</span>
+            </div>
+            <div *ngIf="cassaIniziale.errors?.pattern">
+                <span>importo cassa oiniziale non può essere negativo</span>
+            </div>
+           </div>
+          </div>
+      </div>
+      <br>
+      <div class="row" >
+        <label  class="col-sm-2 col-form-label" style="text-align: center;font-weight: bold;">Cassa Attuale</label>
+        <div class="col-md-5">
+          <input type="text" disabled [(ngModel)]="cassasintetica.cassaAttuale"  #cassaAttuale="ngModel" class="form-control"  name="cassaAttuale" id="cassaAttuale" required  />
+        </div>
+      </div>
+      <br>
+      <div class="row" *ngIf="nRecCommande > 0">
+        <label  class="col-sm-2 col-form-label" style="color: blue; text-align: center;font-weight: bold;">Cassa Finale</label>
+        <div class="col-md-5">
+          <input type="text"  [(ngModel)]="cassasintetica.cassaFinale"  #cassaFinale="ngModel" class="form-control"  name="cassaFinale" id="cassaFinale" required  />
+        </div>
+      </div>
+      <br>
+      <div class="row" *ngIf="nRecCommande > 0 && (cassasintetica.cassaFinale - cassasintetica.cassaAttuale > 0)">
+        <label  class="col-sm-2 col-form-label" style="color: red; text-align: center;font-weight: bold;">Differenza</label>
+        <div class="col-md-5">
+          <input type="text" disabled [(ngModel)]="cassasintetica.differenza"  #cassaDifferenza="ngModel" class="form-control"  name="cassaDifferenza" id="cassaDifferenza" required  />
+        </div>
+      </div>
+      <br>
+
+       <div class="footer" >
+        <div class="row col-sm-10 offset-2">
+          <div class="col-sm-3" enabled *ngIf="cassacorrect === true">
+            <button class="btn btn-success btn-md " (click)="conferma(cassasintetica)">Conferma  <!--[disabled]=" enabledDay === false" -->
+              <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+            </button>
+          </div>
+          <div class="col-sm-3" >
+            <button  class="btn btn-info btn-md "  (click)="goback()"> Ritorna
+              <fa-icon [icon]="faReply"  fixed="true"></fa-icon>
+            </button>
+          </div>
+        </div>
+   </div>
+    <br>
+  <!--   messaggio con esito operazione -->
+
+       <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+    <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+      </div>
+       <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+  <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+         <p>{{Message}}</p>
+       </div>
+      </form>
+    </div>
+  </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header modal-header-color">
+    <h4 class="modal-title" id="modal-basic-title">Conferma Cancellazione</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <p>confermi la cancellazione della giornata &nbsp;&nbsp;<strong>{{giornata.dtGiornata | date:'dd/MM/yyyy'}}</strong>&nbsp;?</p>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+
+    <button type="button" class="btn btn-danger btn-md " (click)="modal.close('Delete click')"> Cancella
+      <fa-icon [icon]="faTrash"  fixed="true"></fa-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+
+

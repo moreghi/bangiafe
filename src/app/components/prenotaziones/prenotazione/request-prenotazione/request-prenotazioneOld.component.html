@@ -1,0 +1,282 @@
+<!--   versione old  -- 2024-02-05 -->
+<p>request-prenotazione works!</p>
+
+<div class="mt-4 col-10 offset-2">
+
+  <div class="card col-sm-10">    <!-- card -->
+    <div class="row">
+      <div class="col-md-2"></div>
+      <!--
+      <div class="col-md-4">
+        <div class="center-block centrata">
+          <img src="assets/images/logoSanfra.png"   alt="logo" class="img-circle" width="60px" height="60px">
+        </div>
+      </div> -->
+      <div class="col-md-8" style="text-align: center; font-weight: bold;">
+        <div class="card-header centrata textbold">{{title}}</div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+
+    <div *ngIf="nRec > 0">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">cognome</th>
+            <th scope="col">nome</th>
+            <th scope="col">data</th>
+            <th scope="col">persone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor ="let prenotazione of prenotazioni | filter:searchText | paginate: { itemsPerPage: 10, currentPage: p2 }; let i = index" [style.color]="commandariga.stato == 1 ? 'red' : null"  [attr.data-index]="i">
+            <td>{{i+1}}</td>
+            <td>{{prenotazione.cognome}}</td>
+            <td>{{prenotazione.nome}}</td>
+            <td>{{prenotazioone.datapren}}</td>
+            <td>{{prenotazione.persone}}</td>
+           </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <div *ngIf="nRec == 0">
+      <label  class="col-sm-10 col-form-label" style="color: red; text-align: center;font-weight: bold;">Nessuna prenotazione presemnte</label>
+  </div>
+  <br>
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="giornata.id" class="form-control" name="id" id="id">
+        <input hidden #idprenwork="ngModel"  [(ngModel)]="prenotazionework.id" class="form-control" name="idprenwork" id="idprenwork">
+        <!-- parte testata  disabled -->
+
+        <div class="row">
+          <label for="cognome" class="col-form-label" style="width: 105px; margin-left: 20px;">Cognome</label>
+          <div class=" col-md-5">
+            <input  #cognome="ngModel"  [(ngModel)]="prenotazionework.cognome" class="form-control" name="cognome" id="cognome" required  minlength="5" maxlength="40"  ngModel placeholder="inserire il cognome" (blur)="controlloCognome(prenotazionework.cognome,5,40)">
+            <br>
+          </div>
+          <div class=" col-md-5" *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+            <div  *ngIf="cognome.errors.required">
+              il campo cognome è obbligatorio
+            </div>
+            <div  *ngIf="cognome.errors.minlength">
+              il campo deve essere lungo più di {{ cognome.errors.minlength.requiredLength }} caratteri
+            </div>
+            <div  *ngIf="cognome.errors.maxlength">
+              il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+            </div>
+          </div>
+          <label for="nome" class="col-form-label" style="width: 105px;">Nome</label>
+          <div class=" col-md-3">
+            <input  #nome="ngModel"  [(ngModel)]="prenotazionework.nome" class="form-control" name="nome" id="nome" required  minlength="4" maxlength="30"  ngModel placeholder="inserire il nome" (blur)="controlloNome(prenotazionework.nome,4,30)" >
+          </div>
+          <div class=" col-md-5" *ngIf="nome.dirty && nome.touched && nome.invalid" class="alert alert-danger">
+            <div  *ngIf="nome.errors.required">
+              il campo nome è obbligatorio
+            </div>
+            <div  *ngIf="nome.errors.minlength">
+              il campo nome deve essere lungo più di {{ nome.errors.minlength.requiredLength }} caratteri
+            </div>
+            <div  *ngIf="nome.errors.maxlength">
+              il campo nome non deve essere lungo più di {{ nome.errors.maxlength.requiredLength }} caratteri
+            </div>
+          </div>
+       </div>
+      <br>
+      <div class="row">
+        <label for="email" class="col-form-label" style="width: 105px;  margin-left: 20px;" >email</label>
+        <div class=" col-md-3">
+          <input  #email="ngModel"  [(ngModel)]="prenotazionework.email" class="form-control" name="email" id="email" required   ngModel placeholder="inserire indirizzo email" (blur)="controlloEmail(prenotazionework.email)">
+        </div>
+        <label for="telefono" class="col-form-label" style="width: 105px;">cellulare</label>
+        <div class=" col-md-2">
+          <input  #telefono="ngModel"  [(ngModel)]="prenotazionework.telefono" class="form-control" name="telefono" id="telefono">
+        </div>
+        <label for="persone" class="col-form-label" style="width: 105px;">Persone</label>
+        <div class=" col-md-2">
+          <input  #persone="ngModel"  [(ngModel)]="prenotazionework.persone" class="form-control" name="persone" id="persone">
+        </div>
+     </div>
+    <br>
+  <!--   selezione se operare anche inserimento prodotti -->
+
+  <div class="row" >
+
+      <label class="col-form-label"  style="width: 200px;  margin-left: 20px;" >intendi ordinare ?</label>
+
+      <div class="col-md-5">
+        <div class="form-check form-check-inline" *ngFor="let option of options; index as idx">
+          <input [disabled]="fm.invalid" type="radio" name="radiogroup" [value]="option" (change)="onSelectionChange(option)">&nbsp;&nbsp; {{option}}
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <button [disabled]="fm.invalid"  *ngIf="activateChiusuraSoloPrenotazione === true"  type="button" class="btn btn-primary"  (click)="confermaSolaPrenotazione(prenotazionework)" >Conferma
+        <!--  <button type="submit" class="btn btn-primary" [disabled]="!prenPranzoForm.valid && visibleConferma === true || !sanfraActive && visibleConferma === true">Conferma  -->
+          <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+        </button>
+      </div>
+
+
+  </div>
+  <br>
+
+
+
+
+
+
+
+
+
+
+
+<!--      vecchio   -->
+<!--
+    <div class="card-body">
+      <form name="prenPranzoForm"  #prenPranzoForm=ngForm (ngSubmit)="onSubmit(prenPranzoForm)">
+        <div class="form-group row lowertxt">
+              <label for="inputcognome3"  class="col-sm-3 col-form-label">Cognome</label>
+              <div class="col-sm-9">
+              <input type="text" name="cognome" class="form-control lowertxt" id="inputcognome3"  [(ngModel)]="form.cognome" required  minlength="5" maxlength="40" #cognome="ngModel" ngModel placeholder="cognome">
+              <br>
+              <div *ngIf="cognome.dirty && cognome.touched && cognome.invalid" class="alert alert-danger">
+                      <div  *ngIf="cognome.errors.required">
+                        il campo cognome è obbligatorio
+                      </div>
+                      <div  *ngIf="cognome.errors.minlength">
+                        il campo deve essere lungo più di {{ cognome.errors.minlength.requiredLength }} caratteri
+                      </div>
+                      <div  *ngIf="cognome.errors.maxlength">
+                        il campo non deve essere lungo più di {{ cognome.errors.maxlength.requiredLength }} caratteri
+                      </div>
+                </div>
+              </div>
+        </div>
+
+        <div class="form-group row lowertxt">
+                <label for="inputName3"  class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
+                <input type="text" name="name" class="form-control lowertxt" id="inputname3" placeholder="Name" [(ngModel)]="form.name" required  minlength="5" maxlength="30" #name="ngModel" ngModel >
+                <br>
+              dirty: {{name.dirty}} -- touched: {{name.touched}} -- invalid: {{name.invalid}}
+                <div  *ngIf="name.dirty && name.touched && name.invalid" class="alert alert-danger">
+                         <div  *ngIf="name.errors.required">
+                          il campo nome è obbligatorio
+                        </div>
+                        <div  *ngIf="name.errors.minlength">
+                          il campo deve essere lungo più di {{ name.errors.minlength.requiredLength }} caratteri
+                        </div>
+                        <div  *ngIf="name.errors.maxlength">
+                          il campo non deve essere lungo più di {{ name.errors.maxlength.requiredLength }} caratteri
+                        </div>
+                  </div>
+              </div>
+         </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" name="email" class="form-control lowertxt" id="inputEmail3" placeholder="Email" [(ngModel)]="form.email" required email #email="ngModel" ngModel>
+            <br>
+            <div *ngIf="email.dirty && email.touched && email.invalid">
+                    <div  *ngIf="email.errors.required"  class="alert alert-danger">
+                      il campo email è obbligatorio
+                    </div>
+                    <div *ngIf="email.errors?.email"  class="alert alert-danger">
+                      Primary Email not valid.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputtelefono3"  class="col-sm-3 col-form-label">telefono</label>
+          <div class="col-sm-9">
+            <input type="text" name="telefono" class="form-control" id="inputtelefono3" placeholder="telefono" [(ngModel)]="form.telefono" required #telefono="ngModel" ngModel pattern="^[0-9]*$">
+            <br>
+            <div *ngIf="telefono.dirty && telefono.touched && telefono.invalid" class="alert alert-danger">
+                  <div  *ngIf="telefono.errors.required">
+                    il campo telefono è obbligatorio
+                  </div>
+                  <div  *ngIf="telefono.errors.pattern">
+                    il campo telefono deve contenere solo numeri
+                  </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="titolo"  class="col-sm-3 control-label ">Giornate</label>
+          <div  class="col-sm-5 was-validated ">
+
+            <select [(ngModel)]="selectedGiornataValue" ngModel name="datapre" id="datapre" class="custom-select" required (change)="selectedGiornata($event.target.value)">
+              <option value="99" disabled >Seleziona la data</option>
+              <option *ngFor="let giornata of giornate" [value]="giornata.id"  class="form-control"  >{{giornata.dtGiornata | date:"dd/MM/yyyy"}}</option>
+            </select>
+            <div class="invalid-feedback">effettuare la scelta della Giornata</div>
+          </div>
+        </div>
+        <br>
+        <div class="form-group row">
+          <label for="inputPersone3" class="col-sm-3 col-form-label">Numero Persone</label>
+          <div class="col-sm-9">
+            <input type="text" name="persone" class="form-control" id="inputpersone3" placeholder="Persone" [(ngModel)]="form.persone" required #persone="ngModel" ngModel pattern="^[1-9]*$">
+
+              <br>
+              <div class="col-sm-10 alert alert-danger  has-error" *ngIf="persone.dirty && persone.touched && persone.invalid" >
+                    <div  *ngIf="persone.errors.required">
+                      il campo Numero Persone è obbligatorio
+                    </div>
+                    <div *ngIf="persone.errors?.pattern">
+                          inserire il numero delle persone
+                    </div>
+              </div>
+          </div>
+        </div>
+    </div>  qui   -->
+        <br>
+
+        <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+            <p>{{Message}}</p>
+        </div>
+        <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+           <p>{{Message}}</p>
+        </div>
+
+        <hr>
+
+        <div class="form-group row">
+          <div class="col-sm-10 offset-3">
+            <div class="row">
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-success btn-sm-2" (click)="nuovaPrenotazione(giornata)" >Nuova
+                    <fa-icon [icon]="faPlus"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-primary" >Conferma
+                  <!--  <button type="submit" class="btn btn-primary" [disabled]="!prenPranzoForm.valid && visibleConferma === true || !sanfraActive && visibleConferma === true">Conferma  -->
+                    <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+                  </button>
+                </div>
+
+
+
+            </div>
+
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+</div>
+
+
+
+
+
+
+

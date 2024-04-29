@@ -1,0 +1,350 @@
+<p>giornata-cassa-edit works!</p>
+
+<div class="container borde">
+
+  <label  class="col-sm-12 col-form-label" style="text-align: center; text-transform: uppercase; font-weight: bold; color: red" ><strong>{{title}}</strong></label><br>
+
+  <br>
+
+
+  <div >
+    <div class="col-md-auto">
+      <form #fm ="ngForm"  method="POST">
+        <input hidden #id="ngModel"  [(ngModel)]="giornata.id" class="form-control" name="id" id="id">
+        <input hidden #key_utenti_operation="ngModel"  [(ngModel)]="giornata.key_utenti_operation" class="form-control" name="key_utenti_operation" id="key_utenti_operation">
+        <!-- parte testata  disabled -->
+
+        <div class="row">
+            <label for="descManif" class="col-sm-2 col-form-label">Manifestazione</label>
+            <div class=" col-md-6">
+              <input disabled #descManif="ngModel"  [(ngModel)]="manif.descManif" class="form-control" name="descManif" id="descManif">
+            </div>
+
+            <div class=" col-md-2">
+        <!--    <label for="descManif" class="col-sm-3 col-form-label">Stato</label><div class="col-sm-8">   -->
+              <div>
+                <input disabled #d_stato_manifestazione="ngModel"  [(ngModel)]="manif.d_stato_manifestazione" class="form-control" name="d_stato_manifestazione" id="d_stato_manifestazione" [style.color]="manif.stato == 2 ? 'red' : null">
+              </div>
+            </div>
+        </div>
+
+        <br>
+      <!--  riga date inizio e finei  -->
+        <div class="row">
+          <label for="dtInizio" class="col-sm-2 col-form-label">Data Inizio</label>
+          <div class=" col-md-2">
+            <input  disabled [(ngModel)]="manif.dtInizio" [ngModel]="manif.dtInizio | date:'dd/MM/yyyy'" #dtInizio="ngModel" class="form-control"  name="dtInizio" id="dtInizio" >
+          </div>
+          <label for="dtFine" class="col-sm-2 col-form-label">Data Fine</label>
+          <div class=" col-md-2">
+            <input disabled [(ngModel)]="manif.dtFine"  [ngModel]="manif.dtFine | date:'dd/MM/yyyy'" #dtFine="ngModel" class="form-control"  name="dtFine" id="dtFine"  >
+          </div>
+        </div>
+        <hr>
+
+
+        <div class="row">
+          <label for="dtGiornata" class="col-sm-2 col-form-label">Giornata</label>
+          <div class=" col-md-2">
+            <input readonly [(ngModel)]="giornata.dtGiornata"  [ngModel]="giornata.dtGiornata | date:'dd/MM/yyyy'" #dtGiornata="ngModel" class="form-control"  name="dtGiornata" id="dtGiornata"  >
+          </div>
+
+          <div class="col-md-2">
+            <div>
+              <input disabled #d_stato_giornata="ngModel"  [(ngModel)]="giornata.d_stato_giornata" class="form-control" name="d_stato_giornata" id="d_stato_giornata" [style.color]="giornata.stato == 2 ? 'red' : null">
+            </div>
+          </div>
+
+            <label for="d_stato_cassa" class="col-sm-2 col-form-label">Stato Cassa</label>
+            <div class=" col-md-2">
+              <input disabled #d_stato_cassa="ngModel"  [(ngModel)]="giornata.d_stato_cassa" class="form-control" name="d_stato_cassa" id="d_stato_cassa" [style.color]="giornata.statoCassa == 0 ? 'red' : null">
+            </div>
+
+        </div>
+        <hr>
+
+    <!--     da personalizzare   -->
+
+
+
+     <!-- bottone per registrazione -->
+     <div class="row col-sm-12">
+          <div class="col-sm-3" *ngIf="giornata.statoCassa === 0">
+              <button  class="btn btn-primary btn-rounded"  (click)="registra()">Registrazione
+                  <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+              </button>
+          </div>
+          <div class="col-sm-3" *ngIf="giornata.statoCassa === 1">
+              <button  class="btn btn-outline-primary btn-rounded"  (click)="registra()">Registrazione
+                  <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+              </button>
+          </div>
+          <div class="col-sm-3" *ngIf="giornata.statoCassa > 1">
+              <button  class="btn btn-success btn-rounded"  (click)="chiusuraGiornata()">Chiusura Giornata
+                <fa-icon [icon]="faPlusSquare"  fixed="true"></fa-icon>
+              </button>
+          </div>
+          <!-- il checkbox non è visibile !!!   booh !!!!! -->
+          <!--
+          <div disabled class="form-check col-sm-3 centro" *ngIf="giornata.statoCassa ===  0">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Modifica Cassa
+            </label>
+          </div> -->
+
+    </div>
+
+
+
+    <br>
+<!-- dettaglio della cassa -->
+giornataAperta:{{giornataAperta}}<br>
+<div class="row">
+
+   <table class="table table-striped table-sm shadow-lg p-3 mb-5 bg-white">
+      <tr>
+        <th class="pezzature"> Pezzatura</th>
+        <th  colspan="2" class="alignheader centro cassaIniziale" style="background-color: yellow; color: black">Cassa Iniziale</th>
+        <th colspan="2" class="alignheader centro" style="background-color: aquamarine; color:darkorange"> Cassa Attuale</th>
+        <th  colspan="2" class="alignheader centro cassaFinale" style="background-color: red; color: white"> Cassa Finale</th>  <!-- hidden *ngIf="(giornata.statoCassa == 0)"-->
+        <th colspan="2" class="alignheader centro sbilancio" style="background-color:lawngreen; color:crimson "> Sbilancio</th>
+
+     </tr>
+     <tr>
+          <th> </th>
+          <th class="centro  cassaIniziale"> Qta</th><th class="centro  cassaIniziale">valore</th>
+          <th class="centro"> Qta</th><th class="centro">valore</th>
+          <th class="centro cassaFinale"> Qta</th><th class="centro cassaFinale">valore</th>
+          <th class="centro sbilancio"> Qta</th><th class="centro sbilancio">valore</th>
+     </tr>
+     <tr>
+           <!-- banconota 100 -->
+           <!--  valori Iniziali -->
+       <td class="tagli"> <label>  € 100 </label></td>
+       <!-- qta inizio -->
+       <td *ngIf="giornataAperta == 0">
+        <input NumbersOnly [(ngModel)]="giornata.i100"  #i100="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i100" id="i100"  (blur)="ctri100(giornata.i100)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+      </td>
+      <td *ngIf="giornataAperta !== 0">
+        <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.i100"  #i100="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i100" id="i100"     >
+      </td>
+       <!-- valore inizio -->
+       <td><input   disabled [(ngModel)]="giornata.i100Valore"  #vi100="ngModel" class="form-control  num inizioCassa centro"  name="vi100" id="vi100"  min="0" max="10" step="0.25" value="0.00" ></td>
+       <!--  valori attuali -->
+       <td> <input  disabled [(ngModel)]="giornata.a100"  #i100="ngModel" class="form-control num centro"  name="a100" id="a100"> </td>
+       <td><input  disabled [(ngModel)]="giornata.a100Valore"  #va100="ngModel" class="form-control num centro"  name="va100" id="va100"></td>
+
+       <td *ngIf="giornataAperta == 8">
+        <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.f100"  #f100="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f100" id="f100"     >
+
+       </td>
+       <td *ngIf="giornataAperta !== 8">
+        <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f100"  #i100="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f100" id="f100"     >
+      </td>
+
+     <!--  valore finali -->
+       <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f100Valore" #vf100="ngModel" class="form-control num fineCassa centro"  name="vf100" id="vf100"   ></td>
+     <!--  sbilancio -->
+       <td> <input  disabled [(ngModel)]="s100"  #i010="ngModel" class="form-control num centro sbilancio"  name="s100" id="s100"></td>
+       <td> <input  disabled [(ngModel)]="vs100"  #i010="ngModel" class="form-control num centro"  name="vs100" id="vs100"></td>
+     </tr>
+   <tr>
+     <td class="tagli"> <label>  €  50 </label></td>
+         <!-- banconota 050 -->
+         <!-- qta inizio -->
+           <td *ngIf="giornataAperta == 0">
+            <input NumbersOnly [(ngModel)]="giornata.i050"  #i050="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i050" id="i050"  (blur)="ctri050(giornata.i050)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+          </td>
+          <td *ngIf="giornataAperta !== 0">
+            <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.i050"  #i050="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i050" id="i050"     >
+          </td>
+           <!-- valore inizio -->
+           <td><input   disabled [(ngModel)]="giornata.i050Valore"  #i010="ngModel" class="form-control  num inizioCassa centro"  name="vi050" id="vi050"  min="0" max="10" step="0.25" value="0.00" ></td>
+           <!--  valori attuali -->
+           <td> <input  disabled [(ngModel)]="giornata.a050"  #i020="ngModel" class="form-control num centro"  name="a050" id="a050"> </td>
+           <td><input  disabled [(ngModel)]="giornata.a050Valore"  #i010="ngModel" class="form-control num centro"  name="va050" id="va050"></td>
+
+           <td *ngIf="giornataAperta == 8">
+             <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.f050"  #i050="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f050" id="f050"     >
+            </td>
+            <td *ngIf="giornataAperta !== 8">
+              <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f050"  #i050="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f050" id="f050"     >
+             </td>
+         <!--  valore finali -->
+           <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f050Valore"  #vf050="ngModel" class="form-control num fineCassa centro"  name="vf050" id="vf050"   ></td>
+         <!--  sbilancio -->
+           <td> <input  disabled [(ngModel)]="s050"  #i010="ngModel" class="form-control num centro sbilancio"  name="s050" id="s050"></td>
+           <td> <input   disabled [(ngModel)]="vs050"  #i010="ngModel" class="form-control num centro"  name="vs050" id="vs050"></td>
+   </tr>
+   <tr>
+     <td class="tagli"> <label>  €  20 </label></td>
+     <!-- qta inizio -->
+     <td *ngIf="giornataAperta == 0">
+      <input NumbersOnly [(ngModel)]="giornata.i020"  #i020="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i020" id="i020"  (blur)="ctri020(giornata.i020)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+    </td>
+    <td *ngIf="giornataAperta !== 0">
+      <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.i020"  #i020="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i020" id="i020"     >
+    </td>
+     <!-- valore inizio -->
+     <td><input   disabled [(ngModel)]="giornata.i020Valore"  #i010="ngModel" class="form-control  num inizioCassa centro"  name="vi020" id="vi020"  min="0" max="10" step="0.25" value="0.00" ></td>
+     <!--  valori attuali -->
+     <td> <input  disabled [(ngModel)]="giornata.a020"  #i020="ngModel" class="form-control num centro"  name="a020" id="a020"> </td>
+     <td><input  disabled [(ngModel)]="giornata.a020Valore"  #i010="ngModel" class="form-control num centro"  name="va020" id="va020"></td>
+     <td *ngIf="giornataAperta == 8">
+      <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.f020"  #f020="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f0020" id="f020"     >
+     </td>
+     <td *ngIf="giornataAperta !== 8">
+       <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f020"  #f020="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f020" id="f020"     >
+      </td>
+   <!--  sbilancio -->
+     <td> <input  disabled [(ngModel)]="s020"  #i010="ngModel" class="form-control num centro sbilancio"  name="s020" id="s020"></td>
+     <td> <input   disabled [(ngModel)]="vs020"  #i010="ngModel" class="form-control num centro"  name="vs020" id="vs020"></td>
+   </tr>
+   <tr>
+     <td class="tagli"> <label>  €  10 </label></td>
+       <!-- qta inizio -->
+       <td *ngIf="giornataAperta == 0">
+        <input NumbersOnly [(ngModel)]="giornata.i010"  #i010="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i010" id="i010"  (blur)="ctri010(giornata.i010)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+      </td>
+      <td *ngIf="giornataAperta !== 0">
+        <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.i010"  #i010="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i010" id="i010"     >
+      </td>
+       <!-- valore inizio -->
+       <td><input   disabled [(ngModel)]="giornata.i010Valore"  #i010="ngModel" class="form-control  num inizioCassa centro"  name="vi010" id="vi010"  min="0" max="10" step="0.25" value="0.00" ></td>
+       <!--  valori attuali -->
+       <td> <input  disabled [(ngModel)]="giornata.a010"  #i010="ngModel" class="form-control num centro"  name="a010" id="a010"> </td>
+       <td><input  disabled [(ngModel)]="giornata.a010Valore"  #i010="ngModel" class="form-control num centro"  name="va010" id="va010"></td>
+       <td *ngIf="giornataAperta == 8">
+        <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.f010"  #f010="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f0010" id="f010"     >
+       </td>
+       <td *ngIf="giornataAperta !== 8">
+         <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f010"  #f010="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f010" id="f010"     >
+        </td>
+     <!--  sbilancio -->
+       <td> <input  disabled [(ngModel)]="s010"  #i010="ngModel" class="form-control num centro sbilancio"  name="s010" id="s010"></td>
+       <td> <input   disabled [(ngModel)]="vs010"  #i010="ngModel" class="form-control num centro"  name="vs010" id="vs010"></td>
+   </tr>
+   <tr>
+     <td class="tagli"> <label>  €   5 </label></td>
+
+       <!-- qta inizio -->
+       <td *ngIf="giornataAperta == 0">
+        <input NumbersOnly [(ngModel)]="giornata.i005"  #i005="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i005" id="i005"  (blur)="ctri005(giornata.i005)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+      </td>
+      <td *ngIf="giornataAperta !== 0">
+        <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.i005"  #i005="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="i005" id="i005"     >
+      </td>
+       <!-- valore inizio -->
+       <td><input   disabled [(ngModel)]="giornata.i005Valore"  #i005="ngModel" class="form-control  num inizioCassa centro"  name="vi005" id="vi005"  min="0" max="10" step="0.25" value="0.00" ></td>
+       <!--  valori attuali -->
+       <td> <input  disabled [(ngModel)]="giornata.a005"  #i005="ngModel" class="form-control num centro"  name="a005" id="a005"> </td>
+       <td><input  disabled [(ngModel)]="giornata.a005Valore"  #i005="ngModel" class="form-control num centro"  name="va005" id="va005"></td>
+       <td *ngIf="giornataAperta == 8">
+        <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.f005"  #f005="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f005" id="f005"     >
+       </td>
+       <td *ngIf="giornataAperta !== 8">
+         <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.f005"  #f005="ngModel" class="form-control num fineCassa centro cassaFinale"  name="f005" id="f005"     >
+        </td>
+     <!--  sbilancio -->
+       <td> <input  disabled [(ngModel)]="s005"  #i005="ngModel" class="form-control num centro sbilancio"  name="s005" id="s005"></td>
+       <td> <input   disabled [(ngModel)]="vs005"  #i005="ngModel" class="form-control num centro"  name="vs005" id="vs005"></td>
+   </tr>
+   <tr>
+     <td class="tagli"> <label> Moneta </label></td>
+       <!-- qta inizio -->
+       <td *ngIf="giornataAperta == 0">
+        <input NumbersOnly [(ngModel)]="giornata.icontante"  #icontante="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="icontante" id="icontante"  (blur)="ctricontante(giornata.icontante)"  [ngClass]="{'camponumCorretto': ctrCampoNum === true, 'camponumNonCorretto' : ctrCampoNum === false }"  >
+      </td>
+      <td *ngIf="giornataAperta !== 0">
+        <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.icontante"  #icontante="ngModel" class="form-control num inizioCassa centro cassaIniziale"  name="icontante" id="icontante"     >
+      </td>
+     <!-- valore inizio -->
+
+
+     <!-- dati attuali -->
+
+     <td></td>
+     <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.acontante"  #acontante="ngModel" class="form-control num  centro"  name="acontante" id="acontante"   ></td>
+     <td></td>
+     <td *ngIf="giornataAperta == 8">
+      <input pattern="[0-9]{2,3}" [(ngModel)]="giornata.fcontante" #fcontante="ngModel" class="form-control num fineCassa centro cassaFinale"  name="fcontante" id="fcontante"     >
+     </td>
+     <td *ngIf="giornataAperta !== 8">
+       <input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.fcontante" #fcontante="ngModel" class="form-control num fineCassa centro cassaFinale"  name="fcontante" id="fcontante"     >
+      </td>
+
+
+
+<!--
+
+     <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.fcontante"  #fcontante="ngModel" class="form-control num fineCassa centro cassaFinale"  name="fcontante" id="fcontante"     ></td>
+
+     <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="giornata.fcontante"  #fcontante="ngModel" class="form-control num fineCassa centro cassaFinale"  name="fcontante" id="fcontante"     ></td> -->
+
+     <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="vsmoneta"  #icontante="ngModel" class="form-control num  centro sbilancio"  name="vsmoneta" id="vsmoneta"   ></td>
+     <td><input disabled  pattern="[0-9]{2,3}" [(ngModel)]="vsmoneta"  #icontante="ngModel" class="form-control num  centro"  name="vsmoneta" id="vsmoneta"   ></td>
+   </tr>
+
+<br>
+<tr>
+<td> <label> Totale</label></td>
+<td> </td>
+<td><input  disabled [(ngModel)]="giornata.cassaInizio"  #i005="ngModel" class="form-control num destra"  name="tinizio" id="tinizio"></td>
+<td>  </td>
+<td><input  disabled [(ngModel)]="giornata.cassaAttuale"  #i005="ngModel" class="form-control num destra"  name="tattuale" id="tattuale"></td>
+<td></td>
+<td><input  disabled [(ngModel)]="giornata.cassaFinale"  #i005="ngModel" class="form-control num destra"  name="tfinale" id="tfinale"></td>
+<td class="utile pezzature">Utile </td>
+<td > <input  disabled [(ngModel)]="tsbilancio"  #i005="ngModel" class="form-control num destra totaleday"  name="tsbilancio" id="tsbilancio"></td>
+</tr>
+
+
+
+   </table>
+
+<!-- Bottoni funzionali -->
+<div class="container col-md-12 offset-3">
+    <div class="form-group form-footer">
+      <div class="row">
+        <div class="col-sm-3">
+          <button class="btn btn-primary  btn-md"  (click)="backToGiornata()">Back        <!--backToUsers()-->
+                <fa-icon [icon]="faHandPointLeft"></fa-icon>
+          </button>
+        </div>
+        <div class="col-sm-3" [(ngModel)]="giornata.statoCassa" #statoCassa="ngModel" [hidden]="giornata.statoCassa == 1">
+            <button class="btn btn-secondary  btn-md"  (click)="resetForm(fm.form)">Reset
+                  <fa-icon [icon]="faUndo"></fa-icon>
+            </button>
+        </div>
+        <div class="col-sm-3" [(ngModel)]="giornata.statoCassa" #statoCassa="ngModel" [hidden]="giornata.statoCassa == 1">
+            <button [disabled]="fm.invalid"  class="btn btn-success btn-md" (click)="SalvaCassa(giornata)" data-toggle="modal" data-target="#cassaShowModal"> Salva    <!--   save()   salva -->
+                  <fa-icon [icon]="faSave"  fixed="true"></fa-icon>
+              </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>
+
+    <!--  fine personaizzazione  -->
+
+          <br>
+      <!--   messaggio con esito operazione -->
+
+          <div *ngIf="isVisible  && !alertSuccess" class="alert alert-danger" role="alert">
+        <!--     <h4 class="alert-heading">Errore in Registrazione User</h4>   -->
+            <p>{{Message}}</p>
+
+          </div>
+          <div *ngIf="isVisible  && alertSuccess" class="alert alert-success" role="alert">
+      <!--       <h4 class="alert-heading">Registrazione User</h4>   -->
+            <p>{{Message}}</p>
+
+          </div>
+      </form>
+    </div>
+  </div>
+
+</div>
